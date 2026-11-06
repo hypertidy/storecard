@@ -108,6 +108,9 @@ edited; fixes go upstream by asking the publisher.
 ## Layout
 
 ```
-portolan/   Zarr fixtures, builders, Setonix runbook, and notes on the
-            Portolan Zarr profile (portolan-sdi/portolan-spec issue 132)
+portolan/          Zarr fixtures, builders, Setonix runbook, and notes on the
+                   Portolan Zarr profile (portolan-sdi/portolan-spec issue 132)
+cases/rasterwise/  prototype cards for the rasterwise problem-file collection
+                   (the files themselves live in rgdal-dev/rasterwise)
+proto/             prototype card extractor (local netCDF files)
 ```
