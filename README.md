@@ -12,9 +12,10 @@ test set does not cover: ascending Y, 0..360 longitude, CF-packed integers,
 fill-value precedence, polar grids, and physical vs virtual delivery of the
 same array.
 
-Status: early. Two families: F01 (OISST, global 0.25 degree, six twins) and
-F03 (polar sea ice: six Bremen ASI AMSR2 3.125 km twins in the south, plus
-NOAA/NSIDC G02202 25 km south and north, same week, same sensor).
+Status: early. Three families: F01 (OISST, global 0.25 degree), F03 (polar
+sea ice: Bremen ASI AMSR2 3.125 km south, plus NOAA/NSIDC G02202 25 km south
+and north, same week, same sensor) and F08 (an ocean model's native tripolar
+grid, ACCESS-ESM1.6).
 f01a to f01d are published; f01e, f01f and F03 build locally and go up on the
 next published run. The rest of the plan is in `docs/fixtures-plan.md`.
 
@@ -53,10 +54,12 @@ bash build/fetch_oisst.sh 202501 data/oisst-202501
 bash build/fetch_asi.sh 20250915 7 data/asi-20250915
 bash build/fetch_g02202.sh south 20250915 7 data/g02202-south
 bash build/fetch_g02202.sh north 20250915 7 data/g02202-north
+bash build/fetch_esm.sh 2014 data/esm
 .venv/bin/python -I build/build_f01.py data/oisst-202501 out http://localhost:8096
 .venv/bin/python -I build/build_f03.py data/asi-20250915 out http://localhost:8096
 .venv/bin/python -I build/build_f03g.py data/g02202-south out http://localhost:8096 south
 .venv/bin/python -I build/build_f03g.py data/g02202-north out http://localhost:8096 north
+.venv/bin/python -I build/build_f08.py data/esm/ocean-3d-temp-1mon-mean-y_2014.nc out http://localhost:8096
 .venv/bin/python -I build/catalog.py out
 python3 -I serve/serve_cors.py out 8096
 ```
@@ -129,6 +132,28 @@ right only if the client applies `scale_factor` and treats out-of-range flags
 as not-data.
 In a Web Mercator map the pole region is clipped; that is the map, not the
 store.
+
+## The F08 twins
+
+One model year (2014) of ACCESS-ESM1.6 historical monthly ocean temperature,
+50 depth levels, on MOM5's tripolar 300 x 360 grid: regular in longitude and
+non-uniform in latitude south of about 65N, curvilinear north of it. The model
+files carry 1-D nominal axes (`xt_ocean` -279.5 to 79.5, `yt_ocean` in steps
+of about 0.25 to 1 degree) and the true 2-D positions `geolon_t`/`geolat_t`.
+The source files are on Pawsey and are indexed as a virtual store on
+source.coop; that store keeps only the nominal axes while `temp` still names
+`geolon_t geolat_t` in its `coordinates` attribute.
+
+| Id | Differs by | Tests |
+| -- | ---------- | ----- |
+| f08a-esm-native | as the virtual store presents it: nominal axes, dangling `coordinates`, chunks [1, 25, 150, 180] | two refusals at once: non-uniform y, and one level reads 25x what it draws |
+| f08b-esm-levelchunk | one level per chunk | only the non-uniform axis remains |
+| f08c-esm-geo2d | plus the true 2-D positions | a genuinely curvilinear grid: the correct refusal for v1 |
+| f08d-esm-regular | nearest-neighbour regrid to regular 1 degree EPSG:4326 | draws; which depth level shows is up to the client |
+
+The point of a and b: nominal 1-D axes look like a grid and are wrong north
+of the fold. A rule that accepts 1-D coordinates as the grid cannot tell; a
+declared transform or CRS cannot be made from them honestly.
 
 ## Layout
 

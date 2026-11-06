@@ -2,3 +2,4 @@ xarray>=2025.1
 zarr>=3
 netcdf4
 pyproj
+scipy
