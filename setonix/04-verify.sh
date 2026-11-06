@@ -30,6 +30,8 @@ check "$BASE_URL/stores/f01e-oisst-unpacked.zarr/sst/zarr.json"
 check "$BASE_URL/stores/f03c-asi-transform.zarr/zarr.json"
 check "$BASE_URL/stores/f03c-asi-transform.zarr/2/z/c/0/0/0"
 check "$BASE_URL/stores/f03b-asi-rowchunk.zarr/z/c/0/1000/0"
+check "$BASE_URL/stores/f03g-g02202-native.zarr/cdr_seaice_conc/c/0/0/0"
+check "$BASE_URL/stores/f03i-g02202-north-native.zarr/cdr_seaice_conc/c/0/0/0"
 
 echo "== Pawsey: copied virtual indexes"
 check "$BASE_URL/virtual/oisst-v2.1-daily/mdim.vrt"

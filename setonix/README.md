@@ -11,7 +11,7 @@ directory. Settings live in `config.sh`; edit only that file.
 | `01-bucket-setup.sh` | login node | CORS + prefix-scoped public read; dry run unless `APPLY=1` |
 | `02-copy-virtual.sbatch` | copy partition | copies 5 virtual indexes from source.coop (about 4.4 GiB) |
 | `03-build-f01.sbatch` | copy partition | downloads one OISST month, builds the F01 twins + catalog, uploads (uses `../build/`) |
-| `05-build-f03.sbatch` | copy partition | downloads a week of Bremen ASI AMSR2, builds the F03 twins, relinks the catalog, uploads |
+| `05-build-f03.sbatch` | copy partition | downloads a week of Bremen ASI AMSR2 and G02202 south + north, builds the F03 twins, relinks the catalog, uploads |
 | `04-verify.sh` | anywhere | cross-origin Range checks on Pawsey, source.coop and upstream hosts |
 | `../bucket/README.md`, `../bucket/AGENTS.md` | uploaded | catalog root README and AGENTS.md |
 

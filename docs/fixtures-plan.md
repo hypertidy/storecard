@@ -101,9 +101,10 @@ Built by `build/build_f03.py`; see the F03 table in the README for the six
 twins (native, row-chunked, transform + pyramid, 2-D lon/lat only,
 PROJJSON-only, renamed grid mapping).
 
-A G02202 (25 km) family on the same extent remains possible as a resolution
-twin. Its virtual references cannot be read from a browser (no CORS at the
-source host), so it would also be physical.
+G02202 v6 (25 km) is built alongside as physical twins, south (same extent,
+8 x 8 Bremen cells per cell, same AMSR2 sensor and week) and north
+(EPSG:3411). Its virtual references cannot be read from a browser (no CORS at
+the source host), which is why these are physical copies.
 
 ### F04 Antarctic pole-centred pyramid (EPSG:3031)
 

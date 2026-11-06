@@ -12,8 +12,9 @@ test set does not cover: ascending Y, 0..360 longitude, CF-packed integers,
 fill-value precedence, polar grids, and physical vs virtual delivery of the
 same array.
 
-Status: early. Two families, six twins each: F01 (OISST, global 0.25 degree)
-and F03 (Bremen ASI AMSR2 sea ice, southern polar stereographic 3.125 km).
+Status: early. Two families: F01 (OISST, global 0.25 degree, six twins) and
+F03 (polar sea ice: six Bremen ASI AMSR2 3.125 km twins in the south, plus
+NOAA/NSIDC G02202 25 km south and north, same week, same sensor).
 f01a to f01d are published; f01e, f01f and F03 build locally and go up on the
 next published run. The rest of the plan is in `docs/fixtures-plan.md`.
 
@@ -50,8 +51,12 @@ Python 3.10 or newer:
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 bash build/fetch_oisst.sh 202501 data/oisst-202501
 bash build/fetch_asi.sh 20250915 7 data/asi-20250915
+bash build/fetch_g02202.sh south 20250915 7 data/g02202-south
+bash build/fetch_g02202.sh north 20250915 7 data/g02202-north
 .venv/bin/python -I build/build_f01.py data/oisst-202501 out http://localhost:8096
 .venv/bin/python -I build/build_f03.py data/asi-20250915 out http://localhost:8096
+.venv/bin/python -I build/build_f03g.py data/g02202-south out http://localhost:8096 south
+.venv/bin/python -I build/build_f03g.py data/g02202-north out http://localhost:8096 north
 .venv/bin/python -I build/catalog.py out
 python3 -I serve/serve_cors.py out 8096
 ```
@@ -92,6 +97,9 @@ Expected: all six draw identically. First results are in
 
 ## The F03 twins
 
+G02202 is a physical copy for a reason: its source host sends no CORS header,
+so a virtual store over it cannot be read from a browser.
+
 Seven days (from 2025-09-15, near maximum extent) of University of Bremen ASI
 sea ice concentration from AMSR2, v5.4: 2656 x 2528 cells at 3125 m on the
 NSIDC polar stereographic south grid (EPSG:3412, Hughes 1980 ellipsoid),
@@ -109,8 +117,16 @@ resolution.
 | f03e-asi-projjson | CRS only as zarr-conventions `proj:projjson` + `spatial:transform`; no CF, no `proj:code` | whether the zarr conventions alone place a grid |
 | f03f-asi-gridmap-named | f03a with the grid mapping variable named `polar_stereographic` | the draft's fixed `spatial_ref`/`crs` naming vs CF |
 
+| f03g-g02202-native | G02202 v6 25 km south as published: north-up, uint8 with `scale_factor` 0.01, flags 251-254 above `valid_range`, the file's own grid mapping | packed integers with flag values; cross-product placement against Bremen (8 x 8 Bremen cells per cell, shared edges) |
+| f03h-g02202-percent | f03g as float32 percent, flags as NaN, variable `z` | same units and ramp as the Bremen twins |
+| f03i-g02202-north-native | as f03g, north: EPSG:3411, central meridian -45 | a second polar CRS; Arctic near its September minimum |
+| f03j-g02202-north-percent | f03i as float32 percent | as f03h, north |
+
 Expected: a, c, e and f draw identically; b may be refused by an
 amplification check; d is refused as curvilinear although its grid is regular.
+g and h sit exactly on the Bremen grid at 8x coarser cells; g's colours are
+right only if the client applies `scale_factor` and treats out-of-range flags
+as not-data.
 In a Web Mercator map the pole region is clipped; that is the map, not the
 store.
 
