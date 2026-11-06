@@ -17,8 +17,9 @@ if [ "$have" != "$want" ]; then
   python3 -m venv "$VENV"
 fi
 "$VENV/bin/pip" install -q --upgrade pip
-"$VENV/bin/pip" install -q "xarray>=2025.1" "zarr>=3" netcdf4 pyproj awscli
-"$VENV/bin/python" -c "import zarr, xarray, pyproj; print('zarr', zarr.__version__, 'xarray', xarray.__version__)"
+# the builders' needs live in ../requirements.txt; awscli is only for 01-bucket-setup.sh
+"$VENV/bin/pip" install -q -r "$(dirname "$0")/../requirements.txt" awscli
+"$VENV/bin/python" -c "import zarr, xarray, pyproj, scipy; print('zarr', zarr.__version__, 'xarray', xarray.__version__, 'scipy', scipy.__version__)"
 module load "$RCLONE_MODULE" && rclone version | head -1
 echo "== can the keys see the bucket?"
 rclone lsd "$PAWSEY_REMOTE:" | grep -w "$BUCKET" || echo "!! $BUCKET not visible with profile $AWS_PROFILE"
