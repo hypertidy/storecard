@@ -1,0 +1,7 @@
+.venv/
+data/
+out/
+setonix/logs/
+setonix/backup/
+setonix/gen/
+__pycache__/
