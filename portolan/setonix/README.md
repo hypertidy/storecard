@@ -18,7 +18,8 @@ directory. Settings live in `config.sh`; edit only that file.
 
 ## Steps
 
-1. Clone the repo on Setonix and `cd portolan-kit/setonix`. `mkdir -p logs`.
+1. Clone the repo on Setonix and `cd storecard/portolan/setonix` (an existing
+   portolan-kit clone keeps working after a pull: `cd portolan/setonix`). `mkdir -p logs`.
 
 2. Check `config.sh`: `BUCKET`, `PREFIX`, and `AWS_PROFILE` (pawsey1197, the
    storage project). rclone reads the same keys through that profile; no
