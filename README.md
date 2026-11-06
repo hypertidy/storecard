@@ -58,14 +58,37 @@ Grid inference is gproj's job
 `design.md`, Phase 2 `detect_grid`): a rectilinear test, candidate CRSs from
 the coordinates' geometry, a regularity test in projected space, resolution
 snapping, half-cell extent recovery and a known-grid table, returning a CRS,
-an extent, a resolution, residuals and a confidence. Background:
-[hypertidy.org, 2025-09-04, broken netCDF](https://www.hypertidy.org/posts/2025-09-04_broken-netcdf/).
+an extent, a resolution, residuals and a confidence. storecard does not
+reimplement it: the card's `coord_sample` carries what `detect_grid` needs,
+so inference runs from the card alone.
 
-storecard does not reimplement it. The card's `coord_sample` carries what
-`detect_grid` needs, so inference runs from the card alone. A proposed fix is
-recorded as an **overlay**: a separate document keyed to the store's URL and
-version, holding the transform, CRS, residuals and who asserted it. The
-source store is never edited; fixes go upstream by asking the publisher.
+## Assertion
+
+A proposed fix is an **assertion**: a statement that supplies what a source
+lacks or corrects what it gets wrong, without copying a byte. It is the
+"assertion" property of GDAL VRT (SRS, geotransform, nodata, scale and offset
+in classic VRT; coordinates, dimension types and names in multidimensional
+VRT), applied to stores found in the wild.
+
+An assertion is kept separate from the source, keyed to the store's URL and
+version, and records what it asserts (transform and CRS, fill value, units,
+dimension roles), the evidence (residuals, the coordinate sample it was fitted
+to) and who or what asserted it. It can be emitted in whichever form a reader
+takes: a GDAL VRT, zarr-conventions attributes (`spatial:`, `proj:`) for a
+virtual store's metadata, or a STAC asset patch. The source store is never
+edited; fixes go upstream by asking the publisher.
+
+## Reading
+
+- [Regular in what?](https://hypertidy.github.io/regular-in-what/): grids,
+  coordinates and the curvilinear confusion
+  ([hypertidy/regular-in-what](https://github.com/hypertidy/regular-in-what))
+- [Grids: regular, rectilinear, curvilinear](https://www.hypertidy.org/posts/2026-05-28_regular-rectilinear-curvilinear/):
+  a grid taxonomy rooted in coordinate storage, not CRS
+- [VRT is: Closure, Names, Placement, Assertion, Deferral, Emission](https://www.hypertidy.org/posts/2026-11-06_vrt-six-properties/):
+  the design underneath VRT, where assertion is named
+- [Broken netCDF](https://www.hypertidy.org/posts/2025-09-04_broken-netcdf/):
+  the "cryptic curvilinear" case that gproj's detector is built on
 
 ## Plan
 
@@ -76,10 +99,10 @@ source store is never edited; fixes go upstream by asking the publisher.
 2. **Grid inference** via gproj on the card's coordinate sample. Passes if it
    recovers EPSG:3412 and the exact transform from the fixture with only 2-D
    lon/lat (`f03d-asi-latlon2d`), and refuses the tripolar ocean grid
-   (`f08c-esm-geo2d`).
+   (`f08c-esm-geo2d`). A passing fit is recorded as an assertion.
 3. **Scanner**: run cards over the `ausantarctic` stores on source.coop (own
    data, fixable at source), then wider. Ranked triage for manual review:
-   high-confidence fixes first.
+   high-confidence assertions first.
 4. **Rule packs and viewer capabilities**: thresholds over cards. Later.
 
 ## Layout
