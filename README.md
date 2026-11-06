@@ -1,5 +1,7 @@
 # storecard
 
+New here? Read [BRIEF.md](BRIEF.md) first.
+
 A **store card** is a small, metadata-only description of an array store: what
 its grid is, how it is chunked and compressed, where its bytes live, and
 whether a given reader can use it. A card is built from a URL by reading a few
