@@ -1,7 +1,9 @@
 .venv/
+portolan/data/
+portolan/out/
 data/
 out/
-setonix/logs/
-setonix/backup/
-setonix/gen/
+portolan/setonix/logs/
+portolan/setonix/backup/
+portolan/setonix/gen/
 __pycache__/
