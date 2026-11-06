@@ -12,9 +12,10 @@ test set does not cover: ascending Y, 0..360 longitude, CF-packed integers,
 fill-value precedence, polar grids, and physical vs virtual delivery of the
 same array.
 
-Status: early. Family F01 (OISST) has six twins: f01a to f01d are published,
-f01e and f01f build locally and go up on the next published run. The rest
-of the plan is in `docs/fixtures-plan.md`.
+Status: early. Two families, six twins each: F01 (OISST, global 0.25 degree)
+and F03 (Bremen ASI AMSR2 sea ice, southern polar stereographic 3.125 km).
+f01a to f01d are published; f01e, f01f and F03 build locally and go up on the
+next published run. The rest of the plan is in `docs/fixtures-plan.md`.
 
 ## 1. Look at the published fixtures (no setup)
 
@@ -41,14 +42,17 @@ http://localhost:8095/external/projects.pawsey.org.au/aad-derived/portolan-fixtu
 
 Open a collection and switch on the `sst` layer. The map needs WebGL2.
 
-## 2. Build the fixtures yourself (local, about 50 MB download)
+## 2. Build the fixtures yourself (local, about 100 MB download, 1 GB built)
 
 Python 3.10 or newer:
 
 ```
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 bash build/fetch_oisst.sh 202501 data/oisst-202501
+bash build/fetch_asi.sh 20250915 7 data/asi-20250915
 .venv/bin/python -I build/build_f01.py data/oisst-202501 out http://localhost:8096
+.venv/bin/python -I build/build_f03.py data/asi-20250915 out http://localhost:8096
+.venv/bin/python -I build/catalog.py out
 python3 -I serve/serve_cors.py out 8096
 ```
 
@@ -57,8 +61,9 @@ in the browser from step 1. `serve/serve_cors.py` adds the CORS headers and
 byte-range responses a browser Zarr reader needs; Python's built-in
 `http.server` does neither.
 
-To change a fixture, edit `build/build_f01.py`: each twin is a few lines in
-`main()`, and the collection description carries its expected outcome.
+To change a fixture, edit `build/build_f01.py` or `build/build_f03.py`: each
+twin is a few lines in `main()`, and the collection description carries its
+expected outcome. `build/catalog.py` relinks whatever families are present.
 
 ## 3. Host on object storage
 
@@ -84,6 +89,30 @@ EPSG:4326).
 
 Expected: all six draw identically. First results are in
 `docs/results-2026-11-06.md`.
+
+## The F03 twins
+
+Seven days (from 2025-09-15, near maximum extent) of University of Bremen ASI
+sea ice concentration from AMSR2, v5.4: 2656 x 2528 cells at 3125 m on the
+NSIDC polar stereographic south grid (EPSG:3412, Hughes 1980 ellipsoid),
+float32 percent with NaN fill. The source files are south-up, call the
+variable `z`, carry no grid mapping, and are chunked one row per chunk. The
+grid has the same extent as the 25 km NOAA/NSIDC G02202 grid, at 8x the
+resolution.
+
+| Id | Differs by | Tests |
+| -- | ---------- | ----- |
+| f03a-asi-native | as published (south-up, `z`) plus a CF grid mapping `crs` (WKT2 `crs_wkt`, WKT1 `spatial_ref`); 512 x 512 chunks | polar stereographic on a non-WGS84 ellipsoid; Y direction |
+| f03b-asi-rowchunk | f03a chunked one row per chunk, as the source files and any virtual store over them are | amplification check (about 10x for a 256 px tile) |
+| f03c-asi-transform | north-up, `spatial:transform` + `proj:code`, CF grid mapping, 3-level pyramid | the conforming form; pole inside the data |
+| f03d-asi-latlon2d | 2-D lon/lat arrays only, no x/y or grid mapping | a regular grid presented as curvilinear |
+| f03e-asi-projjson | CRS only as zarr-conventions `proj:projjson` + `spatial:transform`; no CF, no `proj:code` | whether the zarr conventions alone place a grid |
+| f03f-asi-gridmap-named | f03a with the grid mapping variable named `polar_stereographic` | the draft's fixed `spatial_ref`/`crs` naming vs CF |
+
+Expected: a, c, e and f draw identically; b may be refused by an
+amplification check; d is refused as curvilinear although its grid is regular.
+In a Web Mercator map the pole region is clipped; that is the map, not the
+store.
 
 ## Layout
 

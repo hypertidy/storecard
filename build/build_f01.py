@@ -287,16 +287,7 @@ def main():
         with open(os.path.join(cdir, "collection.json"), "w") as fh:
             json.dump(c, fh, indent=2)
 
-    catalog = {
-        "type": "Catalog", "stac_version": "1.1.0", "id": "portolan-fixtures",
-        "description": "Zarr conformance fixtures: polar, ocean and virtual cases, built as twins.",
-        "links": [{"rel": "root", "href": "./catalog.json", "type": "application/json"}] + [
-            {"rel": "child", "href": f"./f01/{c['id']}/collection.json", "type": "application/json"}
-            for c in collections],
-    }
-    with open(os.path.join(out_dir, "catalog", "catalog.json"), "w") as fh:
-        json.dump(catalog, fh, indent=2)
-    print("wrote catalog with", len(collections), "collections")
+    print("wrote", len(collections), "collections; now run build/catalog.py")
 
 
 if __name__ == "__main__":

@@ -27,6 +27,7 @@ bash ../build/fetch_oisst.sh "$OISST_MONTH" "$src"
 # 2. build (stores/ and catalog/ under $out)
 rm -rf "$out/stores/f01"* "$out/catalog/f01"
 "$VENV/bin/python" -I ../build/build_f01.py "$src" "$out" "$BASE_URL"
+"$VENV/bin/python" -I ../build/catalog.py "$out"
 cp ../bucket/README.md "$out/README.md"
 cp ../bucket/AGENTS.md "$out/AGENTS.md"
 

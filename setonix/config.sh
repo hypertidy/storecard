@@ -32,10 +32,15 @@ export VENV="${VENV:-${MYSOFTWARE:-$HOME}/venvs/portolan-fixtures}"
 export OISST_MONTH="${OISST_MONTH:-202501}"
 export OISST_URL="https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr"
 
+# F03 source days (Bremen ASI AMSR2 3.125 km south; September = near maximum extent)
+export ASI_START="${ASI_START:-20250915}"
+export ASI_DAYS="${ASI_DAYS:-7}"
+
 # Virtual stores to copy: source prefix under the account -> name under virtual/
 VIRTUAL_STORES=(
   "ausantarctic-scratch/oisst/oisst-v2.1-daily"
   "ausantarctic-scratch/seaice/g02202-v6-daily-south"
+  "ausantarctic-scratch/seaice/asi-amsr2-v5.4-daily-south"
   "ausantarctic-scratch/bluelink/bluelink-daily-salt"
   "ausantarctic-scratch/ghrsst/ghrsst-mur-cog-analysed_sst"
 )

@@ -90,29 +90,20 @@ Source: f01a subset to lon 120..290 (crosses 180), lat -80..-30.
 Expected: f02a draws across the antimeridian; f02b refused with a reason;
 f02c draws, and the map zooms to the right extent rather than the whole world.
 
-### F03 Southern polar stereographic, grid-declaration twins
+### F03 Southern polar stereographic, grid-declaration twins (built)
 
-Source: NOAA/NSIDC CDR sea ice concentration G02202 v6, daily, south, one
-month: 332 x 316 at 25 km on the NSIDC polar stereographic south grid
-(EPSG:3412, Hughes 1980 ellipsoid; check the v6 files' own grid mapping). The
-files are served without login from noaadata.apps.nsidc.org, and the
-ausantarctic g02202-v6-daily-south virtual store already references them.
-That store carries no `crs` grid mapping variable, so as published it is also
-a CRS-missing case.
+Source: University of Bremen ASI AMSR2 v5.4 sea ice concentration, 3.125 km,
+southern hemisphere, seven days from 2025-09-15: 2656 x 2528 on the NSIDC
+polar stereographic south grid (EPSG:3412, Hughes 1980 ellipsoid), the same
+extent as the 25 km G02202 grid. The source files are south-up, name the
+variable `z`, carry no grid mapping, and are chunked one row per chunk.
+Built by `build/build_f03.py`; see the F03 table in the README for the six
+twins (native, row-chunked, transform + pyramid, 2-D lon/lat only,
+PROJJSON-only, renamed grid mapping).
 
-| Id | Declaration | Tests |
-| -- | ----------- | ----- |
-| f03a-nsidc-xy | 1-D `x`, `y` in metres, CF `grid_mapping` variable named `crs` | the draft's preferred form |
-| f03b-nsidc-latlon2d | 2-D `lat`, `lon` only, no `x`/`y`, no grid mapping | how many sea ice products ship; the draft calls it curvilinear |
-| f03c-nsidc-transform | `spatial:transform`, `spatial:shape`, `proj:code`; no coordinate arrays | grid declared from metadata alone |
-| f03d-nsidc-projjson | as f03c with `proj:projjson` and no `proj:code` | the non-EPSG CRS path |
-| f03e-nsidc-gridmap-named | as f03a, grid mapping variable named `polar_stereographic` and referenced through `grid_mapping` | CF names the variable through an attribute, not a fixed name |
-
-Expected: f03a, f03c, f03d and f03e draw identically. f03b is refused under the
-draft, although its grid is regular in EPSG:3412; it is here to make that
-point. Watch for the non-WGS84 ellipsoid in the browser's projection library.
-The draft requires `spatial_ref` or `crs` by name, so f03e is non-conformant
-under the draft and should not be.
+A G02202 (25 km) family on the same extent remains possible as a resolution
+twin. Its virtual references cannot be read from a browser (no CORS at the
+source host), so it would also be physical.
 
 ### F04 Antarctic pole-centred pyramid (EPSG:3031)
 
