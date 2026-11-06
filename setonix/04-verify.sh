@@ -30,6 +30,9 @@ check "$BASE_URL/stores/f01e-oisst-unpacked.zarr/sst/zarr.json"
 check "$BASE_URL/stores/f03c-asi-transform.zarr/zarr.json"
 check "$BASE_URL/stores/f03c-asi-transform.zarr/2/z/c/0/0/0"
 check "$BASE_URL/stores/f03b-asi-rowchunk.zarr/z/c/0/1000/0"
+check "$BASE_URL/stores/f03g-g02202-native.zarr/cdr_seaice_conc/c/0/0/0"
+check "$BASE_URL/stores/f03i-g02202-north-native.zarr/cdr_seaice_conc/c/0/0/0"
+check "$BASE_URL/stores/f08d-esm-regular.zarr/temp/c/0/0/0/0"
 
 echo "== Pawsey: copied virtual indexes"
 check "$BASE_URL/virtual/oisst-v2.1-daily/mdim.vrt"
@@ -43,6 +46,7 @@ echo "== upstream hosts the virtual references point at (decides whether a brows
 check "$OISST_URL/$OISST_MONTH/oisst-avhrr-v02r01.${OISST_MONTH}01.nc"
 check "https://noaadata.apps.nsidc.org/NOAA/G02202_V6/south/daily/1978/sic_pss25_19781025_n07_v06r00.nc"
 check "https://data.seaice.uni-bremen.de/amsr2/asi_daygrid_swath/s3125/netcdf/2012/asi-AMSR2-s3125-20120801-v5.4.nc"
+check "https://projects.pawsey.org.au/ct-esm1-6/output000/ocean/ocean-3d-temp-1mon-mean-y_1850.nc"
 
 echo "== negative control: listing should be denied (GetObject-only policy)"
 curl -s -o /dev/null -w '%{http_code} list %{url_effective}\n' -m 30 "$PAWSEY_ENDPOINT/$BUCKET?list-type=2&prefix=$PREFIX/"

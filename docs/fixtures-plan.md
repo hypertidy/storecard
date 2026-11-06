@@ -101,9 +101,10 @@ Built by `build/build_f03.py`; see the F03 table in the README for the six
 twins (native, row-chunked, transform + pyramid, 2-D lon/lat only,
 PROJJSON-only, renamed grid mapping).
 
-A G02202 (25 km) family on the same extent remains possible as a resolution
-twin. Its virtual references cannot be read from a browser (no CORS at the
-source host), so it would also be physical.
+G02202 v6 (25 km) is built alongside as physical twins, south (same extent,
+8 x 8 Bremen cells per cell, same AMSR2 sensor and week) and north
+(EPSG:3411). Its virtual references cannot be read from a browser (no CORS at
+the source host), which is why these are physical copies.
 
 ### F04 Antarctic pole-centred pyramid (EPSG:3031)
 
@@ -159,12 +160,17 @@ how bytes are found differs. If f07b fails, the reason will be a transport
 cause (CORS, a missing codec carried over from the source), not a metadata
 cause.
 
-### F08 Gaps for others to fill
+### F08 Ocean model native grid (built)
+
+ACCESS-ESM1.6 historical monthly ocean temperature on the MOM5 tripolar grid,
+one model year. Built by `build/build_f08.py`; see the F08 table in the
+README. The source files are on Pawsey (`ct-esm1-6` bucket) and indexed as a
+virtual store on source.coop.
+
+### F09 Gaps for others to fill
 
 - Rotated-pole regional climate grid (a common case in regional climate
   downscaling): CRS outside EPSG, regular in its own CRS.
-- An ocean model native grid (tripolar or ROMS-type): genuinely curvilinear,
-  correctly out of scope for v1, to pin the refusal reason.
 
 ## Build order
 

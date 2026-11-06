@@ -36,6 +36,9 @@ export OISST_URL="https://www.ncei.noaa.gov/data/sea-surface-temperature-optimum
 export ASI_START="${ASI_START:-20250915}"
 export ASI_DAYS="${ASI_DAYS:-7}"
 
+# F08 source year (ACCESS-ESM1.6 historical, MOM5 tripolar ocean)
+export ESM_YEAR="${ESM_YEAR:-2014}"
+
 # Virtual stores to copy: source prefix under the account -> name under virtual/
 VIRTUAL_STORES=(
   "ausantarctic-scratch/oisst/oisst-v2.1-daily"
