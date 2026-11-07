@@ -15,9 +15,9 @@ keyed by its sha256 so cards follow content, not paths.
 The findings are first-pass heuristics. Notable already:
 
 - `LAT_MERCATOR_SPACED`: the Aviso MADT file and ACCfronts, the regular
-  Mercator grid published as rectilinear lon/lat (gproj's `mercator_devolved`)
+  Mercator grid published as rectilinear lon/lat (degredation's `mercator_devolved`)
 - `AXES_X_BEFORE_Y`: `swapped/3A-DAY.nc`
-- `GRID_2D_LONLAT_ONLY`: candidates for a regula fit (cryptic curvilinear):
+- `GRID_2D_LONLAT_ONLY`: candidates for a degredation fit (cryptic curvilinear):
   `nhsce_v01r01_19661004_20140203.nc`, `hmr_ita.nc`, `test.nc_60/test.nc`,
   `get1index_64/test.nc`, `bad_examples_62/example1.nc`
 - `GRID_2D_WITH_PROJECTED_1D`: the rotated-pole (`ob_tran`) and

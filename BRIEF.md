@@ -14,7 +14,7 @@ hold: what the grid is, which CRS it is in, how values are packed, which
 fill value wins, how it is chunked, and where its bytes live. storecard makes
 those facts explicit as a **store card**, read from metadata alone. Where a
 store hides a simple grid behind coordinate arrays, a grid inference step
-(gproj, to become **regula**) proposes the four numbers and a CRS string that
+(**degredation**, formerly gproj) proposes the four numbers and a CRS string that
 describe it exactly, recorded as an **assertion**: a separate, evidenced,
 versioned claim about someone else's store. Cards and assertions are files
 on storage, so the whole resource is a static catalog anyone can publish,
@@ -44,7 +44,7 @@ made the same point from the other side.
 | Fixture tests | `tests/`: synthetic sources run through the unchanged `portolan/build` builders, so shapes, chunking and attributes match the published fixtures | 18 fixtures (F01, F03 Bremen and G02202 south, F08), 96 tests; opt-in network tests (`STORECARD_NETWORK=1`) check the published Pawsey catalog against the same expectations (all match) and a sharded source.coop store |
 | Prototype cards over the rasterwise problem files | `cases/rasterwise/cards.jsonl` | PR 4 |
 | Problem-file archive | rgdal-dev/rasterwise | being consolidated into a checksummed superset; stays its own repo |
-| Grid inference design | mdsumner/gproj (`design.md`, Phase 2 `detect_grid`) | R, design written, detector partly prototyped |
+| Grid inference design | hypertidy/degredation, formerly mdsumner/gproj (`design.md`, Phase 2 `detect_grid`) | R, design written, detector partly prototyped |
 | Virtual stores used as test sources | source.coop `ausantarctic/ausantarctic-scratch/` (OISST, G02202, Bremen ASI, BRAN, MUR, ACCESS-ESM1.6) | published by raad.virtualize |
 
 ## What the fixtures have shown so far
@@ -83,7 +83,7 @@ made the same point from the other side.
   (residuals, the coordinate sample fitted) and who asserted it. It can be
   emitted as a GDAL VRT, zarr-conventions attributes, or a STAC asset patch.
   Upstream adoption closes it as settled.
-- **Grid inference is not reimplemented here.** It belongs to gproj/regula;
+- **Grid inference is not reimplemented here.** It belongs to degredation;
   the card carries a coordinate sample (edges plus a central cross) so
   inference runs from the card alone.
 - **rasterwise stays its own repo** as the archive of problem files and their
@@ -99,7 +99,7 @@ made the same point from the other side.
 1. **Language of the extractor.** Started in Python (`src/storecard/`). Python first (Zarr v3, Icechunk and
    kerchunk access), or R through GDAL multidim. The card format stays
    language-neutral either way.
-2. **gproj to Rust as "regula".** A Rust core with R (extendr) and Python
+2. **degredation to Rust.** A Rust core, under the same name, with R (extendr) and Python
    (pyo3) bindings, and WebAssembly so browsers can apply assertions
    client-side. Projection maths: a few pure-Rust families versus libproj.
 3. **The assertion schema**: v0 in `ASSERTIONS.md` settles fields,
