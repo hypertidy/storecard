@@ -67,8 +67,13 @@ c = card("f03d-asi-latlon2d.zarr", stac="collection.json")
 
 Zarr v2 and v3 only for now (Icechunk, kerchunk and VRT are later). The card
 reads metadata and coordinate arrays, never a data chunk. The variables
-section holds `values`, `grid` (with `coord_sample`), `crs` and `cost` for
-each data array. The finding codes are listed in [FINDINGS.md](FINDINGS.md).
+section holds `values`, `grid` (with `coord_sample` and the presented
+`costume`, A to H from regular-in-what), `crs` and `cost` (non-spatial read
+factor for the inner chunk and the shard; tile amplification aligned and
+worst case) for each data array. `findings_summary` groups the findings by
+code. The codes and costumes are listed in [FINDINGS.md](FINDINGS.md).
+
+Network tests are opt-in: `STORECARD_NETWORK=1 pytest` (needs `[remote]`).
 
 Tests: `pip install -e .[test] && pytest`. The tests write small synthetic
 sources, run the unchanged `portolan/build` builders on them (about 10 s), and

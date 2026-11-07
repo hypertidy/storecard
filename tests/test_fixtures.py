@@ -154,12 +154,38 @@ def test_multiscales(cards):
 
 
 def test_amplification(cards):
-    # f03b is chunked one row per chunk: a 256 px tile reads about 10x what it draws
-    assert var(cards["f03b-asi-rowchunk"])["cost"]["tile_amplification"] == pytest.approx(9.875)
-    assert var(cards["f03a-asi-native"])["cost"]["tile_amplification"] == pytest.approx(4.0)
-    # f08a packs 25 depth levels per chunk; f08b one level per chunk
-    assert var(cards["f08a-esm-native"])["cost"]["nonspatial_read_factor"] == 25
-    assert var(cards["f08b-esm-levelchunk"])["cost"]["nonspatial_read_factor"] == 1
+    cost = lambda fid: var(cards[fid])["cost"]
+    # f03b is chunked one row per chunk: a 256 px tile reads about 10x what it draws,
+    # wherever the window falls (rows are whole)
+    assert cost("f03b-asi-rowchunk")["tile_amplification"] == {"aligned": 9.875, "worst": 9.875}
+    # 512 px chunks: 4x aligned, 16x across a chunk corner
+    assert cost("f03a-asi-native")["tile_amplification"] == {"aligned": 4.0, "worst": 16.0}
+    # f08a packs 25 depth levels per chunk; f08b one level per chunk; no shards
+    assert cost("f08a-esm-native")["nonspatial_read_factor"] == {"inner": 25, "shard": 25}
+    assert cost("f08b-esm-levelchunk")["nonspatial_read_factor"] == {"inner": 1, "shard": 1}
+
+
+COSTUME = {
+    "f01a-oisst-native": "C", "f01b-oisst-ydesc": "C", "f01c-oisst-180": "C",
+    "f01d-oisst-transform": "B", "f01e-oisst-unpacked": "C", "f01f-oisst-nodata": "C",
+    "f03a-asi-native": "C", "f03b-asi-rowchunk": "C", "f03c-asi-transform": "B",
+    "f03d-asi-latlon2d": ["E", "H"], "f03e-asi-projjson": "B", "f03f-asi-gridmap-named": "C",
+    "f03g-g02202-native": "C", "f03h-g02202-percent": "C",
+    # the tripolar grid presents as G; NOMINAL_AXES_DISAGREE on f08c is the evidence it is not
+    "f08a-esm-native": "G", "f08b-esm-levelchunk": "G", "f08c-esm-geo2d": ["E", "H"],
+    "f08d-esm-regular": "C",
+}
+
+
+@pytest.mark.parametrize("fid", ALL)
+def test_costume(cards, fid):
+    for v in cards[fid]["variables"]:
+        assert v["grid"]["costume"] == COSTUME[fid]
+
+
+def test_findings_summary(cards):
+    s = cards["f01d-oisst-transform"]["findings_summary"]
+    assert s == {"LON_0_360": ["0/sst", "1/sst", "2/sst"]}
 
 
 def test_coord_sample_for_grid_fit(cards):

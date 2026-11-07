@@ -40,7 +40,7 @@ made the same point from the other side.
 | Fixture builders, local CORS/range server, Setonix runbook | `portolan/build`, `portolan/serve`, `portolan/setonix` | working |
 | Prototype card extractor (local netCDF) | `proto/protocard.py` | PR 4 |
 | Card extractor for Zarr v2/v3 stores | `src/storecard/`, codes in `FINDINGS.md` | working on local stores; remote (s3, https) written, not yet run against the published catalog |
-| Fixture tests | `tests/`: synthetic sources run through the unchanged `portolan/build` builders, so shapes, chunking and attributes match the published fixtures | 18 fixtures (F01, F03 Bremen and G02202 south, F08), 62 tests |
+| Fixture tests | `tests/`: synthetic sources run through the unchanged `portolan/build` builders, so shapes, chunking and attributes match the published fixtures | 18 fixtures (F01, F03 Bremen and G02202 south, F08), 90 tests, plus an opt-in network test against a sharded source.coop store |
 | Prototype cards over the rasterwise problem files | `cases/rasterwise/cards.jsonl` | PR 4 |
 | Problem-file archive | rgdal-dev/rasterwise | being consolidated into a checksummed superset; stays its own repo |
 | Grid inference design | mdsumner/gproj (`design.md`, Phase 2 `detect_grid`) | R, design written, detector partly prototyped |

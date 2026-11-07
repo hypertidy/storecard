@@ -467,7 +467,19 @@ def card(url, stac=None, storage_options=None, probe_hosts=True):
         "variables": variables,
         "hosts": hosts,
         "findings": findings,
+        "findings_summary": _summary(findings),
     })
+
+
+def _summary(findings):
+    """Findings grouped by code: {code: [arrays]}, in first-seen order."""
+    out = {}
+    for f in findings:
+        arrs = out.setdefault(f["code"], [])
+        a = f.get("array")
+        if a is not None and a not in arrs:
+            arrs.append(a)
+    return out
 
 
 def _multiscales(attrs):
@@ -629,8 +641,12 @@ def _variable(path, i, info, axis, gattrs, root_attrs, asset, hints):
         if kind == "y" and a.get("direction") == "ascending":
             find("Y_ASCENDING", coord=a["name"])
         if a["role"] == "lon" and a.get("max") is not None:
-            if a["max"] > 180:
+            if a["max"] > 180 and a["min"] >= 0:
                 find("LON_0_360", coord=a["name"])
+            elif a["max"] > 180:
+                step = abs(a.get("step_median") or 0.0)
+                find("LON_OVERSHOOT_180", coord=a["name"], max=a["max"],
+                     overshoot_cells=round((a["max"] - 180) / step, 4) if step else None)
             if a["min"] < -180:
                 find("LON_BELOW_MINUS_180", coord=a["name"])
 
@@ -689,12 +705,51 @@ def _variable(path, i, info, axis, gattrs, root_attrs, asset, hints):
         if {a["role"] for a in axes.values()} & {"x", "y"}:
             find("PROJECTED_NO_GRID_MAPPING")
 
+    grid["costume"] = _costume(grid, axes, info, lon2, lat2, crs, findings)
+
     # ---- cost
     cost = _cost(arr, dims, spatial)
 
     v = {"name": path, "dims": dims, "shape": list(arr.shape), "values": values,
          "grid": grid, "crs": crs, "cost": cost}
     return v, findings
+
+
+ANGULAR_UNITS = {"rad", "radian", "radians"}
+
+
+def _costume(grid, axes, info, lon2, lat2, crs, findings):
+    """The costume (regular-in-what, chapter 3) the store presents, from
+    metadata alone. A list when metadata cannot decide: 2-D lon/lat only is
+    E (regular in some frame) or H (regular in none) until a fit says which."""
+    codes = {f["code"] for f in findings}
+    forms = grid["declared"]
+    roles = {k: a["role"] for k, a in axes.items()}
+    gm = next((s for s in crs["sources"] if s["via"] == "cf grid_mapping"), None)
+    if "transform" in forms and crs["declared"]:
+        return "B"
+    if lon2 and lat2:
+        if set(roles.values()) & {"rlon", "rlat"} or (gm and gm.get("grid_mapping_name") == "rotated_latitude_longitude"):
+            return "E2"
+        if not set(roles.values()) & {"x", "y"}:
+            return ["E", "H"]
+    two_d_projected = [p for p, j in info.items()
+                       if j["arr"].ndim == 2 and j["role"] in ("x", "y") and j["kind"] != "data"]
+    if two_d_projected and not axes:
+        return "F"
+    if "x" in axes and "y" in axes:
+        units = {str(a.get("units", "")).lower() for a in axes.values()}
+        regular = all(a["spacing"] == "regular" for a in axes.values())
+        if regular and units <= ANGULAR_UNITS and not crs["declared"]:
+            return "E3"
+        if regular:
+            return "C"
+        if "LAT_MERCATOR_SPACED" in codes and axes["x"]["spacing"] == "regular":
+            return "D"
+        return "G"
+    if forms == ["none"] or forms == ["coords_named_missing"]:
+        return "A"
+    return None
 
 
 def _sample_2d(lon, lat):
@@ -735,23 +790,41 @@ def _nominal_deviation(cs, axes):
 
 
 def _cost(arr, dims, spatial):
-    """Read cost of a single-index 2-D view."""
+    """Read cost of a single-index 2-D view.
+
+    Facts for rule packs to threshold, not a verdict: the non-spatial factor
+    is given for the inner chunk (what a range reader fetches) and for the
+    shard (what a whole-object reader fetches); tile amplification for a
+    TILE x TILE window aligned at the origin and for one placed across chunk
+    corners, both over inner chunks."""
     shape, chunks = arr.shape, arr.chunks
-    read_unit = arr.shards or chunks
+    shards = arr.shards
     yi, xi = dims.index(spatial[0]), dims.index(spatial[1])
-    nonspatial = 1
-    for k, c in enumerate(read_unit):
-        if k not in (yi, xi):
-            nonspatial *= int(min(c, shape[k]))
-    # TILE x TILE window at the origin (smaller if the array is smaller)
+
+    def nonspatial(unit):
+        f = 1
+        for k, c in enumerate(unit):
+            if k not in (yi, xi):
+                f *= int(min(c, shape[k]))
+        return f
+
+    def read(n, c, w, worst):
+        touched = math.ceil(w / c) if not worst else math.ceil((w - 1) / c) + 1
+        touched = min(touched, math.ceil(n / c))
+        return min(touched * c, n)
+
+    inner = nonspatial(chunks)
     wy, wx = min(TILE, shape[yi]), min(TILE, shape[xi])
-    ry = min(math.ceil(wy / chunks[yi]) * chunks[yi], shape[yi])
-    rx = min(math.ceil(wx / chunks[xi]) * chunks[xi], shape[xi])
+    amp = {}
+    for label, worst in (("aligned", False), ("worst", True)):
+        ry = read(shape[yi], chunks[yi], wy, worst)
+        rx = read(shape[xi], chunks[xi], wx, worst)
+        amp[label] = round(inner * (ry * rx) / (wy * wx), 3)
     spatial_chunks = math.ceil(shape[yi] / chunks[yi]) * math.ceil(shape[xi] / chunks[xi])
     return {
-        "chunks": list(chunks), "shards": list(arr.shards) if arr.shards else None,
-        "nonspatial_read_factor": nonspatial,
-        "tile_amplification": round(nonspatial * (ry * rx) / (wy * wx), 3),
+        "chunks": list(chunks), "shards": list(shards) if shards else None,
+        "nonspatial_read_factor": {"inner": inner, "shard": nonspatial(shards) if shards else inner},
+        "tile_amplification": amp,
         "tile": TILE,
         "spatial_chunks": spatial_chunks,
     }

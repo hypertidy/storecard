@@ -9,7 +9,8 @@ meaning.
 | Code | Meaning | Fixture that shows it |
 | ---- | ------- | --------------------- |
 | `Y_ASCENDING` | the y (or latitude) axis increases with index: south-up | f01a, f03a |
-| `LON_0_360` | a longitude axis has values above 180 | f01a |
+| `LON_0_360` | a longitude axis lies in 0..360: minimum at least 0, maximum above 180 | f01a |
+| `LON_OVERSHOOT_180` | a longitude axis runs from below 0 to past 180, by `overshoot_cells` of a cell: an extent rounded up past the antimeridian (common in pyramid overviews), not a 0..360 convention | |
 | `LON_BELOW_MINUS_180` | a longitude axis has values below -180 | f08a (xt_ocean from -279.5) |
 | `AXES_X_BEFORE_Y` | the x dimension comes before the y dimension | rasterwise `gpm-dpr-swapped-axes` |
 | `COORD_IRREGULAR` | a spatial 1-D axis is monotonic but not evenly spaced (and, for latitude, not evenly spaced in Mercator either) | f08a (yt_ocean) |
@@ -35,3 +36,27 @@ Not yet emitted, but used by the rasterwise cases: `ARRAY_TRANSPOSED`,
 `ID_AS_COORDINATE`, `TRUNCATED`. A confirmed grid fit will turn
 `GRID_2D_LONLAT_ONLY` into an assertion, with a code such as
 `GRID_CRYPTIC_CURVILINEAR` (step 2 of the brief).
+
+## Costume
+
+Beside the findings, each variable's `grid.costume` names the storage form it
+presents, from the costume table of
+[regular-in-what](https://hypertidy.github.io/regular-in-what/), chapter 3.
+It is decided from metadata alone:
+
+| Costume | Evidence |
+| ------- | -------- |
+| A | no coordinates, no transform |
+| B | `spatial:transform` and a CRS declared in the store |
+| C | 1-D axes, both regular within tolerance |
+| D | `LAT_MERCATOR_SPACED`, longitude regular |
+| E2 | 2-D lon/lat beside rotated 1-D axes, or a `rotated_latitude_longitude` grid mapping |
+| E3 | 1-D axes regular in radians, no CRS |
+| F | 2-D projected x/y arrays, no 1-D axes |
+| G | 1-D axes, at least one irregular and not Mercator |
+| `["E", "H"]` | 2-D lon/lat only: regular in some frame (E) or in none (H) is for a grid fit to decide |
+
+A costume is what the store presents, not what the grid is. The tripolar
+F08 stores present as G; on f08c, `NOMINAL_AXES_DISAGREE` is the evidence
+that the 1-D axes are not the grid. An assertion resolves `["E", "H"]`: a fit
+recovers a frame (E) or fails (H).
