@@ -235,26 +235,48 @@ def _open(url, storage_options=None):
     return zarr.open_group(url, **kw)
 
 
-def _members(group, hints=()):
-    """All arrays below group as {path: array}; listing first, hints if that fails."""
-    out, listable = {}, True
+def _members(group, hints=(), levels=()):
+    """All arrays below group as {path: array}, and whether the group listed.
+
+    Listing first. A store over plain HTTP without consolidated metadata
+    cannot list, so then arrays are found as a reader without a listing finds
+    them: from hints (STAC cube:variables), under each multiscale level, and
+    by following the names each found array gives (its dimensions,
+    `coordinates`, `grid_mapping`, `bounds`)."""
+    out = {}
     try:
         for path, node in group.members(max_depth=None):
             if isinstance(node, zarr.Array):
                 out[path] = node
     except Exception:
-        listable = False
-    if not out:
-        for h in hints:
-            try:
-                node = group[h]
-            except Exception:
-                continue
-            if isinstance(node, zarr.Array):
-                out[h] = node
-        if out:
-            listable = False
-    return out, listable
+        out = {}
+    if out:
+        return out, True
+    queue = list(hints) + [f"{lv}/{h}" for lv in levels or () for h in hints]
+    tried = set()
+    while queue:
+        name = queue.pop(0)
+        if name in tried:
+            continue
+        tried.add(name)
+        try:
+            node = group[name]
+        except Exception:
+            continue
+        if not isinstance(node, zarr.Array):
+            continue
+        out[name] = node
+        attrs = dict(node.attrs)
+        names = [d for d in _dims(node) if d]
+        names += str(attrs.get("coordinates", "")).split()
+        gm = attrs.get("grid_mapping")
+        if isinstance(gm, str):
+            names += [t[:-1] for t in gm.split() if t.endswith(":")] if ":" in gm else gm.split()
+        for k in ("bounds", "ancillary_variables"):
+            if isinstance(attrs.get(k), str):
+                names += attrs[k].split()
+        queue += [_sibling(name, n) for n in names]
+    return out, False
 
 
 def _dims(arr):
@@ -361,7 +383,8 @@ def card(url, stac=None, storage_options=None, probe_hosts=True):
     root = _open(url, storage_options)
     zf = root.metadata.zarr_format
     consolidated = getattr(root.metadata, "consolidated_metadata", None) is not None
-    arrays, listable = _members(root, hints)
+    ms = _multiscales(dict(root.attrs))
+    arrays, listable = _members(root, hints, ms["levels"] if ms else ())
 
     findings = []
     if not listable:

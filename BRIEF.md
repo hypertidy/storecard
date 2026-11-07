@@ -40,7 +40,7 @@ made the same point from the other side.
 | Fixture builders, local CORS/range server, Setonix runbook | `portolan/build`, `portolan/serve`, `portolan/setonix` | working |
 | Prototype card extractor (local netCDF) | `proto/protocard.py` | PR 4 |
 | Card extractor for Zarr v2/v3 stores | `src/storecard/`, codes in `FINDINGS.md` | working on local stores; remote (s3, https) written, not yet run against the published catalog |
-| Fixture tests | `tests/`: synthetic sources run through the unchanged `portolan/build` builders, so shapes, chunking and attributes match the published fixtures | 18 fixtures (F01, F03 Bremen and G02202 south, F08), 90 tests, plus an opt-in network test against a sharded source.coop store |
+| Fixture tests | `tests/`: synthetic sources run through the unchanged `portolan/build` builders, so shapes, chunking and attributes match the published fixtures | 18 fixtures (F01, F03 Bremen and G02202 south, F08), 96 tests; opt-in network tests (`STORECARD_NETWORK=1`) check the published Pawsey catalog against the same expectations (all match) and a sharded source.coop store |
 | Prototype cards over the rasterwise problem files | `cases/rasterwise/cards.jsonl` | PR 4 |
 | Problem-file archive | rgdal-dev/rasterwise | being consolidated into a checksummed superset; stays its own repo |
 | Grid inference design | mdsumner/gproj (`design.md`, Phase 2 `detect_grid`) | R, design written, detector partly prototyped |
@@ -114,11 +114,14 @@ made the same point from the other side.
 
 1. Card extractor for stores (URL in, card out, metadata only), tested
    against the `portolan/` fixtures, whose cards are known in advance.
-   Zarr part done (`src/storecard/`); still to do: run it against the
-   published catalog (the network of the current build environment cannot
-   reach the hosts; tooling and containers to be settled from
-   hypertidy/gdal-r-ci), host CORS probing of referenced chunks for virtual
-   stores, and Icechunk and kerchunk forms.
+   Zarr part done (`src/storecard/`) and checked against the published
+   catalog: every published fixture gives its expected card. Over plain
+   HTTP the unconsolidated fixture stores cannot be listed, so arrays are
+   found from STAC `cube:variables` by following dimension, `coordinates`
+   and `grid_mapping` names (`GROUP_NOT_LISTABLE` records it). Still to do:
+   CORS probing of the hosts of referenced chunks for virtual stores, and
+   Icechunk and kerchunk forms; tooling and containers to be settled from
+   hypertidy/gdal-r-ci.
 2. Grid fit from a card: must recover EPSG:3412 and the exact transform from
    `f03d-asi-latlon2d`, and refuse the tripolar `f08c-esm-geo2d`.
 3. One assertion end to end: a refused store is fitted, the assertion is
