@@ -87,3 +87,21 @@ def test_pawsey_published_fixtures_match_local_expectations():
         assert c["hosts"][0]["cors"] == "*"
         seen += 1
     assert seen >= 15
+
+
+def test_pawsey_f03d_assertion_matches_twin():
+    """The published assertion for f03d makes its card match its declared twin."""
+    import json
+    import pathlib
+    doc = json.loads((pathlib.Path(__file__).parents[1] / "assertions" / "f03d-asi-latlon2d.json").read_text())
+    base = "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f03/"
+    d = _get(base + "f03d-asi-latlon2d/collection.json")
+    e = _get(base + "f03e-asi-projjson/collection.json")
+    asserted = card(d["assets"]["data"]["href"], stac=d, assertions=[doc])
+    twin = card(e["assets"]["data"]["href"], stac=e)
+    assert asserted["source"]["assertions"][0]["applied"], asserted["source"]["assertions"]
+    va, vt = asserted["variables"][0], twin["variables"][0]
+    assert va["grid"]["costume"] == vt["grid"]["costume"] == "B"
+    for k in ("spatial:transform", "spatial:shape", "spatial:dimensions"):
+        assert va["grid"]["transform"][k] == vt["grid"]["transform"][k]
+    assert set(asserted["findings_summary"]) == set(twin["findings_summary"])

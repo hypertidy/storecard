@@ -73,6 +73,11 @@ factor for the inner chunk and the shard; tile amplification aligned and
 worst case) for each data array. `findings_summary` groups the findings by
 code. The codes and costumes are listed in [FINDINGS.md](FINDINGS.md).
 
+Assertions: `storecard URL --assertion a.json` applies an assertion as an
+overlay; `--emit zarr|stac|vrt` writes it as zarr-conventions attributes, a
+STAC patch or a GDAL multidimensional VRT. See [ASSERTIONS.md](ASSERTIONS.md);
+published assertions are in `assertions/`.
+
 Network tests are opt-in: `STORECARD_NETWORK=1 pytest` (needs `[remote]`).
 
 Tests: `pip install -e .[test] && pytest`. The tests write small synthetic
@@ -142,6 +147,8 @@ portolan/          Zarr fixtures, builders, Setonix runbook, and notes on the
 cases/rasterwise/  prototype cards for the rasterwise problem-file collection
                    (the files themselves live in rgdal-dev/rasterwise)
 proto/             prototype card extractor (local netCDF files)
-src/storecard/     card extractor for Zarr stores (step 1 of the plan)
+src/storecard/     card extractor for Zarr stores (step 1 of the plan), and
+                   assertions: apply as overlay, emit (step 3)
+assertions/        assertions about published stores
 tests/             fixture tests: synthetic sources through the portolan builders
 ```
