@@ -7,3 +7,5 @@ portolan/setonix/logs/
 portolan/setonix/backup/
 portolan/setonix/gen/
 __pycache__/
+*.egg-info/
+.pytest_cache/

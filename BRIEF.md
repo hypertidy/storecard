@@ -39,6 +39,8 @@ made the same point from the other side.
 | Zarr browser fixtures, built as twins | `portolan/` | F01 OISST (6 twins), F03 polar sea ice (Bremen ASI AMSR2 3.125 km, 6 twins; NOAA/NSIDC G02202 25 km south and north, 4 twins), F08 ACCESS-ESM1.6 tripolar ocean (4 twins). Published at `https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/catalog.json` (F08 pending a rerun) |
 | Fixture builders, local CORS/range server, Setonix runbook | `portolan/build`, `portolan/serve`, `portolan/setonix` | working |
 | Prototype card extractor (local netCDF) | `proto/protocard.py` | PR 4 |
+| Card extractor for Zarr v2/v3 stores | `src/storecard/`, codes in `FINDINGS.md` | working on local stores; remote (s3, https) written, not yet run against the published catalog |
+| Fixture tests | `tests/`: synthetic sources run through the unchanged `portolan/build` builders, so shapes, chunking and attributes match the published fixtures | 18 fixtures (F01, F03 Bremen and G02202 south, F08), 62 tests |
 | Prototype cards over the rasterwise problem files | `cases/rasterwise/cards.jsonl` | PR 4 |
 | Problem-file archive | rgdal-dev/rasterwise | being consolidated into a checksummed superset; stays its own repo |
 | Grid inference design | mdsumner/gproj (`design.md`, Phase 2 `detect_grid`) | R, design written, detector partly prototyped |
@@ -85,12 +87,15 @@ made the same point from the other side.
   inference runs from the card alone.
 - **rasterwise stays its own repo** as the archive of problem files and their
   lessons. storecard reads it and keys cards to its manifest checksums.
+- **Dependencies stay small.** The extractor needs zarr and numpy only. No
+  rasterio, no shapely; where GDAL is used, it is osgeo.gdal in Python or
+  gdalraster in R.
 - **Lead with a demo, not the vision.** The resource earns "community" by
   working on real stores first.
 
 ## Open questions
 
-1. **Language of the extractor.** Python first (Zarr v3, Icechunk and
+1. **Language of the extractor.** Started in Python (`src/storecard/`). Python first (Zarr v3, Icechunk and
    kerchunk access), or R through GDAL multidim. The card format stays
    language-neutral either way.
 2. **gproj to Rust as "regula".** A Rust core with R (extendr) and Python
@@ -109,6 +114,11 @@ made the same point from the other side.
 
 1. Card extractor for stores (URL in, card out, metadata only), tested
    against the `portolan/` fixtures, whose cards are known in advance.
+   Zarr part done (`src/storecard/`); still to do: run it against the
+   published catalog (the network of the current build environment cannot
+   reach the hosts; tooling and containers to be settled from
+   hypertidy/gdal-r-ci), host CORS probing of referenced chunks for virtual
+   stores, and Icechunk and kerchunk forms.
 2. Grid fit from a card: must recover EPSG:3412 and the exact transform from
    `f03d-asi-latlon2d`, and refuse the tripolar `f08c-esm-geo2d`.
 3. One assertion end to end: a refused store is fitted, the assertion is

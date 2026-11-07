@@ -53,6 +53,28 @@ One JSON document per store (per array for multi-array stores):
 | `hosts` | each host serving bytes (metadata and referenced chunks): CORS status, range support, protocol |
 | `findings` | ordered list of problems with a code, e.g. `GRID_CRYPTIC_CURVILINEAR`, `FILL_DISAGREE`, `COORDS_NAMED_MISSING` |
 
+## Using the extractor
+
+```sh
+pip install -e .                      # zarr and numpy; add [remote] for s3:// and https://
+storecard path/to/store.zarr          # or: python -m storecard URL --stac collection.json
+```
+
+```python
+from storecard import card
+c = card("f03d-asi-latlon2d.zarr", stac="collection.json")
+```
+
+Zarr v2 and v3 only for now (Icechunk, kerchunk and VRT are later). The card
+reads metadata and coordinate arrays, never a data chunk. The variables
+section holds `values`, `grid` (with `coord_sample`), `crs` and `cost` for
+each data array. The finding codes are listed in [FINDINGS.md](FINDINGS.md).
+
+Tests: `pip install -e .[test] && pytest`. The tests write small synthetic
+sources, run the unchanged `portolan/build` builders on them (about 10 s), and
+check each fixture's card against its stated presentation. Set
+`STORECARD_FIXTURES=/some/dir` to keep the build between runs.
+
 ## Inferring the grid: gproj
 
 Grid inference is gproj's job
@@ -115,4 +137,6 @@ portolan/          Zarr fixtures, builders, Setonix runbook, and notes on the
 cases/rasterwise/  prototype cards for the rasterwise problem-file collection
                    (the files themselves live in rgdal-dev/rasterwise)
 proto/             prototype card extractor (local netCDF files)
+src/storecard/     card extractor for Zarr stores (step 1 of the plan)
+tests/             fixture tests: synthetic sources through the portolan builders
 ```
