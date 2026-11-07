@@ -40,10 +40,12 @@ def test_ftw_host(ftw):
 def test_ftw_longitude(ftw):
     # the store is -180..180; coarse overviews overshoot the antimeridian slightly
     assert "LON_0_360" not in ftw["findings_summary"]
+    assert len(ftw["findings_summary"]["LON_OVERSHOOT_180"]) == 8
 
 
 def test_ftw_sharded_cost(ftw):
     shard = [v for v in ftw["variables"] if v["cost"]["shards"]]
     assert shard
-    assert all(v["cost"]["nonspatial_read_factor"]["inner"] <= v["cost"]["nonspatial_read_factor"]["shard"]
-               for v in shard)
+    v = shard[0]
+    assert v["cost"]["nonspatial_read_factor"] == {"inner": 1, "shard": 3}
+    assert v["cost"]["tile_amplification"] == {"aligned": 4.0, "worst": 16.0}

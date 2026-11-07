@@ -227,7 +227,11 @@ def _decimate(n, k=SAMPLE_2D_POINTS):
 def _open(url, storage_options=None):
     kw = {"mode": "r"}
     if "://" in url and not url.startswith("file://"):
-        kw["storage_options"] = storage_options or {}
+        so = dict(storage_options or {})
+        if url.startswith(("http://", "https://")):
+            # honour HTTPS_PROXY and friends, as urllib does for the host probe
+            so.setdefault("client_kwargs", {}).setdefault("trust_env", True)
+        kw["storage_options"] = so
     return zarr.open_group(url, **kw)
 
 
