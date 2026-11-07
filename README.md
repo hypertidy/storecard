@@ -85,10 +85,11 @@ sources, run the unchanged `portolan/build` builders on them (about 10 s), and
 check each fixture's card against its stated presentation. Set
 `STORECARD_FIXTURES=/some/dir` to keep the build between runs.
 
-## Inferring the grid: gproj
+## Inferring the grid: degredation
 
-Grid inference is gproj's job
-([mdsumner/gproj](https://github.com/mdsumner/gproj), design notes in
+Grid inference is the job of degredation (formerly gproj; the spelling is
+deliberate, "deg" as in degrees)
+([hypertidy/degredation](https://github.com/hypertidy/degredation), design notes in
 `design.md`, Phase 2 `detect_grid`): a rectilinear test, candidate CRSs from
 the coordinates' geometry, a regularity test in projected space, resolution
 snapping, half-cell extent recovery and a known-grid table, returning a CRS,
@@ -122,7 +123,7 @@ edited; fixes go upstream by asking the publisher.
 - [VRT is: Closure, Names, Placement, Assertion, Deferral, Emission](https://www.hypertidy.org/posts/2026-11-06_vrt-six-properties/):
   the design underneath VRT, where assertion is named
 - [Broken netCDF](https://www.hypertidy.org/posts/2025-09-04_broken-netcdf/):
-  the "cryptic curvilinear" case that gproj's detector is built on
+  the "cryptic curvilinear" case that degredation's detector is built on
 
 ## Plan
 
@@ -130,7 +131,7 @@ edited; fixes go upstream by asking the publisher.
    Icechunk and kerchunk access are easiest there); the card format is
    language-neutral so R can produce and read cards too. Tested against the
    `portolan/` fixtures, whose cards are known.
-2. **Grid inference** via gproj on the card's coordinate sample. Passes if it
+2. **Grid inference** via degredation on the card's coordinate sample. Passes if it
    recovers EPSG:3412 and the exact transform from the fixture with only 2-D
    lon/lat (`f03d-asi-latlon2d`), and refuses the tripolar ocean grid
    (`f08c-esm-geo2d`). A passing fit is recorded as an assertion.

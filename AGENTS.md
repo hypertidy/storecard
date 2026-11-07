@@ -9,8 +9,10 @@ Working rules:
   coordinate arrays are the only data a card may sample.
 - Never edit someone else's store. Fixes are assertions: separate documents
   keyed to the store's URL and version, with evidence.
-- Grid inference belongs to gproj (to become regula). Do not reimplement it
-  here; pass it the card's coordinate sample.
+- Grid inference belongs to hypertidy/degredation (formerly gproj). Do not
+  reimplement it here; pass it the card's coordinate sample. The spelling
+  "degredation" is deliberate ("deg" as in degrees): do not correct it to
+  "degradation" or "degridation".
 - The rasterwise problem-file archive lives in rgdal-dev/rasterwise. Read it;
   do not copy its files into this repo.
 - `portolan/` is self-contained: run its commands from that directory. Its

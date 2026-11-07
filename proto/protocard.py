@@ -119,7 +119,7 @@ def card(path):
         projected_1d = any(c["role"] in ("x", "y") for c in c1.values())
         code = "GRID_2D_WITH_PROJECTED_1D" if projected_1d else "GRID_2D_LONLAT_ONLY"
         out["findings"].append({"code": code,
-                                "note": "candidate for a regula fit (cryptic curvilinear?)" if not projected_1d else "2-D lon/lat beside x/y: lon/lat are derived"})
+                                "note": "candidate for a degredation fit (cryptic curvilinear?)" if not projected_1d else "2-D lon/lat beside x/y: lon/lat are derived"})
     for n, c in c1.items():
         sp = c.get("spacing")
         if sp == "mercator":

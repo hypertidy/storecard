@@ -41,7 +41,7 @@ adopts is marked `settled`.
 | `subject.metadata_digest` | sha256 of the store's metadata as read when the assertion was made (every array's metadata document and the root attributes, canonical JSON). The card records the same digest as `source.metadata_digest`. If the store changes, the digest changes and the assertion goes stale |
 | `asserts` | only zarr-conventions `spatial:` and `proj:` keys, so it can be written into a virtual store's metadata as it stands. The transform is in the zarr-conventions / STAC order, cell corners: x = a col + b row + c, y = d col + e row + f |
 | `crs_axes` | the variable's spatial dimensions, by role, in the CRS's axis order: `["x", "y"]` for easting/northing, `["y", "x"]` for latitude/longitude. Needed for the VRT's axis mapping without consulting PROJ |
-| `evidence` | free form for now: for a fit, residuals and the coordinate sample fitted (gproj, step 2 of the brief); for a known grid, where it is known from |
+| `evidence` | free form for now: for a fit, residuals and the coordinate sample fitted (degredation, step 2 of the brief); for a known grid, where it is known from |
 | `by` | who or what asserted it |
 | `status` | `proposed`, `settled` (the publisher adopted it) or `withdrawn` |
 
@@ -83,6 +83,6 @@ makes the published f03d's card match its declared twin f03e
 
 - Standing: who may assert, and how a reader weighs assertions from
   different sources.
-- Evidence schema, once gproj produces fits.
+- Evidence schema, once degredation produces fits.
 - Where the register lives (open question 4 of the brief): a static catalog
   on object storage beside the stores it describes.
