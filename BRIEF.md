@@ -40,6 +40,7 @@ made the same point from the other side.
 | Fixture builders, local CORS/range server, Setonix runbook | `portolan/build`, `portolan/serve`, `portolan/setonix` | working |
 | Prototype card extractor (local netCDF) | `proto/protocard.py` | PR 4 |
 | Card extractor for Zarr v2/v3 stores | `src/storecard/`, codes in `FINDINGS.md` | working on local stores; remote (s3, https) written, not yet run against the published catalog |
+| Assertions v0: schema, overlay, emitters (zarr-conventions attrs, STAC patch, multidim VRT) | `src/storecard/assertion.py`, `ASSERTIONS.md`, `assertions/` | the f03d assertion makes its card match its twin f03e, locally and on the published store; the VRT is checked as XML, not yet opened with GDAL |
 | Fixture tests | `tests/`: synthetic sources run through the unchanged `portolan/build` builders, so shapes, chunking and attributes match the published fixtures | 18 fixtures (F01, F03 Bremen and G02202 south, F08), 96 tests; opt-in network tests (`STORECARD_NETWORK=1`) check the published Pawsey catalog against the same expectations (all match) and a sharded source.coop store |
 | Prototype cards over the rasterwise problem files | `cases/rasterwise/cards.jsonl` | PR 4 |
 | Problem-file archive | rgdal-dev/rasterwise | being consolidated into a checksummed superset; stays its own repo |
@@ -101,8 +102,11 @@ made the same point from the other side.
 2. **gproj to Rust as "regula".** A Rust core with R (extendr) and Python
    (pyo3) bindings, and WebAssembly so browsers can apply assertions
    client-side. Projection maths: a few pure-Rust families versus libproj.
-3. **The assertion schema**: fields, versioning, standing (who may assert),
-   expiry when the source changes, settlement when a publisher adopts it.
+3. **The assertion schema**: v0 in `ASSERTIONS.md` settles fields,
+   versioning (a metadata digest; stale when the store changes) and
+   settlement (`status`). Still open: standing (who may assert, how
+   assertions from different sources are weighed) and the evidence schema
+   for fits.
 4. **Where the register lives**: a static catalog on object storage
    (source.coop alongside the stores it describes is the obvious first home).
 5. **The Portolan conversation**: propose two conformance tiers (catalog,
@@ -126,7 +130,11 @@ made the same point from the other side.
    `f03d-asi-latlon2d`, and refuse the tripolar `f08c-esm-geo2d`.
 3. One assertion end to end: a refused store is fitted, the assertion is
    published, a viewer applies it, and the store draws identically to its
-   twin. This is the demo.
+   twin. This is the demo. Done up to the viewer: the f03d assertion
+   (hand-written from the known grid until step 2 fits it) is published in
+   `assertions/` and makes f03d's card match f03e's; still to do is a
+   viewer (portolan-browser) applying the zarr-conventions overlay and
+   drawing f03d like f03e.
 4. Cards over the `ausantarctic` stores on source.coop; fix findings at
    source.
 5. Rule packs and viewer capability matching.

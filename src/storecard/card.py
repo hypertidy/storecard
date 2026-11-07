@@ -17,6 +17,8 @@ import urllib.request
 import numpy as np
 import zarr
 
+from . import assertion as _assertion
+
 CARD_VERSION = "0"
 
 # relative tolerance on step spread for "regular", by storage dtype
@@ -370,12 +372,17 @@ def _stac_asset(stac):
     return next(iter(assets.values()), None)
 
 
-def card(url, stac=None, storage_options=None, probe_hosts=True):
+def card(url, stac=None, storage_options=None, probe_hosts=True, assertions=()):
     """Build a store card for the Zarr store at url (a path or a URL).
 
     stac: optional STAC collection, item or asset (dict, path or URL) whose
           proj:code, bands nodata and cube:variables are recorded as sources.
+    assertions: assertion documents (dicts or paths) to apply as an overlay.
+          One applies only if its metadata digest matches the store as read;
+          the card then describes the variable as asserted, and keeps the
+          presented costume beside it. The store is never written.
     """
+    assertions = [_assertion.load(a) for a in assertions or ()]
     stac = _load_stac(stac)
     asset = _stac_asset(stac)
     hints = list((asset or {}).get("cube:variables", {}).keys())
@@ -410,6 +417,26 @@ def card(url, stac=None, storage_options=None, probe_hosts=True):
         info[path] = {
             "arr": arr, "attrs": attrs, "dims": _dims(arr), "role": role(path, attrs),
         }
+
+    digest = _assertion.metadata_digest(arrays, root.attrs)
+    applied = []
+    for doc in assertions:
+        subj = doc["subject"]
+        entry = {"kind": doc["kind"], "status": doc["status"], "variable": subj["variable"],
+                 "by": doc.get("by", {}), "applied": False}
+        if subj["variable"] not in info:
+            entry["reason"] = "subject variable not in store"
+            findings.append({"code": "ASSERTION_SUBJECT_MISSING", "array": subj["variable"]})
+        elif subj["metadata_digest"] != digest:
+            entry["reason"] = "store metadata changed since the assertion was made"
+            findings.append({"code": "ASSERTION_STALE", "array": subj["variable"],
+                             "asserted_digest": subj["metadata_digest"], "digest": digest})
+        elif doc["status"] == "withdrawn":
+            entry["reason"] = "withdrawn"
+        else:
+            entry["applied"] = True
+            info[subj["variable"]]["assertion"] = doc
+        applied.append(entry)
 
     # coordinates named by data arrays, grid mappings, bounds
     named_coords, grid_mappings, bounds = set(), set(), set()
@@ -472,7 +499,20 @@ def card(url, stac=None, storage_options=None, probe_hosts=True):
     for path, i in info.items():
         if i["kind"] != "data" or i["arr"].ndim < 2:
             continue
-        v, f = _variable(path, i, info, axis, gattrs, root_attrs, asset, hints)
+        doc = i.get("assertion")
+        if doc is None:
+            v, f = _variable(path, i, info, axis, gattrs, root_attrs, asset, hints)
+        else:
+            presented, _ = _variable(path, i, info, axis, gattrs, root_attrs, asset, hints)
+            overlay = dict(i, attrs={**i["attrs"], **doc.get("asserts", {})},
+                           asserted=set(doc.get("asserts", {})))
+            v, f = _variable(path, overlay, info, axis, gattrs, root_attrs, asset, hints)
+            g = v["grid"]
+            g["costume_presented"] = presented["grid"]["costume"]
+            g["assertion"] = {"kind": doc["kind"], "status": doc["status"], "by": doc.get("by", {})}
+            if doc["kind"] == "refusal":
+                g["costume"] = "H"
+                g["assertion"]["refuses"] = doc["refuses"]
         variables.append(v)
         findings.extend(f)
 
@@ -488,6 +528,8 @@ def card(url, stac=None, storage_options=None, probe_hosts=True):
         "source": {
             "url": url, "form": form, "zarr_format": zf, "consolidated": consolidated,
             "listable": listable, "multiscales": _multiscales(root_attrs),
+            "metadata_digest": digest,
+            "assertions": applied,
             "scanned_at": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         },
         "arrays": card_arrays,
@@ -618,9 +660,10 @@ def _variable(path, i, info, axis, gattrs, root_attrs, asset, hints):
     tr_src = attrs if "spatial:transform" in attrs else ga if "spatial:transform" in ga else None
     if tr_src is not None:
         declared_forms.append("transform")
-        grid["transform"] = {k: tr_src.get(k) for k in (
+        grid["transform"] = {"from": "assertion"} if "spatial:transform" in i.get("asserted", ()) else {}
+        grid["transform"].update({k: tr_src.get(k) for k in (
             "spatial:transform", "spatial:shape", "spatial:dimensions",
-            "spatial:registration", "spatial:transform_type", "spatial:bbox") if k in tr_src}
+            "spatial:registration", "spatial:transform_type", "spatial:bbox") if k in tr_src})
         shp = tr_src.get("spatial:shape")
         if shp and list(shp) != [arr.shape[dims.index(yd)], arr.shape[dims.index(xd)]]:
             find("TRANSFORM_SHAPE_MISMATCH", transform_shape=shp)
@@ -683,7 +726,7 @@ def _variable(path, i, info, axis, gattrs, root_attrs, asset, hints):
         cs["lon"], cs["lat"] = lon2, lat2
         grid["coord_sample"] = cs
         one_d_roles = {axes[k]["role"] for k in axes}
-        if not axes:
+        if not axes and "transform" not in declared_forms:
             find("GRID_2D_LONLAT_ONLY", coords=[lon2, lat2])
         elif one_d_roles & {"x", "y", "rlon", "rlat"}:
             find("GRID_2D_WITH_PROJECTED_1D", coords=[lon2, lat2])
@@ -713,6 +756,8 @@ def _variable(path, i, info, axis, gattrs, root_attrs, asset, hints):
         for k in ("proj:code", "proj:wkt2", "proj:projjson"):
             if a.get(k) is not None:
                 entry = {"via": k, "on": src_name}
+                if src_name == "array" and k in i.get("asserted", ()):
+                    entry["on"] = "assertion"
                 if k == "proj:code":
                     entry["value"] = a[k]
                 elif k == "proj:projjson":

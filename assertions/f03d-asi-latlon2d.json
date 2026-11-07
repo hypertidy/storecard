@@ -1,0 +1,44 @@
+{
+ "assertion_version": "0",
+ "kind": "grid",
+ "subject": {
+  "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f03d-asi-latlon2d.zarr",
+  "variable": "z",
+  "metadata_digest": "sha256:c412d317c54ca518966a300458d9db950a75b686dfe386d80aa32a276e64d53e"
+ },
+ "asserts": {
+  "spatial:transform": [
+   3125.0,
+   0.0,
+   -3950000.0,
+   0.0,
+   -3125.0,
+   4350000.0
+  ],
+  "spatial:shape": [
+   2656,
+   2528
+  ],
+  "spatial:dimensions": [
+   "y",
+   "x"
+  ],
+  "spatial:transform_type": "affine",
+  "spatial:registration": "pixel",
+  "proj:code": "EPSG:3412"
+ },
+ "crs_axes": [
+  "x",
+  "y"
+ ],
+ "evidence": {
+  "method": "known grid: f03d was built from the same EPSG:3412 grid as its twins (portolan/build/build_f03.py, latlon2d)",
+  "twin": "f03e-asi-projjson"
+ },
+ "by": {
+  "name": "storecard",
+  "kind": "fixture author"
+ },
+ "made_at": "2026-11-07T21:30:00Z",
+ "status": "proposed"
+}
