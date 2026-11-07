@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "storecard"
+version = "0.0.1"
+description = "Metadata-only cards for array stores"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.11"
+dependencies = ["zarr>=3", "numpy"]
+
+[project.optional-dependencies]
+remote = ["fsspec", "aiohttp", "s3fs"]
+# the fixture builders in portolan/build, run by the tests on small synthetic sources
+test = ["pytest", "xarray", "netcdf4", "pyproj", "scipy"]
+
+[project.scripts]
+storecard = "storecard.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
