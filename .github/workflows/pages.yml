@@ -3,7 +3,7 @@ name: pages
 on:
   push:
     branches: [main]
-    paths: ["site/**", "assertions/**", ".github/workflows/pages.yml"]
+    paths: ["site/**", "assertions/**", "FINDINGS.md", "ASSERTIONS.md", "portolan/README.md", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -20,15 +20,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Assemble the site
+      - uses: quarto-dev/quarto-actions/setup@v2
+      - name: Render the site
         run: |
-          mkdir -p _site
-          cp -r site/. _site/
-          cp -r assertions _site/assertions
+          cp -r assertions site/assertions
+          quarto render site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: site/_site
   deploy:
     needs: build
     runs-on: ubuntu-latest

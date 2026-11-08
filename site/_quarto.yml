@@ -1,0 +1,42 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - demo/**
+    - assertions/**
+
+website:
+  title: "storecard"
+  site-url: https://hypertidy.github.io/storecard/
+  repo-url: https://github.com/hypertidy/storecard
+  repo-actions: [source, issue]
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: demo/index.html
+        text: Demo
+      - href: why.qmd
+      - href: card.qmd
+      - href: assertions.qmd
+      - href: fit.qmd
+      - href: fixtures.qmd
+      - href: ecosystem.qmd
+    right:
+      - icon: github
+        href: https://github.com/hypertidy/storecard
+  page-footer:
+    left: "hypertidy/storecard"
+    right: "Theory: [Regular in what?](https://hypertidy.github.io/regular-in-what/)"
+
+format:
+  html:
+    theme:
+      light: [cosmo, styles/light.scss, styles/_common.scss]
+      dark: [cosmo, styles/dark.scss, styles/_common.scss]
+    respect-user-color-scheme: true
+    highlight-style: a11y
+    toc: true
+
+execute:
+  eval: false

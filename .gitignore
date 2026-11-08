@@ -9,3 +9,6 @@ portolan/setonix/gen/
 __pycache__/
 *.egg-info/
 .pytest_cache/
+site/_site/
+site/.quarto/
+site/assertions/

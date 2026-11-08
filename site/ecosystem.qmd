@@ -1,0 +1,31 @@
+---
+title: "Ecosystem"
+subtitle: "Where storecard sits"
+---
+
+| Repository | Role |
+| ---------- | ---- |
+| [hypertidy/regular-in-what](https://hypertidy.github.io/regular-in-what/) | The theory and vocabulary: "regular in what frame?", the three things a grid is (index mapping, frame, storage), and the costume table A to H that a card's `grid.costume` uses |
+| [rgdal-dev/rasterwise](https://github.com/rgdal-dev/rasterwise) | The archive of problem files and their lessons, keyed by checksum, with cases and finding codes. storecard reads it and keys cards to its manifest; the files stay there |
+| [hypertidy/degredation](https://github.com/hypertidy/degredation) | Grid inference from coordinates (formerly gproj): open-ended where `storecard.fit` only checks named frames |
+| [hypertidy/storecard](https://github.com/hypertidy/storecard) | Cards, assertions, the named-frame fit, and the fixtures |
+
+## Portolan
+
+The fixtures were built for the Zarr profile of Portolan
+(portolan-sdi/portolan-spec issue 132, draft text in PR 234) and its
+reference renderer (portolan-sdi/portolan-browser PR 92). storecard's view
+of that profile: declare the grid rather than make clients infer it, use the
+zarr-conventions `spatial:` and `proj:` forms that exist, and keep viewer
+capability as a rule pack over cards.
+
+## Reading
+
+- [Regular in what?](https://hypertidy.github.io/regular-in-what/): grids,
+  coordinates and the curvilinear confusion
+- [Grids: regular, rectilinear, curvilinear](https://www.hypertidy.org/posts/2026-05-28_regular-rectilinear-curvilinear/):
+  a grid taxonomy rooted in coordinate storage, not CRS
+- [VRT is: Closure, Names, Placement, Assertion, Deferral, Emission](https://www.hypertidy.org/posts/2026-11-06_vrt-six-properties/):
+  the design underneath VRT, where assertion is named
+- [Broken netCDF](https://www.hypertidy.org/posts/2025-09-04_broken-netcdf/):
+  the "cryptic curvilinear" case that degredation's detector is built on

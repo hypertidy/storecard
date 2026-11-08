@@ -169,6 +169,8 @@ proto/             prototype card extractor (local netCDF files)
 src/storecard/     card extractor for Zarr stores (step 1 of the plan), and
                    assertions: apply as overlay, emit (step 3)
 assertions/        assertions about published stores
-site/              GitHub Pages: the demo (site/demo/), deployed by .github/workflows/pages.yml
+site/              GitHub Pages: Quarto website and the demo (site/demo/), deployed by
+                   .github/workflows/pages.yml; some pages include FINDINGS.md,
+                   ASSERTIONS.md and portolan/README.md
 tests/             fixture tests: synthetic sources through the portolan builders
 ```
