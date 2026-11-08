@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>storecard: an honest refusal</title>
+<meta name="description" content="An ocean model's tripolar grid is given 1-D axes that are exact south of 65 N and wrong north of it. The card finds the disagreement from metadata and coordinates alone, and the grid fit refuses to assert a frame: no six numbers describe this grid. Read straight from object storage in the browser.">
+<style>
+:root {
+  --bg: #fbfbf9; --fg: #1d2125; --muted: #5d6670; --line: #d9dcdf; --panel: #ffffff;
+  --accent: #1f5fa8; --ok: #1d7a46; --bad: #b3261e; --land: #9ba3a8; --grat: rgba(29,33,37,0.28);
+  --mesh: rgba(255,255,255,0.75); --code: #f1f2f0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181b; --fg: #e6e8ea; --muted: #9aa3ab; --line: #343a40; --panel: #1d2125;
+    --accent: #7fb0ea; --ok: #5cc48a; --bad: #f08b84; --land: #5b6368; --grat: rgba(230,232,234,0.3);
+    --mesh: rgba(255,255,255,0.7); --code: #262b30;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15181b; --fg: #e6e8ea; --muted: #9aa3ab; --line: #343a40; --panel: #1d2125;
+  --accent: #7fb0ea; --ok: #5cc48a; --bad: #f08b84; --land: #5b6368; --grat: rgba(230,232,234,0.3);
+  --mesh: rgba(255,255,255,0.7); --code: #262b30;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 1.6rem; margin: 0 0 4px; }
+h2 { font-size: 1.15rem; margin: 32px 0 8px; }
+p { margin: 8px 0; max-width: 72ch; }
+a { color: var(--accent); }
+code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.86em; }
+code { background: var(--code); padding: 1px 4px; border-radius: 3px; }
+pre { background: var(--code); padding: 10px 12px; border-radius: 6px; overflow-x: auto; margin: 8px 0; }
+.lede { color: var(--muted); }
+.controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin: 16px 0;
+  padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.controls label { display: flex; gap: 8px; align-items: center; }
+#status { color: var(--muted); font-size: 0.9rem; }
+.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+.panel { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 12px;
+  display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.panel h3 { margin: 0; font-size: 1rem; }
+.panel .sub { color: var(--muted); font-size: 0.85rem; margin: 0; }
+.frame { position: relative; width: 100%; aspect-ratio: 1; background: var(--code); border-radius: 4px; overflow: hidden; }
+.frame canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.verdict { font-weight: 600; }
+.verdict.ok { color: var(--ok); }
+.verdict.bad { color: var(--bad); }
+table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tablewrap { overflow-x: auto; }
+.legend { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--muted); }
+.legend canvas { width: 160px; height: 10px; border-radius: 2px; }
+.swatch { display: inline-block; width: 12px; height: 10px; background: var(--land); border-radius: 2px; }
+.meshkey { display: inline-block; width: 16px; height: 0; border-top: 2px solid var(--fg); opacity: 0.6; }
+.banner { border: 1px solid var(--bad); color: var(--bad); border-radius: 6px; padding: 8px 12px; display: none; }
+.chart { position: relative; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 8px 8px 4px; }
+.chart svg { display: block; width: 100%; height: auto; }
+.chart .axis text { fill: var(--muted); font-size: 11px; }
+.chart .axis line, .chart .axis path { stroke: var(--line); }
+.chart .gridline { stroke: var(--line); stroke-width: 1; }
+.chart .series { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+.chart .fold { stroke: var(--muted); stroke-dasharray: 4 3; }
+.chart .fold-label, .chart .direct { fill: var(--muted); font-size: 11px; paint-order: stroke; stroke: var(--panel); stroke-width: 4px; stroke-linejoin: round; }
+.chart .cross { stroke: var(--muted); stroke-width: 1; }
+.chart .dot { fill: var(--accent); stroke: var(--panel); stroke-width: 2; }
+.tip { position: absolute; pointer-events: none; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 6px; padding: 4px 8px; font-size: 0.8rem; box-shadow: 0 2px 6px rgba(0,0,0,0.12); display: none; white-space: nowrap; }
+summary { cursor: pointer; color: var(--accent); margin: 8px 0; }
+footer { margin-top: 40px; color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<main>
+<p class="lede"><a href="../">storecard</a> / demo. Before this: <a href="costumes.html">five costumes, one grid</a> and
+<a href="./">one assertion, end to end</a>.</p>
+<h1>An honest refusal</h1>
+<p class="lede">An ocean model (ACCESS-ESM1.6, MOM5) computes on a tripolar grid: a latitude-longitude
+grid south of about 65 N, and north of it a cap whose two poles sit on land, in Canada and Siberia, so
+the ocean has no singular point. The model writes 1-D axes <code>xt_ocean</code> and
+<code>yt_ocean</code> beside the true 2-D positions <code>geolon_t</code> and <code>geolat_t</code>.
+The 1-D axes are exact in the south and wrong in the cap. The store here, <b>f08c</b>, carries both,
+as CF says it should. A grid fit that tries every published frame finds that no six numbers describe
+this grid, and says so instead of asserting one. This page reads the store from the bucket and shows
+why.</p>
+
+<div class="banner" id="banner"></div>
+
+<div class="controls">
+  <label>Month <input type="range" id="month" min="0" max="11" step="1" value="0"> <span id="monthlabel">-</span></label>
+  <div class="legend"><canvas id="ramp" width="160" height="10"></canvas> <span id="ramplabel">-2 to 12 &deg;C</span>
+    <span class="swatch"></span> land</div>
+  <div class="legend"><span class="meshkey"></span> every 10th grid row and column</div>
+  <span id="status">starting</span>
+</div>
+
+<div class="grid">
+  <section class="panel" id="p-nominal">
+    <h3>Placed by the 1-D axes</h3>
+    <p class="sub"><code>xt_ocean</code> &times; <code>yt_ocean</code>: what a reader of f08a, which lacks
+    the 2-D positions, has to use</p>
+    <div class="frame"><canvas class="data"></canvas><canvas class="over"></canvas></div>
+  </section>
+  <section class="panel" id="p-true">
+    <h3>Placed by the true positions</h3>
+    <p class="sub"><code>geolon_t</code>, <code>geolat_t</code>: the same values, where the model computed them</p>
+    <div class="frame"><canvas class="data"></canvas><canvas class="over"></canvas></div>
+  </section>
+</div>
+<p>Both panels draw the same surface temperature cells, north of 45 N, with north polar
+stereographic placement (central meridian 45 W). On the left, the grid rows are circles of latitude
+up to the top, so the cap is squeezed into concentric rings around the North Pole and the
+Arctic coastline is misplaced. On the right, the rows of the cap bend around the two land poles.
+South of the fold, the two panels agree cell for cell.</p>
+
+<h2>Where the 1-D axes go wrong</h2>
+<p>For each grid row: the largest distance, over its 360 cells, between the true position and the
+1-D axes' position, in cells. This is the measure behind the card's <code>NOMINAL_AXES_DISAGREE</code>
+finding, here over every row instead of the card's sample lines.</p>
+<div class="chart" id="devchart"><svg viewBox="0 0 760 260" role="img" aria-labelledby="devtitle"><title id="devtitle">Deviation of the true positions from the 1-D axes, by grid row</title></svg><div class="tip"></div></div>
+<p id="devsummary">computing</p>
+
+<h2>The refusal</h2>
+<p><code>storecard.fit</code> projects the card's coordinate sample, the edges of the grid plus a
+central cross, into each frame on its list, fits an affine transform from cell index to projected
+position, and keeps a frame only if every sampled cell lies within 0.001 cell of it. For f03d, the
+first frame fits to within 5e-10 cells. For f08c, none comes within hundreds of cells. In the
+south, <code>yt_ocean</code>'s steps change from about 1/4 degree near the equator to 1 degree, so
+no frame is affine there either. Then the cap bends away from every frame on the list.</p>
+<div class="tablewrap"><table id="frames">
+  <thead><tr><th>Frame tried</th><th>Name</th><th class="num">Worst sampled cell, in cells from the best affine</th></tr></thead>
+  <tbody><tr><td colspan="3">loading the refusal</td></tr></tbody>
+</table></div>
+<p>A refusal is published like an assertion, keyed to the store's URL and a digest of its metadata.
+It records which frames were tried, so a later fit, for example in
+<a href="https://github.com/hypertidy/degredation">degredation</a> with frames outside this
+list, starts from it rather than repeating it. It asserts nothing about the store, which is a correct
+CF description of the grid. It tells a reader that six numbers will not do here. To draw f08c in a
+map, a reader needs the 2-D positions (a per-cell warp), or a regridded copy such as f08d.</p>
+<pre id="refusal">loading</pre>
+
+<h2>What each reader fetched</h2>
+<div class="tablewrap"><table id="bytes">
+  <thead><tr><th>To place the grid from</th><th>Fetched</th><th class="num">Bytes</th></tr></thead>
+  <tbody></tbody>
+</table></div>
+
+<footer>
+  <p>Part of <a href="https://github.com/hypertidy/storecard">hypertidy/storecard</a>. Fixtures:
+  <code>portolan/</code> in that repo (the F08 twins, built from one model year, 2014, and the run's
+  <code>geolon_t</code>/<code>geolat_t</code> fixed fields), published on Pawsey Acacia. Theory:
+  <a href="https://hypertidy.github.io/regular-in-what/">Regular in what?</a>; a tripolar grid is
+  costume H, regular in no frame.</p>
+  <p>This page is a minimal reader: Zarr v3, <code>bytes</code> and <code>zstd</code> codecs. Cells
+  are drawn as the quadrilaterals between neighbouring cell centres, coloured by the lower-left
+  centre, and the seam along the fold itself is left open. It is a picture of placement, not a
+  reprojection.</p>
+</footer>
+</main>
+
+<script type="module">
+import { decompress } from "https://cdn.jsdelivr.net/npm/fzstd@0.1.1/+esm";
+
+// Store and refusal locations in one place, so a storage move is a one-line change.
+const BASE = "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores";
+const STORE = BASE + "/f08c-esm-geo2d.zarr";
+const REFUSAL = ["../assertions/f08c-esm-geo2d.json",
+  "https://raw.githubusercontent.com/hypertidy/storecard/main/assertions/f08c-esm-geo2d.json"];
+const VAR = "temp";
+const FRAMES = {   // names for the frames on storecard.fit's list
+  "EPSG:4326": "WGS 84 longitude/latitude", "EPSG:3410": "NSIDC EASE-Grid global", "EPSG:6933": "EASE-Grid 2.0 global",
+  "EPSG:3857": "Web Mercator", "EPSG:3408": "NSIDC EASE-Grid north", "EPSG:6931": "EASE-Grid 2.0 north",
+  "EPSG:3409": "NSIDC EASE-Grid south", "EPSG:6932": "EASE-Grid 2.0 south", "EPSG:3411": "NSIDC polar stereographic north (Hughes)",
+  "EPSG:3413": "NSIDC polar stereographic north (WGS 84)", "EPSG:3995": "Arctic polar stereographic",
+  "EPSG:3412": "NSIDC polar stereographic south (Hughes)", "EPSG:3976": "NSIDC polar stereographic south (WGS 84)",
+  "EPSG:3031": "Antarctic polar stereographic" };
+const T_MIN = -2, T_MAX = 12;    // display range, degrees C
+
+const $ = (s, el = document) => el.querySelector(s);
+const status = (t) => { $("#status").textContent = t; };
+const banner = (t) => { const b = $("#banner"); b.textContent = t; b.style.display = "block"; };
+const fmtB = (n) => n == null ? "-" : n < 1024 ? n + " B" : n < 1048576 ? (n / 1024).toFixed(1) + " KB" : (n / 1048576).toFixed(1) + " MB";
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+// ---------------------------------------------------------------- fetching, counted
+
+const meter = { meta: 0, axes: 0, geo: 0, chunks: 0 };
+async function getBytes(url, kind) {
+  const r = await fetch(url);
+  if (r.status === 404 || r.status === 403) return null;
+  if (!r.ok) throw new Error(r.status + " " + url);
+  const u = new Uint8Array(await r.arrayBuffer());
+  if (kind) meter[kind] += u.byteLength;
+  return u;
+}
+async function getJSON(url, kind) {
+  const u = await getBytes(url, kind);
+  if (!u) throw new Error("not found: " + url);
+  return JSON.parse(new TextDecoder().decode(u).replace(/\bNaN\b/g, "null"));
+}
+
+// ---------------------------------------------------------------- a small Zarr v3 reader
+
+async function openArray(name) {
+  const m = await getJSON(`${STORE}/${name}/zarr.json`, "meta");
+  const names = m.codecs.map((c) => c.name);
+  if (!names.every((n) => n === "bytes" || n === "zstd")) throw new Error("codecs not supported here: " + names.join(", "));
+  if (((m.codecs.find((c) => c.name === "bytes") || {}).configuration?.endian || "little") !== "little") throw new Error("big-endian not supported here");
+  return { name, meta: m, shape: m.shape, chunks: m.chunk_grid.configuration.chunk_shape, dtype: m.data_type,
+    zstd: names.includes("zstd"), sep: m.chunk_key_encoding?.configuration?.separator || "/", attrs: m.attributes || {} };
+}
+function typed(dtype, u) {
+  const buf = u.buffer.slice(u.byteOffset, u.byteOffset + u.byteLength);
+  switch (dtype) {
+    case "float32": return new Float32Array(buf);
+    case "float64": return new Float64Array(buf);
+    case "int64": return new BigInt64Array(buf);
+    default: throw new Error("dtype not supported here: " + dtype);
+  }
+}
+// The whole array, which must be one chunk.
+async function readWhole(arr, kind) {
+  if (arr.chunks.some((c, i) => c < arr.shape[i])) throw new Error(arr.name + ": expected one chunk");
+  const u = await getBytes(`${STORE}/${arr.name}/c/${arr.shape.map(() => 0).join(arr.sep)}`, kind);
+  return typed(arr.dtype, arr.zstd ? decompress(u) : u);
+}
+async function readChunk(arr, idx, kind) {
+  const u = await getBytes(`${STORE}/${arr.name}/c/${idx.join(arr.sep)}`, kind);
+  return u ? typed(arr.dtype, arr.zstd ? decompress(u) : u) : null;
+}
+
+// ---------------------------------------------------------------- placement and drawing
+
+// North polar stereographic on the sphere, central meridian 45 W, scaled so 45 N is
+// the edge of the frame.
+const RMAX = Math.tan((45 / 2) * Math.PI / 180);
+function toPix(lon, lat, S) {
+  const r = Math.tan(((90 - lat) / 2) * Math.PI / 180) / RMAX, l = (lon + 45) * Math.PI / 180;
+  return [S / 2 * (1 + r * Math.sin(l)), S / 2 * (1 + r * Math.cos(l))];
+}
+
+const RAMP = [[8, 29, 58], [16, 64, 118], [38, 110, 170], [96, 160, 205], [170, 205, 230], [238, 244, 250]];
+function rampColour(f) {
+  const x = Math.max(0, Math.min(1, f)) * (RAMP.length - 1), i = Math.min(RAMP.length - 2, Math.floor(x)), g = x - i;
+  return RAMP[i].map((c, k) => Math.round(c + g * (RAMP[i + 1][k] - c)));
+}
+const missing = (v) => !(Math.abs(v) < 1e19);    // NaN or the -1e20 fill
+
+// Cells as quadrilaterals between neighbouring centres, wrapping in x.
+function drawCells(canvas, lon, lat, vals, H, W) {
+  const S = canvas.width = canvas.height = 1100;
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = css("--land"); ctx.fillRect(0, 0, S, S);
+  for (let j = 0; j < H - 1; j++) {
+    if (lat[j * W] < 30 && lat[(j + 1) * W] < 30) continue;
+    for (let i = 0; i < W; i++) {
+      const i1 = (i + 1) % W, k = [j * W + i, j * W + i1, (j + 1) * W + i1, (j + 1) * W + i];
+      const v = vals[k[0]];
+      if (missing(v)) continue;
+      if (k.every((q) => lat[q] < 44)) continue;
+      const c = rampColour((v - 273.15 - T_MIN) / (T_MAX - T_MIN));
+      ctx.fillStyle = `rgb(${c})`; ctx.strokeStyle = ctx.fillStyle;
+      ctx.beginPath();
+      k.forEach((q, n) => { const [x, y] = toPix(lon[q], lat[q], S); n ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
+      ctx.closePath(); ctx.fill(); ctx.lineWidth = 0.6; ctx.stroke();
+    }
+  }
+}
+
+// Graticule, then every 10th grid row and column.
+function drawOverlay(canvas, lon, lat, H, W) {
+  const S = canvas.width = canvas.height = 1100;
+  const ctx = canvas.getContext("2d");
+  const path = (pts) => { ctx.beginPath(); let pen = false;
+    for (const [lo, la] of pts) { if (la < 44) { pen = false; continue; } const [x, y] = toPix(lo, la, S); pen ? ctx.lineTo(x, y) : ctx.moveTo(x, y); pen = true; }
+    ctx.stroke(); };
+  ctx.strokeStyle = css("--grat"); ctx.lineWidth = 1.5; ctx.setLineDash([6, 6]);
+  for (let la = 50; la <= 80; la += 10) path(Array.from({ length: 361 }, (_, i) => [i, la]));
+  for (let lo = 0; lo < 360; lo += 30) path(Array.from({ length: 46 }, (_, i) => [lo, 45 + i]));
+  ctx.setLineDash([]);
+  ctx.strokeStyle = css("--mesh"); ctx.lineWidth = 2;
+  for (let j = 0; j < H; j += 10) path(Array.from({ length: W + 1 }, (_, i) => [lon[j * W + (i % W)], lat[j * W + (i % W)]]));
+  path(Array.from({ length: W + 1 }, (_, i) => [lon[(H - 1) * W + (i % W)], lat[(H - 1) * W + (i % W)]]));
+  for (let i = 0; i < W; i += 10) path(Array.from({ length: H }, (_, j) => [lon[j * W + i], lat[j * W + i]]));
+}
+
+// ---------------------------------------------------------------- the deviation chart
+
+function chart(y, dev, foldRow) {
+  const svg = $("#devchart svg"), tip = $("#devchart .tip");
+  const Wd = 760, Hd = 260, m = { l: 48, r: 16, t: 14, b: 34 };
+  const x0 = -80, x1 = 90, ymax = Math.ceil(Math.max(...dev) / 20) * 20 || 20;
+  const sx = (v) => m.l + (v - x0) / (x1 - x0) * (Wd - m.l - m.r), sy = (v) => Hd - m.b - v / ymax * (Hd - m.t - m.b);
+  const NS = "http://www.w3.org/2000/svg";
+  const el = (tag, attrs, text) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (text != null) e.textContent = text; svg.append(e); return e; };
+  const ax = el("g", { class: "axis" });
+  for (let v = 0; v <= ymax; v += 20) {
+    el("line", { class: "gridline", x1: m.l, x2: Wd - m.r, y1: sy(v), y2: sy(v) });
+    const t = el("text", { x: m.l - 6, y: sy(v) + 4, "text-anchor": "end" }, v); ax.append(t);
+  }
+  for (let v = -60; v <= 90; v += 30) { const t = el("text", { x: sx(v), y: Hd - m.b + 16, "text-anchor": "middle" }, v === 0 ? "0" : Math.abs(v) + (v < 0 ? " S" : " N")); ax.append(t); }
+  ax.append(el("text", { x: m.l + (Wd - m.l - m.r) / 2, y: Hd - 4, "text-anchor": "middle" }, "yt_ocean, the row's nominal latitude"));
+  ax.append(el("text", { x: 12, y: m.t + (Hd - m.t - m.b) / 2, "text-anchor": "middle", transform: `rotate(-90 12 ${m.t + (Hd - m.t - m.b) / 2})` }, "cells"));
+  if (foldRow != null) {
+    el("line", { class: "fold", x1: sx(y[foldRow]), x2: sx(y[foldRow]), y1: m.t, y2: Hd - m.b });
+    el("text", { class: "fold-label", x: sx(y[foldRow]) - 6, y: sy(ymax / 2), "text-anchor": "end" }, `cap begins, row ${foldRow}`);
+  }
+  el("path", { class: "series", d: dev.map((d, j) => (j ? "L" : "M") + sx(y[j]).toFixed(1) + " " + sy(d).toFixed(1)).join("") });
+  const last = dev.length - 1;
+  el("text", { class: "direct", x: sx(y[last]) - 6, y: sy(dev[last]) - 8, "text-anchor": "end" }, `${dev[last].toFixed(1)} cells at the top row`);
+  const cross = el("line", { class: "cross", y1: m.t, y2: Hd - m.b, visibility: "hidden" });
+  const dot = el("circle", { class: "dot", r: 4.5, visibility: "hidden" });
+  const hit = el("rect", { x: m.l, y: m.t, width: Wd - m.l - m.r, height: Hd - m.t - m.b, fill: "transparent" });
+  const move = (ev) => {
+    const r = svg.getBoundingClientRect(), vx = (ev.clientX - r.left) / r.width * Wd;
+    const lat = x0 + (vx - m.l) / (Wd - m.l - m.r) * (x1 - x0);
+    let j = 0; for (let q = 1; q < y.length; q++) if (Math.abs(y[q] - lat) < Math.abs(y[j] - lat)) j = q;
+    cross.setAttribute("x1", sx(y[j])); cross.setAttribute("x2", sx(y[j])); cross.setAttribute("visibility", "visible");
+    dot.setAttribute("cx", sx(y[j])); dot.setAttribute("cy", sy(dev[j])); dot.setAttribute("visibility", "visible");
+    tip.innerHTML = `row ${j}, yt_ocean ${y[j].toFixed(2)}<br><b>${dev[j].toFixed(dev[j] < 0.01 ? 0 : 2)} cells</b>`;
+    tip.style.display = "block";
+    const px = sx(y[j]) / Wd * r.width, left = px > r.width - 150 ? px - 150 : px + 12;
+    tip.style.left = left + "px"; tip.style.top = (sy(dev[j]) / Hd * r.height - 10) + "px";
+  };
+  hit.addEventListener("pointermove", move);
+  hit.addEventListener("pointerleave", () => { tip.style.display = "none"; cross.setAttribute("visibility", "hidden"); dot.setAttribute("visibility", "hidden"); });
+}
+
+// ---------------------------------------------------------------- the page
+
+let S = null;
+
+async function setup() {
+  const ramp = $("#ramp").getContext("2d");
+  for (let i = 0; i < 160; i++) { ramp.fillStyle = `rgb(${rampColour(i / 159)})`; ramp.fillRect(i, 0, 1, 10); }
+  status("reading metadata");
+  await getJSON(`${STORE}/zarr.json`, "meta");
+  const temp = await openArray(VAR);
+  const [ax, ay, alon, alat, atime] = await Promise.all(["xt_ocean", "yt_ocean", "geolon_t", "geolat_t", "time"].map(openArray));
+  const metaOnly = meter.meta;
+  const [x, y] = await Promise.all([readWhole(ax, "axes"), readWhole(ay, "axes")]);
+  status("reading the 2-D positions");
+  const [glon, glat] = await Promise.all([readWhole(alon, "geo"), readWhole(alat, "geo")]);
+  const tv = await readWhole(atime, null);
+  const H = y.length, W = x.length;
+
+  // The 1-D axes' positions, as full arrays.
+  const nlon = new Float64Array(H * W), nlat = new Float64Array(H * W);
+  for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) { nlon[j * W + i] = x[i]; nlat[j * W + i] = y[j]; }
+
+  // Per row: the largest distance in cells (median steps, as the card measures it).
+  const med = (a) => { const d = Array.from(a.slice(1), (v, k) => Math.abs(v - a[k])).sort((p, q) => p - q); return d[d.length >> 1]; };
+  const sxs = med(x), sys = med(y), dev = new Array(H).fill(0);
+  for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
+    const k = j * W + i, dl = ((glon[k] - x[i] + 180) % 360 + 360) % 360 - 180, dp = glat[k] - y[j];
+    dev[j] = Math.max(dev[j], Math.abs(dl) / sxs, Math.abs(dp) / sys);
+  }
+  const foldRow = dev.findIndex((d) => d > 0.5);
+  chart(y, dev, foldRow);
+  const exact = dev.slice(0, foldRow).every((d) => d === 0);
+  $("#devsummary").innerHTML = `Rows 0 to ${foldRow - 1} (up to ${y[foldRow - 1].toFixed(1)} N): ` +
+    (exact ? "the 1-D axes are exact, to the last bit of float32." : `largest ${Math.max(...dev.slice(0, foldRow)).toFixed(3)} cells.`) +
+    ` From row ${foldRow} (${y[foldRow].toFixed(1)} N) the deviation grows to <b>${Math.max(...dev).toFixed(1)} cells</b>` +
+    ` at the top row. Cells are the median steps: ${sxs} degree in x, ${sys.toFixed(3)} degree in y.`;
+
+  // Month labels from the store's own CF time units (the writer may re-encode
+  // them: the source says days since 0001-01-01, this store hours since 2014-01-16).
+  const tu = String(atime.attrs.units || "").match(/^\s*(day|hour|minute|second)s?\s+since\s+(\d+)-(\d+)-(\d+)(?:[ T](\d+):(\d+):?(\d*))?/i);
+  if (!tu) throw new Error("time units not understood here: " + atime.attrs.units);
+  const step = { day: 86400000, hour: 3600000, minute: 60000, second: 1000 }[tu[1].toLowerCase()];
+  const t0 = new Date(0); t0.setUTCFullYear(+tu[2], +tu[3] - 1, +tu[4]); t0.setUTCHours(+(tu[5] || 0), +(tu[6] || 0), +(tu[7] || 0), 0);
+  const monthLabel = (m) => new Date(t0.getTime() + Number(tv[m]) * step).toISOString().slice(0, 7);
+
+  S = { temp, x, y, glon, glat, nlon, nlat, H, W, monthLabel, metaOnly };
+  $("#month").max = temp.shape[0] - 1;
+  $("#month").addEventListener("input", () => { $("#monthlabel").textContent = monthLabel(+$("#month").value); });
+  $("#month").addEventListener("change", () => { history.replaceState(null, "", "#month=" + $("#month").value); drawMonth(); });
+  const mh = location.hash.match(/month=(\d+)/); if (mh) $("#month").value = Math.min(temp.shape[0] - 1, +mh[1]);
+  $("#monthlabel").textContent = monthLabel(+$("#month").value);
+
+  drawOverlay($("#p-nominal canvas.over"), nlon, nlat, H, W);
+  drawOverlay($("#p-true canvas.over"), glon, glat, H, W);
+
+  // The published refusal.
+  let doc = null;
+  for (const u of REFUSAL) { try { doc = await getJSON(u, null); break; } catch (e) {} }
+  if (doc) {
+    const tried = [...(doc.evidence?.frames_tried || [])].sort((p, q) => p.residual_cells - q.residual_cells);
+    const tol = doc.evidence?.tolerance_cells;
+    $("#frames tbody").innerHTML = tried.map((t) => `<tr><td><code>${t.frame}</code></td><td>${FRAMES[t.frame] || ""}</td>` +
+      `<td class="num">${t.residual_cells.toLocaleString()}</td></tr>`).join("") +
+      `<tr><td colspan="2"><b>Tolerance</b>: every sampled cell within this of the affine</td><td class="num">${tol}</td></tr>`;
+    const compact = (v) => JSON.stringify(v, null, 1).replace(/\[\s+([^\[\]{}]*?)\s+\]/g, (mm, inner) => "[" + inner.replace(/\s*\n\s*/g, " ") + "]");
+    $("#refusal").textContent = compact({ kind: doc.kind, subject: doc.subject, refuses: doc.refuses, by: doc.by, status: doc.status,
+      evidence: { method: doc.evidence?.method, coords: doc.evidence?.coords, points: doc.evidence?.points, tolerance_cells: tol, best: doc.evidence?.best } });
+    if (doc.subject?.url !== STORE) banner("The refusal names a different store: " + doc.subject?.url);
+  } else {
+    $("#frames tbody").innerHTML = `<tr><td colspan="3">could not fetch the refusal</td></tr>`;
+    $("#refusal").textContent = "could not fetch the refusal";
+  }
+
+  $("#bytes tbody").innerHTML =
+    `<tr><td>the 1-D axes (as f08a offers)</td><td>metadata, <code>xt_ocean</code>, <code>yt_ocean</code></td><td class="num">${fmtB(metaOnly + meter.axes)}</td></tr>` +
+    `<tr><td>the true positions</td><td>metadata, <code>geolon_t</code>, <code>geolat_t</code></td><td class="num">${fmtB(metaOnly + meter.geo)}</td></tr>` +
+    `<tr><td>a transform and CRS, had there been one</td><td>metadata only</td><td class="num">${fmtB(metaOnly)}</td></tr>`;
+}
+
+async function drawMonth() {
+  const m = +$("#month").value;
+  status(`reading ${S.monthLabel(m)}, surface level`);
+  const before = meter.chunks;
+  const vals = await readChunk(S.temp, [m, 0, 0, 0], "chunks");
+  if (!vals) throw new Error("no chunk for month " + m);
+  drawCells($("#p-nominal canvas.data"), S.nlon, S.nlat, vals, S.H, S.W);
+  drawCells($("#p-true canvas.data"), S.glon, S.glat, vals, S.H, S.W);
+  status(`${S.monthLabel(m)}, surface: drawn from ${fmtB(meter.chunks - before)}, one chunk`);
+}
+
+setup().then(drawMonth).catch((err) => {
+  status("stopped");
+  banner("Could not read the store from this browser (" + err.message + "). The bucket must allow cross-origin reads from this page's origin.");
+  console.error(err);
+});
+</script>
+</body>
+</html>

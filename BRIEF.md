@@ -36,7 +36,7 @@ made the same point from the other side.
 
 | Thing | Where | State |
 | ----- | ----- | ----- |
-| Zarr browser fixtures, built as twins | `portolan/` | F01 OISST (6 twins), F03 polar sea ice (Bremen ASI AMSR2 3.125 km, 6 twins; NOAA/NSIDC G02202 25 km south and north, 4 twins), F08 ACCESS-ESM1.6 tripolar ocean (4 twins). Published at `https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/catalog.json` (F08 pending a rerun) |
+| Zarr browser fixtures, built as twins | `portolan/` | F01 OISST (6 twins), F03 polar sea ice (Bremen ASI AMSR2 3.125 km, 6 twins; NOAA/NSIDC G02202 25 km south and north, 4 twins), F08 ACCESS-ESM1.6 tripolar ocean (4 twins). Published at `https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/catalog.json` (20 collections; F08's true positions come from the run's fixed fields `ocean-2d-geolon_t-fx.nc` / `ocean-2d-geolat_t-fx.nc`, which the yearly files name but do not carry, so f08c exists and f08d is regridded on them) |
 | Fixture builders, local CORS/range server, Setonix runbook | `portolan/build`, `portolan/serve`, `portolan/setonix` | working |
 | Prototype card extractor (local netCDF) | `proto/protocard.py` | PR 4 |
 | Card extractor for Zarr v2/v3 stores | `src/storecard/`, codes in `FINDINGS.md` | working on local stores; remote (s3, https) written, not yet run against the published catalog |
@@ -134,10 +134,12 @@ made the same point from the other side.
    `f03d-asi-latlon2d`, and refuse the tripolar `f08c-esm-geo2d`. Done for
    named frames (`src/storecard/fit.py`, `python -m storecard URL --fit`):
    the published f03d fits EPSG:3412 at 5e-10 cells with the transform
-   snapped exactly; f08c is refused (best frame 475 cells off). The WGS84
+   snapped exactly; the published f08c is refused (best frame EPSG:4326,
+   448.5 cells off). The WGS84
    variants EPSG:3976 and EPSG:3031 also fit within tolerance, at pixel
    sizes that are not round, so the roundest transform is chosen and the
-   others recorded. f08c is local only (not in the published catalog).
+   others recorded. The refusal is published as
+   `assertions/f08c-esm-geo2d.json`.
    Still to do: frames outside the list, through degredation.
 3. One assertion end to end: a refused store is fitted, the assertion is
    published, a viewer applies it, and the store draws identically to its
@@ -155,9 +157,12 @@ made the same point from the other side.
    `spatial_ref` names; CF by `grid_mapping`; the card, every declaration
    checked for agreement). Each rule places a different subset; the card
    places the four declared stores, which draw identically to f03e cell for
-   cell, and refuses f03d, which the assertion page then places. Next demos,
-   in order: the tripolar refusal (f08c, once F08 is published), then
-   packing (f01a against f01e) and fill values (f01f, f08a).
+   cell, and refuses f03d, which the assertion page then places.
+   A third page, `site/demo/tripolar.html`, reads the published f08c: the
+   1-D axes against the true positions in a north polar view, the per-row
+   deviation (under 0.5 cells to row 245, 74.8 at the top row), and the
+   published refusal with every frame tried. Next demos, in order: packing
+   (f01a against f01e) and fill values (f01f, f08a).
 4. Cards over the `ausantarctic` stores on source.coop; fix findings at
    source.
 5. Rule packs and viewer capability matching.

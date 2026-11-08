@@ -31,6 +31,11 @@ assertion of 2 KB to the second store, in the browser, and checks that it
 then draws identically to the first: every value, the transform, the CRS and
 every pixel.
 
+[An honest refusal](demo/tripolar.html): an ocean model's tripolar grid,
+published with 1-D axes that are exact south of 65 N and wrong north of it,
+beside its true 2-D positions. The page shows where the axes go wrong, and
+why a grid fit refuses to assert a frame: no six numbers describe this grid.
+
 ## The idea in three lines
 
 - **Cards are facts, not opinions.** A spec's conformance, a viewer's
@@ -59,7 +64,7 @@ storecard URL --assertion assertions/f03d-asi-latlon2d.json --emit vrt
 | Step | State |
 | ---- | ----- |
 | 1. Card extractor, URL in, card out | Zarr v2 and v3 done, checked against every published fixture. Icechunk, kerchunk and CORS probing of referenced-chunk hosts to do |
-| 2. Grid fit from a card | Named frames done: f03d recovers EPSG:3412 exactly, the tripolar f08c is refused |
+| 2. Grid fit from a card | Named frames done: f03d recovers EPSG:3412 exactly, the tripolar f08c is refused ([published](demo/tripolar.html)) |
 | 3. One assertion end to end | Done: [the demo](demo/index.html). The same overlay in portolan-browser is open |
 | 4. Cards over the `ausantarctic` stores on source.coop | Next |
 | 5. Rule packs and viewer capability matching | Later |

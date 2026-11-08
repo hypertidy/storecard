@@ -1,0 +1,109 @@
+{
+ "assertion_version": "0",
+ "kind": "refusal",
+ "subject": {
+  "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f08c-esm-geo2d.zarr",
+  "variable": "temp",
+  "metadata_digest": "sha256:d05586e6a9c001c30846628c97544f0fd1aaeec42f3aaafe558fbe6dedd11996"
+ },
+ "refuses": {
+  "reason": "regular in none of the frames tried",
+  "frames_tried": [
+   "EPSG:3412",
+   "EPSG:3411",
+   "EPSG:3976",
+   "EPSG:3413",
+   "EPSG:3031",
+   "EPSG:3995",
+   "EPSG:6932",
+   "EPSG:6931",
+   "EPSG:3409",
+   "EPSG:3408",
+   "EPSG:6933",
+   "EPSG:3410",
+   "EPSG:3857",
+   "EPSG:4326"
+  ]
+ },
+ "evidence": {
+  "method": "storecard.fit: affine of projected coord_sample cell centres in named frames",
+  "coords": [
+   "geolon_t",
+   "geolat_t"
+  ],
+  "points": 1542,
+  "tolerance_cells": 0.001,
+  "frames_tried": [
+   {
+    "frame": "EPSG:3412",
+    "residual_cells": 351100.0
+   },
+   {
+    "frame": "EPSG:3411",
+    "residual_cells": 2720.0
+   },
+   {
+    "frame": "EPSG:3976",
+    "residual_cells": 351100.0
+   },
+   {
+    "frame": "EPSG:3413",
+    "residual_cells": 2720.0
+   },
+   {
+    "frame": "EPSG:3031",
+    "residual_cells": 351100.0
+   },
+   {
+    "frame": "EPSG:3995",
+    "residual_cells": 2720.0
+   },
+   {
+    "frame": "EPSG:6932",
+    "residual_cells": 2626.0
+   },
+   {
+    "frame": "EPSG:6931",
+    "residual_cells": 1916.0
+   },
+   {
+    "frame": "EPSG:3409",
+    "residual_cells": 2625.0
+   },
+   {
+    "frame": "EPSG:3408",
+    "residual_cells": 1914.0
+   },
+   {
+    "frame": "EPSG:6933",
+    "residual_cells": 1245.0
+   },
+   {
+    "frame": "EPSG:3410",
+    "residual_cells": 1242.0
+   },
+   {
+    "frame": "EPSG:3857",
+    "residual_cells": 1375.0
+   },
+   {
+    "frame": "EPSG:4326",
+    "residual_cells": 448.5
+   }
+  ],
+  "software": {
+   "gdal": "3.14.0dev-fa1fc3c77e-dirty",
+   "proj": "9.9.0"
+  },
+  "best": {
+   "frame": "EPSG:4326",
+   "residual_cells": 448.5
+  }
+ },
+ "by": {
+  "name": "storecard.fit",
+  "kind": "fit"
+ },
+ "made_at": "2026-11-08T23:33:13Z",
+ "status": "proposed"
+}

@@ -64,7 +64,8 @@ bash build/fetch_esm.sh 2014 data/esm
 .venv/bin/python -I build/build_f03.py data/asi-20250915 out http://localhost:8096
 .venv/bin/python -I build/build_f03g.py data/g02202-south out http://localhost:8096 south
 .venv/bin/python -I build/build_f03g.py data/g02202-north out http://localhost:8096 north
-.venv/bin/python -I build/build_f08.py data/esm/ocean-3d-temp-1mon-mean-y_2014.nc out http://localhost:8096
+.venv/bin/python -I build/build_f08.py data/esm/ocean-3d-temp-1mon-mean-y_2014.nc out http://localhost:8096 \
+  data/esm/ocean-2d-geolon_t-fx.nc data/esm/ocean-2d-geolat_t-fx.nc
 .venv/bin/python -I build/catalog.py out
 python3 -I serve/serve_cors.py out 8096
 ```

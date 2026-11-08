@@ -12,3 +12,4 @@ __pycache__/
 site/_site/
 site/.quarto/
 site/assertions/
+.Rproj.user
