@@ -44,8 +44,7 @@ in the browser: all 6,714,368 cells are within 7.1e-10 cells.
 ## Why so narrow
 
 Grid inference in general belongs to
-[degredation](https://github.com/hypertidy/degredation) (the spelling is
-deliberate: "deg" as in degrees): a rectilinear test, candidate CRSs from
+[degredation](https://github.com/hypertidy/degredation): a rectilinear test, candidate CRSs from
 the coordinates' geometry, regularity in projected space, resolution
 snapping, half-cell extent recovery and a known-grid table. storecard does
 not reimplement it. The card's `coord_sample` carries what degredation's
