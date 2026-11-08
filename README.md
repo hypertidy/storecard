@@ -91,9 +91,8 @@ check each fixture's card against its stated presentation. Set
 
 ## Inferring the grid: degredation
 
-Grid inference is the job of degredation (formerly gproj; the spelling is
-deliberate, "deg" as in degrees)
-([hypertidy/degredation](https://github.com/hypertidy/degredation), design notes in
+Grid inference is the job of degredation (formerly gproj
+ [hypertidy/degredation](https://github.com/hypertidy/degredation), design notes in
 `design.md`, Phase 2 `detect_grid`): a rectilinear test, candidate CRSs from
 the coordinates' geometry, a regularity test in projected space, resolution
 snapping, half-cell extent recovery and a known-grid table, returning a CRS,
