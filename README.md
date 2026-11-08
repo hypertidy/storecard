@@ -2,6 +2,10 @@
 
 New here? Read [BRIEF.md](BRIEF.md) first.
 
+Demo: [one assertion, end to end](https://hypertidy.github.io/storecard/demo/), a store
+refused for hiding its grid behind 2-D lon/lat draws identically to its declared
+twin once a published assertion is applied (source in `site/demo/`).
+
 A **store card** is a small, metadata-only description of an array store: what
 its grid is, how it is chunked and compressed, where its bytes live, and
 whether a given reader can use it. A card is built from a URL by reading a few
@@ -165,5 +169,8 @@ proto/             prototype card extractor (local netCDF files)
 src/storecard/     card extractor for Zarr stores (step 1 of the plan), and
                    assertions: apply as overlay, emit (step 3)
 assertions/        assertions about published stores
+site/              GitHub Pages: Quarto website and the demo (site/demo/), deployed by
+                   .github/workflows/pages.yml; some pages include FINDINGS.md,
+                   ASSERTIONS.md and portolan/README.md
 tests/             fixture tests: synthetic sources through the portolan builders
 ```

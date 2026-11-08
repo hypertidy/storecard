@@ -1,0 +1,19 @@
+---
+title: "Fixtures"
+subtitle: "Twins: the same data in presentations that should draw identically"
+---
+
+The fixtures are storecard's test suite: each has a known, stated
+presentation, so its card is known in advance. The tests build them from
+small synthetic sources with the unchanged builders, and opt-in network tests
+(`STORECARD_NETWORK=1 pytest`) check the published copies against the same
+expectations.
+
+Published catalog (public, CORS-enabled, range-readable):
+<https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/catalog.json>.
+F08 is not published yet.
+
+The rest of this page is `portolan/README.md`; run its commands from
+`portolan/`.
+
+{{< include ../portolan/README.md >}}

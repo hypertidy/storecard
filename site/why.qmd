@@ -1,0 +1,66 @@
+---
+title: "Why"
+subtitle: "Readers keep failing on the same few facts"
+---
+
+Readers of array data (browsers, catalogs, analysis tools, agents) keep
+failing on a small set of facts that a store's metadata holds, or fails to
+hold:
+
+- the grid is given as coordinate arrays, so a reader must test regularity
+  from data instead of reading it from a declaration;
+- 2-D longitude and latitude arrays hide a grid that is regular in some
+  projected CRS ("cryptic curvilinear"), which four numbers and a CRS string
+  describe exactly;
+- 1-D nominal axes look regular and are wrong (ocean model tripolar grids);
+- CF packing, fill values and units decide the colour of every pixel and are
+  read inconsistently;
+- chunking set for the source files (one row, or 25 depth levels, per chunk)
+  is carried into virtual stores, where it sets the read cost of every view;
+- referenced bytes live on hosts with their own CORS behaviour.
+
+Each of these is checkable from metadata. A card records them once, so a
+person, an agent or a viewer can decide before fetching data.
+
+## What the fixtures have shown
+
+The project grew out of building browser fixtures for the Portolan Zarr
+profile (portolan-sdi/portolan-spec issue 132). The hard cases turned out to
+be interpretation problems, not rendering problems: a viewer cannot fix them,
+a declaration can.
+
+**Transport works.** Pawsey Acacia and source.coop both serve cross-origin
+range reads. A browser drew a fixture straight from the bucket.
+
+**Packing is ignored.** The reference renderer drew CF-packed int16 OISST as
+raw integers against a ramp in physical units: the whole ocean saturated.
+
+![f01b in the reference renderer: geometry right, ocean saturated because
+`scale_factor` was not applied](img/f01b-first-draw.png)
+
+**Fill values are not treated as missing** unless STAC `nodata` says so;
+land drew as the bottom colour. Writers disagree too: xarray's default for
+Zarr v3 writes `fill_value` 0 beside a CF `_FillValue` of -999, and -1e20
+stored as float32 never equals the float64 attribute, so masking silently
+fails.
+
+**Source hosts decide whether virtual stores can draw.** NCEI sends
+`Access-Control-Allow-Origin: *`; the NSIDC data host sends none, so the
+G02202 virtual store cannot be read from any browser, wherever its index is
+hosted.
+
+**Virtual stores inherit source chunking.** Bremen ASI is one row per chunk;
+ACCESS-ESM1.6 packs 25 depth levels per chunk. Both exceed the draft
+profile's amplification bound of 8.
+
+**Indexes drop interpretation.** The G02202 virtual store has no grid
+mapping; the ACCESS-ESM1.6 store names `geolon_t geolat_t` in `coordinates`
+but does not carry them, leaving 1-D nominal axes that are wrong north of the
+tripolar fold.
+
+**The heuristics find the known cases unprompted** across the rasterwise
+problem-file archive: Mercator-spaced latitude, swapped axes, and five files
+with only 2-D lon/lat that are candidates for a grid fit.
+
+Details: [first results](https://github.com/hypertidy/storecard/blob/main/portolan/docs/results-2026-11-06.md)
+and the [fixtures plan](https://github.com/hypertidy/storecard/blob/main/portolan/docs/fixtures-plan.md).

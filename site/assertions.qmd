@@ -1,0 +1,16 @@
+---
+title: "Assertions"
+subtitle: "Fixes as separate, evidenced documents"
+---
+
+The [demo](demo/index.html) applies the first published assertion,
+[`assertions/f03d-asi-latlon2d.json`](https://github.com/hypertidy/storecard/blob/main/assertions/f03d-asi-latlon2d.json),
+in the browser. This page is the v0 schema, kept in the repository as
+`ASSERTIONS.md`.
+
+The idea comes from GDAL's VRT, where "assertion" is one of six properties:
+SRS, geotransform, nodata, scale and offset in classic VRT; coordinates,
+dimension types and names in multidimensional VRT
+([VRT is: Closure, Names, Placement, Assertion, Deferral, Emission](https://www.hypertidy.org/posts/2026-11-06_vrt-six-properties/)).
+
+{{< include ../ASSERTIONS.md >}}
