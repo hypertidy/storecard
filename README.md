@@ -4,7 +4,10 @@ New here? Read [BRIEF.md](BRIEF.md) first.
 
 Demo: [one assertion, end to end](https://hypertidy.github.io/storecard/demo/), a store
 refused for hiding its grid behind 2-D lon/lat draws identically to its declared
-twin once a published assertion is applied (source in `site/demo/`).
+twin once a published assertion is applied. Before it,
+[five costumes, one grid](https://hypertidy.github.io/storecard/demo/costumes.html):
+the same grid declared four ways, each reader rule placing a different subset,
+the card placing all four (source in `site/demo/`).
 
 A **store card** is a small, metadata-only description of an array store: what
 its grid is, how it is chunked and compressed, where its bytes live, and
