@@ -4,7 +4,7 @@ Read this first. It records how the project came about, what exists, what
 has been learned, what is decided and what is open. Keep it current: when a
 decision is made or a next step is done, edit this file in the same PR.
 
-Last updated: 2026-11-07.
+Last updated: 2026-11-08.
 
 ## In one paragraph
 
@@ -141,11 +141,14 @@ made the same point from the other side.
    Still to do: frames outside the list, through degredation.
 3. One assertion end to end: a refused store is fitted, the assertion is
    published, a viewer applies it, and the store draws identically to its
-   twin. This is the demo. Done up to the viewer: the f03d assertion
-   (now made by the step 2 fit) is published in
-   `assertions/` and makes f03d's card match f03e's; still to do is a
-   viewer (portolan-browser) applying the zarr-conventions overlay and
-   drawing f03d like f03e.
+   twin. This is the demo. Done: the f03d assertion (made by the step 2
+   fit) is published in `assertions/` and makes f03d's card match f03e's,
+   and `site/demo/` is a static page (GitHub Pages) that reads both
+   published stores from the bucket, refuses f03d as published, applies
+   the assertion as a zarr-conventions overlay, and checks that f03d then
+   draws identically to f03e (values, transform, CRS and every pixel). It
+   can also recheck the fit over every cell from f03d's lon/lat (68 MB).
+   Still open: the same overlay in portolan-browser.
 4. Cards over the `ausantarctic` stores on source.coop; fix findings at
    source.
 5. Rule packs and viewer capability matching.

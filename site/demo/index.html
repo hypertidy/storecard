@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>storecard: one assertion</title>
+<meta name="description" content="A store that hides a regular polar stereographic grid behind 2-D lon/lat is refused, then drawn from a published assertion, identically to its declared twin. Read straight from object storage in the browser.">
+<style>
+:root {
+  --bg: #fbfbf9; --fg: #1d2125; --muted: #5d6670; --line: #d9dcdf; --panel: #ffffff;
+  --accent: #1f5fa8; --ok: #1d7a46; --bad: #b3261e; --land: #9ba3a8; --grat: rgba(255,255,255,0.55);
+  --code: #f1f2f0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181b; --fg: #e6e8ea; --muted: #9aa3ab; --line: #343a40; --panel: #1d2125;
+    --accent: #7fb0ea; --ok: #5cc48a; --bad: #f08b84; --land: #5b6368; --grat: rgba(255,255,255,0.45);
+    --code: #262b30;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15181b; --fg: #e6e8ea; --muted: #9aa3ab; --line: #343a40; --panel: #1d2125;
+  --accent: #7fb0ea; --ok: #5cc48a; --bad: #f08b84; --land: #5b6368; --grat: rgba(255,255,255,0.45);
+  --code: #262b30;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 1.6rem; margin: 0 0 4px; }
+h2 { font-size: 1.15rem; margin: 32px 0 8px; }
+p { margin: 8px 0; max-width: 72ch; }
+a { color: var(--accent); }
+code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.86em; }
+code { background: var(--code); padding: 1px 4px; border-radius: 3px; }
+pre { background: var(--code); padding: 10px 12px; border-radius: 6px; overflow-x: auto; margin: 8px 0; }
+.lede { color: var(--muted); }
+.controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin: 16px 0;
+  padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.controls label { display: flex; gap: 8px; align-items: center; }
+button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line);
+  background: var(--bg); color: var(--fg); cursor: pointer; }
+button:disabled { opacity: 0.5; cursor: default; }
+#status { color: var(--muted); font-size: 0.9rem; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 860px) { .grid { grid-template-columns: 1fr; } }
+.panel { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 12px;
+  display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.panel h3 { margin: 0; font-size: 1rem; }
+.panel .sub { color: var(--muted); font-size: 0.85rem; margin: 0; }
+.frame { position: relative; width: 100%; aspect-ratio: 2528 / 2656; background: var(--code);
+  border-radius: 4px; overflow: hidden; }
+.frame canvas { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: auto; }
+.frame .refused { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 16px; }
+.frame .refused span { background: var(--panel); border: 2px solid var(--bad); color: var(--bad);
+  padding: 8px 12px; border-radius: 6px; font-weight: 600; }
+.dim canvas.data { opacity: 0.18; filter: grayscale(1); }
+.verdict { font-weight: 600; }
+.verdict.ok { color: var(--ok); }
+.verdict.bad { color: var(--bad); }
+dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 10px; margin: 0; font-size: 0.85rem; }
+dt { color: var(--muted); }
+dd { margin: 0; overflow-wrap: anywhere; }
+table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tablewrap { overflow-x: auto; }
+.legend { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--muted); }
+.legend canvas { width: 160px; height: 10px; border-radius: 2px; }
+.swatch { display: inline-block; width: 12px; height: 10px; background: var(--land); border-radius: 2px; }
+#compare li { margin: 4px 0; }
+.banner { border: 1px solid var(--bad); color: var(--bad); border-radius: 6px; padding: 8px 12px; display: none; }
+summary { cursor: pointer; color: var(--accent); margin: 8px 0; }
+footer { margin-top: 40px; color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<main>
+<h1>One assertion, end to end</h1>
+<p class="lede">Two Zarr stores on object storage hold the same seven days of Antarctic sea ice
+(University of Bremen ASI, AMSR2, 3125 m). <b>f03e</b> declares its grid: six numbers and a CRS.
+<b>f03d</b> hides the same grid behind 2-D longitude and latitude arrays, so a reader that wants a
+declared grid refuses it. A published <b>assertion</b> supplies the six numbers and the CRS without
+touching f03d. With it applied, f03d draws exactly as f03e does. This page reads both stores
+directly from the bucket, decodes the chunks itself, and applies the assertion as an overlay.</p>
+
+<div class="banner" id="banner"></div>
+
+<div class="controls">
+  <label>Day <input type="range" id="day" min="0" max="6" step="1" value="0"> <span id="daylabel">-</span></label>
+  <div class="legend"><canvas id="ramp" width="160" height="10"></canvas> 0 to 100 % ice
+    <span class="swatch"></span> land, missing</div>
+  <span id="status">starting</span>
+</div>
+
+<div class="grid">
+  <section class="panel" id="p-raw">
+    <h3>f03d as published</h3>
+    <p class="sub">2-D <code>lon</code>/<code>lat</code> only; no transform, no CRS</p>
+    <div class="frame dim"><canvas class="data"></canvas><div class="refused"><span>Refused: grid not declared</span></div></div>
+    <p class="verdict bad" data-k="verdict">-</p>
+    <dl data-k="facts"></dl>
+  </section>
+  <section class="panel" id="p-asserted">
+    <h3>f03d with the assertion</h3>
+    <p class="sub">same bytes; grid from <code>assertions/f03d-asi-latlon2d.json</code></p>
+    <div class="frame"><canvas class="data"></canvas><canvas class="grat"></canvas></div>
+    <p class="verdict" data-k="verdict">-</p>
+    <dl data-k="facts"></dl>
+  </section>
+  <section class="panel" id="p-twin">
+    <h3>f03e, the declared twin</h3>
+    <p class="sub"><code>spatial:transform</code> and <code>proj:projjson</code> in the store</p>
+    <div class="frame"><canvas class="data"></canvas><canvas class="grat"></canvas></div>
+    <p class="verdict" data-k="verdict">-</p>
+    <dl data-k="facts"></dl>
+  </section>
+</div>
+
+<h2>Do they draw identically?</h2>
+<ul id="compare"><li>waiting for both stores</li></ul>
+
+<h2>What each reader fetched</h2>
+<div class="tablewrap"><table id="bytes">
+  <thead><tr><th>Reader</th><th>To place the grid</th><th class="num">Bytes</th><th>Data chunks (this day)</th><th class="num">Bytes</th></tr></thead>
+  <tbody></tbody>
+</table></div>
+<p>A reader that accepts curvilinear grids could place f03d from its coordinates, but it would
+first fetch both coordinate arrays (sizes above, from the bucket's own headers) and then infer
+what the assertion states in six numbers.</p>
+
+<h2>Check the evidence yourself</h2>
+<p>The assertion records how it was made: <code>storecard.fit</code> projected a sample of the
+lon/lat cell centres into a short list of published frames and kept the one where every centre
+lands within 0.001 cell of the asserted grid. This button repeats the check over every cell, in
+the browser: it fetches f03d's <code>lon</code> and <code>lat</code>, projects each pair to
+EPSG:3412 (polar stereographic south, Hughes 1980 ellipsoid, true scale at 70 S) and measures the
+distance to the asserted cell centre.</p>
+<p><button id="evidence">Fetch lon and lat and check</button> <span id="evstatus"></span></p>
+
+<h2>The assertion</h2>
+<p>It is a separate document, keyed to the store's URL, the variable and a digest of the store's
+metadata. Its <code>asserts</code> block holds only zarr-conventions <code>spatial:</code> and
+<code>proj:</code> keys, so a reader can lay it over the array's attributes as they stand. The
+source store is never edited.</p>
+<pre id="asserts">loading</pre>
+<details><summary>The whole document, with its evidence (every frame tried and its residual)</summary><pre id="assertion">loading</pre></details>
+
+<footer>
+  <p>Part of <a href="https://github.com/hypertidy/storecard">hypertidy/storecard</a>. Fixtures:
+  <code>portolan/</code> in that repo, published on Pawsey Acacia. Theory and the costume letters:
+  <a href="https://hypertidy.github.io/regular-in-what/">Regular in what?</a>. Open-ended grid
+  inference: <a href="https://github.com/hypertidy/degredation">hypertidy/degredation</a>.</p>
+  <p>This page is a minimal reader, not a general viewer: Zarr v3, <code>bytes</code> and
+  <code>zstd</code> codecs, affine grids, and one known CRS. The metadata digest is recorded but
+  checked by storecard, not here.</p>
+</footer>
+</main>
+
+<script type="module">
+import { decompress } from "https://cdn.jsdelivr.net/npm/fzstd@0.1.1/+esm";
+
+// Store locations in one place, so a storage move is a one-line change.
+const BASE = "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores";
+const STORES = { d: BASE + "/f03d-asi-latlon2d.zarr", e: BASE + "/f03e-asi-projjson.zarr" };
+const VAR = "z";
+const ASSERTION = ["../assertions/f03d-asi-latlon2d.json",
+  "https://raw.githubusercontent.com/hypertidy/storecard/main/assertions/f03d-asi-latlon2d.json"];
+
+// One CRS this reader knows, by its defining parameters.
+const KNOWN = {
+  "EPSG:3412": { name: "NSIDC Sea Ice Polar Stereographic South", method: 9829,
+    a: 6378273, b: 6356889.449, lat_ts: -70, lon_0: 0, x_0: 0, y_0: 0 }
+};
+
+const $ = (s, el = document) => el.querySelector(s);
+const status = (t) => { $("#status").textContent = t; };
+const banner = (t) => { const b = $("#banner"); b.textContent = t; b.style.display = "block"; };
+const fmtB = (n) => n == null ? "-" : n < 1024 ? n + " B" : n < 1048576 ? (n / 1024).toFixed(1) + " KB" : (n / 1048576).toFixed(1) + " MB";
+
+// ---------------------------------------------------------------- fetching, counted
+
+class Meter { constructor() { this.meta = 0; this.chunks = 0; this.nchunks = 0; } }
+
+async function getBytes(url, meter, kind) {
+  const r = await fetch(url);
+  if (r.status === 404 || r.status === 403) return null;     // missing chunk: fill value
+  if (!r.ok) throw new Error(r.status + " " + url);
+  const u = new Uint8Array(await r.arrayBuffer());
+  if (meter) { meter[kind] += u.byteLength; if (kind === "chunks") meter.nchunks++; }
+  return u;
+}
+async function getJSON(url, meter) {
+  const u = await getBytes(url, meter, "meta");
+  if (!u) throw new Error("not found: " + url);
+  return JSON.parse(new TextDecoder().decode(u).replace(/\bNaN\b/g, "null"));
+}
+async function headSize(url) {
+  try { const r = await fetch(url, { method: "HEAD" }); return +r.headers.get("content-length") || null; }
+  catch (e) { return null; }
+}
+
+// ---------------------------------------------------------------- a small Zarr v3 reader
+
+async function openArray(store, name, meter) {
+  const m = await getJSON(`${store}/${name}/zarr.json`, meter);
+  if (m.zarr_format !== 3) throw new Error("Zarr v3 only");
+  const names = m.codecs.map((c) => c.name);
+  const ok = names.every((n) => n === "bytes" || n === "zstd");
+  if (!ok) throw new Error("codecs not supported here: " + names.join(", "));
+  const endian = (m.codecs.find((c) => c.name === "bytes") || {}).configuration?.endian || "little";
+  if (endian !== "little") throw new Error("big-endian not supported here");
+  return { store, name, meta: m, shape: m.shape, chunks: m.chunk_grid.configuration.chunk_shape,
+    dtype: m.data_type, zstd: names.includes("zstd"), sep: m.chunk_key_encoding?.configuration?.separator || "/",
+    attrs: m.attributes || {} };
+}
+
+function typed(dtype, u) {
+  const buf = u.buffer.slice(u.byteOffset, u.byteOffset + u.byteLength);
+  switch (dtype) {
+    case "float32": return new Float32Array(buf);
+    case "float64": return new Float64Array(buf);
+    case "int64": return new BigInt64Array(buf);
+    default: throw new Error("dtype not supported here: " + dtype);
+  }
+}
+
+async function readChunk(arr, idx, meter) {
+  const u = await getBytes(`${arr.store}/${arr.name}/c/${idx.join(arr.sep)}`, meter, "chunks");
+  if (!u) return null;
+  return typed(arr.dtype, arr.zstd ? decompress(u) : u);
+}
+
+// One time step of a [time, y, x] array, assembled from its chunks.
+async function readSlice(arr, t, meter, onChunk) {
+  const [, H, W] = arr.shape, [, ch, cw] = arr.chunks;
+  const out = new Float32Array(H * W).fill(NaN);
+  const jobs = [];
+  for (let i = 0; i * ch < H; i++) for (let j = 0; j * cw < W; j++) jobs.push([i, j]);
+  let next = 0;
+  async function worker() {
+    while (next < jobs.length) {
+      const [i, j] = jobs[next++];
+      const c = await readChunk(arr, [t, i, j], meter);
+      if (c) {
+        for (let r = 0; r < ch && i * ch + r < H; r++) {
+          const row = (i * ch + r) * W + j * cw, n = Math.min(cw, W - j * cw);
+          out.set(c.subarray(r * cw, r * cw + n), row);
+        }
+      }
+      onChunk && onChunk();
+    }
+  }
+  await Promise.all(Array.from({ length: 6 }, worker));
+  return out;
+}
+
+// ---------------------------------------------------------------- placing a grid (the reader's rule)
+
+// Declared grid only: spatial:transform on the array, else on the group, plus a CRS
+// from proj:code, proj:projjson or proj:wkt2. 2-D coordinates are refused.
+function place(arrAttrs, groupAttrs, coordShapes) {
+  for (const [where, a] of [["array", arrAttrs], ["group", groupAttrs]]) {
+    if (Array.isArray(a["spatial:transform"])) {
+      const crs = a["proj:code"] ? { kind: "proj:code", value: a["proj:code"] }
+        : a["proj:projjson"] ? { kind: "proj:projjson", value: a["proj:projjson"] }
+        : a["proj:wkt2"] ? { kind: "proj:wkt2", value: a["proj:wkt2"] } : null;
+      if (!crs) return { ok: false, reason: "transform without a CRS" };
+      return { ok: true, where, transform: a["spatial:transform"], crs, code: identify(crs) };
+    }
+  }
+  const coords = (arrAttrs.coordinates || "").split(/\s+/).filter(Boolean);
+  if (coords.length && coords.every((c) => (coordShapes[c] || []).length === 2))
+    return { ok: false, reason: `curvilinear: coordinates "${coords.join(" ")}" are 2-D`, coords };
+  return { ok: false, reason: "no grid declared" };
+}
+
+// Name a CRS by its parameters, for the one CRS this reader knows.
+function identify(crs) {
+  if (crs.kind === "proj:code") return KNOWN[crs.value] ? crs.value : null;
+  if (crs.kind !== "proj:projjson") return null;
+  const p = crs.value, el = p.base_crs?.datum?.ellipsoid || {}, conv = p.conversion || {};
+  const par = Object.fromEntries((conv.parameters || []).map((q) => [q.id?.code, q.value]));
+  for (const [code, k] of Object.entries(KNOWN)) {
+    if (conv.method?.id?.code === k.method && el.semi_major_axis === k.a &&
+        Math.abs(el.semi_minor_axis - k.b) < 1e-3 && par[8832] === k.lat_ts && par[8833] === k.lon_0 &&
+        (par[8806] || 0) === k.x_0 && (par[8807] || 0) === k.y_0) return code;
+  }
+  return null;
+}
+
+// Overlay: the assertion's attributes laid over the array's, if it is about this array.
+function overlay(arr, doc, storeUrl) {
+  const s = doc.subject || {};
+  const why = s.url !== storeUrl ? "subject is a different store"
+    : s.variable !== arr.name ? "subject is a different variable"
+    : doc.status === "withdrawn" ? "withdrawn"
+    : JSON.stringify(doc.asserts["spatial:shape"]) !== JSON.stringify(arr.shape.slice(-2)) ? "shape differs"
+    : null;
+  if (why) return { applied: false, why, attrs: arr.attrs };
+  return { applied: true, attrs: { ...arr.attrs, ...doc.asserts } };
+}
+
+// ---------------------------------------------------------------- projection, for the graticule and the check
+
+function polarSouth(k) {
+  const d2r = Math.PI / 180, e = Math.sqrt(1 - (k.b * k.b) / (k.a * k.a));
+  const tf = (p) => Math.tan(Math.PI / 4 - p / 2) / Math.pow((1 - e * Math.sin(p)) / (1 + e * Math.sin(p)), e / 2);
+  const pc = -k.lat_ts * d2r, mc = Math.cos(pc) / Math.sqrt(1 - e * e * Math.sin(pc) ** 2), tc = tf(pc);
+  return (lon, lat) => {
+    const r = (k.a * mc * tf(-lat * d2r)) / tc, l = (lon - k.lon_0) * d2r;
+    return [k.x_0 + r * Math.sin(l), k.y_0 + r * Math.cos(l)];
+  };
+}
+const FWD = { "EPSG:3412": polarSouth(KNOWN["EPSG:3412"]) };
+
+// ---------------------------------------------------------------- drawing
+
+const RAMP = [[8, 29, 58], [16, 64, 118], [38, 110, 170], [96, 160, 205], [170, 205, 230], [238, 244, 250]];
+function rampColour(v) {
+  const x = Math.max(0, Math.min(1, v / 100)) * (RAMP.length - 1), i = Math.min(RAMP.length - 2, Math.floor(x)), f = x - i;
+  return RAMP[i].map((c, k) => Math.round(c + f * (RAMP[i + 1][k] - c)));
+}
+const LUT = Array.from({ length: 101 }, (_, i) => rampColour(i));
+function landRGB() {
+  const c = getComputedStyle(document.documentElement).getPropertyValue("--land").trim();
+  const m = c.match(/^#([0-9a-f]{6})$/i);
+  return m ? [0, 2, 4].map((i) => parseInt(m[1].slice(i, i + 2), 16)) : [155, 163, 168];
+}
+
+function drawData(canvas, vals, W, H) {
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext("2d"), img = ctx.createImageData(W, H), d = img.data, land = landRGB();
+  for (let k = 0; k < W * H; k++) {
+    const v = vals[k], c = Number.isNaN(v) ? land : LUT[Math.max(0, Math.min(100, Math.round(v)))];
+    d[4 * k] = c[0]; d[4 * k + 1] = c[1]; d[4 * k + 2] = c[2]; d[4 * k + 3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+  return img;
+}
+
+// Graticule in the placed grid's own frame: every 10 degrees of latitude, 30 of longitude.
+function drawGraticule(canvas, pl, W, H) {
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext("2d"), fwd = FWD[pl.code];
+  if (!fwd) return;
+  const [a, b, c, d, e, f] = pl.transform, det = a * e - b * d;
+  const toPix = (x, y) => [(e * (x - c) - b * (y - f)) / det, (-d * (x - c) + a * (y - f)) / det];
+  ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue("--grat").trim();
+  ctx.lineWidth = Math.max(1, W / 600);
+  const line = (pts) => { ctx.beginPath(); pts.forEach(([x, y], i) => { const [px, py] = toPix(x, y); i ? ctx.lineTo(px, py) : ctx.moveTo(px, py); }); ctx.stroke(); };
+  for (let lat = -80; lat <= -50; lat += 10) line(Array.from({ length: 361 }, (_, i) => fwd(i, lat)));
+  for (let lon = 0; lon < 360; lon += 30) line(Array.from({ length: 41 }, (_, i) => fwd(lon, -50 - i)));
+  ctx.fillStyle = ctx.strokeStyle; ctx.font = `${Math.round(W / 45)}px system-ui, sans-serif`;
+  for (const lat of [-60, -70]) { const [px, py] = toPix(...fwd(0, lat)); ctx.fillText(`${-lat} S`, px + W / 120, py - W / 120); }
+}
+
+function facts(panel, rows) {
+  const dl = $('[data-k="facts"]', panel); dl.innerHTML = "";
+  for (const [k, v] of rows) { const dt = document.createElement("dt"), dd = document.createElement("dd"); dt.textContent = k; dd.innerHTML = v; dl.append(dt, dd); }
+}
+function verdict(panel, text, ok) { const p = $('[data-k="verdict"]', panel); p.textContent = text; p.className = "verdict " + (ok ? "ok" : "bad"); }
+const tfmt = (t) => "[" + t.map((x) => (Number.isInteger(x) ? x : x.toPrecision(8))).join(", ") + "]";
+
+// ---------------------------------------------------------------- the page
+
+const state = { day: 0 };
+let S = null;     // opened stores
+
+function readHash() { const m = location.hash.match(/day=(\d)/); if (m) state.day = Math.min(6, +m[1]); $("#day").value = state.day; }
+
+async function setup() {
+  const ramp = $("#ramp").getContext("2d");
+  for (let i = 0; i < 160; i++) { const c = rampColour((i / 159) * 100); ramp.fillStyle = `rgb(${c})`; ramp.fillRect(i, 0, 1, 10); }
+
+  status("reading metadata");
+  const md = new Meter(), me = new Meter(), ma = new Meter();
+  const [gd, ad, ge, ae] = await Promise.all([
+    getJSON(STORES.d + "/zarr.json", md), openArray(STORES.d, VAR, md),
+    getJSON(STORES.e + "/zarr.json", me), openArray(STORES.e, VAR, me)]);
+  // The raw reader looks at the named coordinates' shapes (metadata only).
+  const coordShapes = {};
+  for (const c of (ad.attrs.coordinates || "").split(/\s+/).filter(Boolean)) coordShapes[c] = (await openArray(STORES.d, c, md)).shape;
+  const time = await openArray(STORES.e, "time", me);
+  const tvals = await readChunk(time, [0], me);
+  const units = time.attrs.units || "";
+  const t0 = units.match(/days since (\d{4}-\d\d-\d\d)/);
+  const dayLabel = (t) => t0 ? new Date(Date.parse(t0[1] + "T00:00:00Z") + Number(tvals[t]) * 86400000).toISOString().slice(0, 10) : "step " + t;
+
+  let doc = null;
+  for (const u of ASSERTION) { try { doc = await getJSON(u, ma); doc.__from = u; break; } catch (e) {} }
+  const ma0 = { meta: md.meta + ma.meta };   // what the asserted reader needed to place the grid
+  const compact = (v) => JSON.stringify(v, (k, x) => (k === "__from" ? undefined : x), 1).replace(/\[\s+([^\[\]{}]*?)\s+\]/g, (m, inner) => "[" + inner.replace(/\s*\n\s*/g, " ") + "]");
+  $("#asserts").textContent = doc ? compact({ subject: doc.subject, asserts: doc.asserts, by: doc.by, status: doc.status }) : "could not fetch the assertion";
+  $("#assertion").textContent = doc ? compact(doc) : "";
+
+  const raw = place(ad.attrs, gd.attributes || {}, coordShapes);
+  const ov = doc ? overlay(ad, doc, STORES.d) : { applied: false, why: "assertion not found", attrs: ad.attrs };
+  const asserted = place(ov.attrs, gd.attributes || {}, coordShapes);
+  const twin = place(ae.attrs, ge.attributes || {}, {});
+
+  const [lonSize, latSize] = await Promise.all(raw.coords
+    ? raw.coords.map((c) => headSize(`${STORES.d}/${c}/c/0/0`)) : [null, null]);
+
+  S = { gd, ad, ge, ae, raw, ov, asserted, twin, doc, dayLabel, md, me, ma0, lonSize, latSize, coordShapes };
+
+  const P = { raw: $("#p-raw"), as: $("#p-asserted"), tw: $("#p-twin") };
+  verdict(P.raw, raw.ok ? "placed (unexpected)" : "Refused: " + raw.reason, raw.ok);
+  facts(P.raw, [["coordinates", `<code>${ad.attrs.coordinates || "-"}</code>, shapes ${JSON.stringify(Object.values(coordShapes))}`],
+    ["transform", "none"], ["CRS", "none"],
+    ["to place it", `${fmtB((lonSize || 0) + (latSize || 0))} of lon/lat, then inference`]]);
+  verdict(P.as, asserted.ok ? `Placed in ${asserted.code || "an unknown CRS"} by the assertion` : "Not placed: " + (ov.why || asserted.reason), asserted.ok);
+  facts(P.as, [["assertion", ov.applied ? `applied (${doc.status}, by <code>${doc.by?.name}</code>)` : "not applied: " + ov.why],
+    ["transform", asserted.ok ? `<code>${tfmt(asserted.transform)}</code>` : "-"],
+    ["CRS", asserted.ok ? `<code>${asserted.crs.kind}</code> ${asserted.crs.value}` : "-"],
+    ["evidence", doc ? `${doc.evidence?.points} points, max ${doc.evidence?.residual_cells} cells` : "-"]]);
+  verdict(P.tw, twin.ok ? `Placed in ${twin.code || "an unknown CRS"} as declared` : "Not placed: " + twin.reason, twin.ok);
+  facts(P.tw, [["transform", twin.ok ? `<code>${tfmt(twin.transform)}</code> (on the ${twin.where})` : "-"],
+    ["CRS", twin.ok ? `<code>${twin.crs.kind}</code> "${twin.crs.value.name}", matches ${twin.code || "nothing known"} by parameters` : "-"]]);
+
+  $("#day").addEventListener("input", () => { state.day = +$("#day").value; $("#daylabel").textContent = S.dayLabel(state.day); });
+  $("#day").addEventListener("change", () => { history.replaceState(null, "", "#day=" + state.day); drawDay(); });
+  $("#daylabel").textContent = dayLabel(state.day);
+  $("#evidence").addEventListener("click", checkEvidence);
+}
+
+let drawing = 0;
+async function drawDay() {
+  const my = ++drawing, t = state.day;
+  const [, H, W] = S.ad.shape, total = 2 * Math.ceil(H / S.ad.chunks[1]) * Math.ceil(W / S.ad.chunks[2]);
+  let done = 0; const tick = () => { if (my === drawing) status(`day ${S.dayLabel(t)}: ${++done} of ${total} chunks`); };
+  const cd = new Meter(), ce = new Meter();
+  const [vd, ve] = await Promise.all([readSlice(S.ad, t, cd, tick), readSlice(S.ae, t, ce, tick)]);
+  if (my !== drawing) return;
+
+  drawData($("#p-raw canvas.data"), vd, W, H);
+  const imgA = S.asserted.ok ? drawData($("#p-asserted canvas.data"), vd, W, H) : null;
+  const imgE = S.twin.ok ? drawData($("#p-twin canvas.data"), ve, W, H) : null;
+  if (S.asserted.ok) drawGraticule($("#p-asserted canvas.grat"), S.asserted, W, H);
+  if (S.twin.ok) drawGraticule($("#p-twin canvas.grat"), S.twin, W, H);
+
+  // Compare values (NaN equal to NaN), placement and CRS.
+  let same = 0, both = 0;
+  for (let k = 0; k < vd.length; k++) {
+    const a = vd[k], b = ve[k];
+    if (a === b || (Number.isNaN(a) && Number.isNaN(b))) same++;
+    if (!Number.isNaN(a)) both++;
+  }
+  let px = 0;
+  if (imgA && imgE) { const A = imgA.data, E = imgE.data; for (let k = 0; k < A.length; k += 4) if (A[k] === E[k] && A[k + 1] === E[k + 1] && A[k + 2] === E[k + 2]) px++; }
+  const tSame = S.asserted.ok && S.twin.ok && JSON.stringify(S.asserted.transform) === JSON.stringify(S.twin.transform);
+  const cSame = S.asserted.ok && S.twin.ok && S.asserted.code && S.asserted.code === S.twin.code;
+  const n = vd.length, all = same === n && tSame && cSame && px === n;
+  const li = (ok, html) => `<li><span class="verdict ${ok ? "ok" : "bad"}">${ok ? "yes" : "no"}</span>: ${html}</li>`;
+  $("#compare").innerHTML =
+    li(same === n, `values, cell by cell: ${same.toLocaleString()} of ${n.toLocaleString()} equal (${both.toLocaleString()} not missing)`) +
+    li(tSame, `transform: asserted <code>${S.asserted.ok ? tfmt(S.asserted.transform) : "-"}</code>, declared <code>${S.twin.ok ? tfmt(S.twin.transform) : "-"}</code>`) +
+    li(cSame, `CRS: asserted <code>${S.asserted.ok ? S.asserted.crs.value : "-"}</code>, declared PROJJSON matching ${S.twin.code || "-"}`) +
+    li(px === n, `drawn pixels: ${px.toLocaleString()} of ${n.toLocaleString()} identical`) +
+    `<li class="verdict ${all ? "ok" : "bad"}">${all ? "f03d with the assertion draws identically to f03e." : "Not identical: see above."}</li>`;
+
+  const tb = $("#bytes tbody");
+  const nall = Math.ceil(H / S.ad.chunks[1]) * Math.ceil(W / S.ad.chunks[2]);
+  const nchunks = `${cd.nchunks} of ${nall}` + (cd.nchunks < nall ? ` (${nall - cd.nchunks} not written: all fill)` : "");
+  tb.innerHTML = `
+    <tr><td>f03d, declared-grid reader</td><td>refused after ${fmtB(S.md.meta)} of metadata</td><td class="num">${fmtB(S.md.meta)}</td><td>none needed to refuse</td><td class="num">-</td></tr>
+    <tr><td>f03d, curvilinear reader</td><td>metadata, then <code>lon</code> and <code>lat</code> (${fmtB(S.lonSize)} + ${fmtB(S.latSize)} compressed)</td><td class="num">${fmtB(S.md.meta + (S.lonSize || 0) + (S.latSize || 0))}</td><td>${nchunks}</td><td class="num">${fmtB(cd.chunks)}</td></tr>
+    <tr><td>f03d with the assertion</td><td>metadata plus the assertion</td><td class="num">${fmtB(S.ma0.meta)}</td><td>${nchunks}</td><td class="num">${fmtB(cd.chunks)}</td></tr>
+    <tr><td>f03e</td><td>metadata</td><td class="num">${fmtB(S.me.meta)}</td><td>${ce.nchunks} of ${nall}</td><td class="num">${fmtB(ce.chunks)}</td></tr>`;
+  status(`day ${S.dayLabel(t)}: drawn from ${fmtB(cd.chunks + ce.chunks)} of chunks`);
+}
+
+async function checkEvidence() {
+  const btn = $("#evidence"), out = $("#evstatus");
+  if (!S || !S.asserted.ok) { out.textContent = "the assertion was not applied"; return; }
+  const total = (S.lonSize || 0) + (S.latSize || 0);
+  if (!confirm(`This fetches about ${fmtB(total)} (f03d's lon and lat). Continue?`)) return;
+  btn.disabled = true;
+  try {
+    out.textContent = `fetching ${fmtB(total)}`;
+    const m = new Meter();
+    const [lonA, latA] = await Promise.all([openArray(STORES.d, "lon", m), openArray(STORES.d, "lat", m)]);
+    if (lonA.chunks.join() !== lonA.shape.join()) throw new Error("expected lon/lat in one chunk");
+    const [lon, lat] = await Promise.all([readChunk(lonA, [0, 0], m), readChunk(latA, [0, 0], m)]);
+    out.textContent = "projecting every cell";
+    await new Promise((r) => setTimeout(r, 0));
+    const [H, W] = lonA.shape, [a, b, c, d, e, f] = S.asserted.transform, fwd = FWD[S.asserted.code];
+    const res = Math.hypot(a, d);
+    let mx = 0, n = 0;
+    for (let r = 0; r < H; r++) for (let q = 0; q < W; q++) {
+      const k = r * W + q; if (Number.isNaN(lon[k]) || Number.isNaN(lat[k])) continue;
+      const [x, y] = fwd(lon[k], lat[k]);
+      const ex = a * (q + 0.5) + b * (r + 0.5) + c, ey = d * (q + 0.5) + e * (r + 0.5) + f;
+      const dist = Math.hypot(x - ex, y - ey) / res; if (dist > mx) mx = dist; n++;
+    }
+    const pass = mx < (S.doc.evidence?.tolerance_cells ?? 0.001);
+    out.innerHTML = `<span class="verdict ${pass ? "ok" : "bad"}">${pass ? "holds" : "fails"}</span>: ` +
+      `${n.toLocaleString()} cells, largest distance from the asserted cell centre ${mx.toExponential(2)} cells ` +
+      `(tolerance ${S.doc.evidence?.tolerance_cells}; the fit recorded ${S.doc.evidence?.residual_cells} from ${S.doc.evidence?.points} points). Fetched ${fmtB(m.chunks + m.meta)}.`;
+  } catch (err) {
+    out.textContent = "could not check: " + err.message;
+  } finally { btn.disabled = false; }
+}
+
+readHash();
+setup().then(drawDay).catch((err) => {
+  status("stopped");
+  banner("Could not read the stores from this browser (" + err.message + "). The bucket must allow cross-origin reads from this page's origin.");
+  console.error(err);
+});
+</script>
+</body>
+</html>
