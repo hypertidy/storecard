@@ -67,7 +67,7 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-sp
 .chart .gridline { stroke: var(--line); stroke-width: 1; }
 .chart .series { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
 .chart .fold { stroke: var(--muted); stroke-dasharray: 4 3; }
-.chart .fold-label, .chart .direct { fill: var(--muted); font-size: 11px; }
+.chart .fold-label, .chart .direct { fill: var(--muted); font-size: 11px; paint-order: stroke; stroke: var(--panel); stroke-width: 4px; stroke-linejoin: round; }
 .chart .cross { stroke: var(--muted); stroke-width: 1; }
 .chart .dot { fill: var(--accent); stroke: var(--panel); stroke-width: 2; }
 .tip { position: absolute; pointer-events: none; background: var(--panel); border: 1px solid var(--line);
@@ -309,7 +309,7 @@ function chart(y, dev, foldRow) {
   ax.append(el("text", { x: 12, y: m.t + (Hd - m.t - m.b) / 2, "text-anchor": "middle", transform: `rotate(-90 12 ${m.t + (Hd - m.t - m.b) / 2})` }, "cells"));
   if (foldRow != null) {
     el("line", { class: "fold", x1: sx(y[foldRow]), x2: sx(y[foldRow]), y1: m.t, y2: Hd - m.b });
-    el("text", { class: "fold-label", x: sx(y[foldRow]) - 6, y: m.t + 10, "text-anchor": "end" }, `cap begins, row ${foldRow}`);
+    el("text", { class: "fold-label", x: sx(y[foldRow]) - 6, y: sy(ymax / 2), "text-anchor": "end" }, `cap begins, row ${foldRow}`);
   }
   el("path", { class: "series", d: dev.map((d, j) => (j ? "L" : "M") + sx(y[j]).toFixed(1) + " " + sy(d).toFixed(1)).join("") });
   const last = dev.length - 1;
@@ -369,9 +369,13 @@ async function setup() {
     ` From row ${foldRow} (${y[foldRow].toFixed(1)} N) the deviation grows to <b>${Math.max(...dev).toFixed(1)} cells</b>` +
     ` at the top row. Cells are the median steps: ${sxs} degree in x, ${sys.toFixed(3)} degree in y.`;
 
-  // Month labels: days since 0001-01-01, proleptic Gregorian.
-  const t0 = new Date(0); t0.setUTCFullYear(1, 0, 1); t0.setUTCHours(0, 0, 0, 0);
-  const monthLabel = (m) => new Date(t0.getTime() + Number(tv[m]) * 86400000).toISOString().slice(0, 7);
+  // Month labels from the store's own CF time units (the writer may re-encode
+  // them: the source says days since 0001-01-01, this store hours since 2014-01-16).
+  const tu = String(atime.attrs.units || "").match(/^\s*(day|hour|minute|second)s?\s+since\s+(\d+)-(\d+)-(\d+)(?:[ T](\d+):(\d+):?(\d*))?/i);
+  if (!tu) throw new Error("time units not understood here: " + atime.attrs.units);
+  const step = { day: 86400000, hour: 3600000, minute: 60000, second: 1000 }[tu[1].toLowerCase()];
+  const t0 = new Date(0); t0.setUTCFullYear(+tu[2], +tu[3] - 1, +tu[4]); t0.setUTCHours(+(tu[5] || 0), +(tu[6] || 0), +(tu[7] || 0), 0);
+  const monthLabel = (m) => new Date(t0.getTime() + Number(tv[m]) * step).toISOString().slice(0, 7);
 
   S = { temp, x, y, glon, glat, nlon, nlat, H, W, monthLabel, metaOnly };
   $("#month").max = temp.shape[0] - 1;

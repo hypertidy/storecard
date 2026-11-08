@@ -79,6 +79,10 @@ From `storecard.assertion` (CLI: `--emit zarr|stac|vrt`):
 the published f03d's card (`python -m storecard URL --stac COLLECTION
 --fit`), which makes its card match its declared twin f03e
 (`STORECARD_NETWORK=1 pytest tests/test_remote.py`).
+The second is `f08c-esm-geo2d.json`, a refusal made the same way: the
+tripolar f08c is regular in none of the 14 frames tried (best EPSG:4326,
+448.5 cells off). Applied as an overlay it records that the frames were
+tried; it changes no attribute.
 
 ## Open
 
