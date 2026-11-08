@@ -36,7 +36,7 @@ made the same point from the other side.
 
 | Thing | Where | State |
 | ----- | ----- | ----- |
-| Zarr browser fixtures, built as twins | `portolan/` | F01 OISST (6 twins), F03 polar sea ice (Bremen ASI AMSR2 3.125 km, 6 twins; NOAA/NSIDC G02202 25 km south and north, 4 twins), F08 ACCESS-ESM1.6 tripolar ocean (4 twins). Published at `https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/catalog.json` (F08 pending a rerun) |
+| Zarr browser fixtures, built as twins | `portolan/` | F01 OISST (6 twins), F03 polar sea ice (Bremen ASI AMSR2 3.125 km, 6 twins; NOAA/NSIDC G02202 25 km south and north, 4 twins), F08 ACCESS-ESM1.6 tripolar ocean (4 twins). Published at `https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/catalog.json` (F08 pending a rerun: f08a, f08b, f08d are up, f08d regridded on the nominal axes; the rerun adds f08c and regrids f08d on the true positions, which the yearly files lack and the run's fixed fields `ocean-2d-geolon_t-fx.nc` / `ocean-2d-geolat_t-fx.nc` carry) |
 | Fixture builders, local CORS/range server, Setonix runbook | `portolan/build`, `portolan/serve`, `portolan/setonix` | working |
 | Prototype card extractor (local netCDF) | `proto/protocard.py` | PR 4 |
 | Card extractor for Zarr v2/v3 stores | `src/storecard/`, codes in `FINDINGS.md` | working on local stores; remote (s3, https) written, not yet run against the published catalog |
@@ -137,7 +137,7 @@ made the same point from the other side.
    snapped exactly; f08c is refused (best frame 475 cells off). The WGS84
    variants EPSG:3976 and EPSG:3031 also fit within tolerance, at pixel
    sizes that are not round, so the roundest transform is chosen and the
-   others recorded. f08c is local only (not in the published catalog).
+   others recorded. f08c is local only (not in the published catalog). Built locally from the real fixed-field positions, f08c is refused at 448.5 cells (EPSG:4326 best); the 475 above came from an earlier build without them.
    Still to do: frames outside the list, through degredation.
 3. One assertion end to end: a refused store is fitted, the assertion is
    published, a viewer applies it, and the store draws identically to its
@@ -156,7 +156,7 @@ made the same point from the other side.
    checked for agreement). Each rule places a different subset; the card
    places the four declared stores, which draw identically to f03e cell for
    cell, and refuses f03d, which the assertion page then places. Next demos,
-   in order: the tripolar refusal (f08c, once F08 is published), then
+   in order: the tripolar refusal (f08c, once F08 is published; page drafted as `site/demo/tripolar.html`, its refusal assertion still to write), then
    packing (f01a against f01e) and fill values (f01f, f08a).
 4. Cards over the `ausantarctic` stores on source.coop; fix findings at
    source.

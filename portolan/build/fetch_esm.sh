@@ -1,6 +1,9 @@
 #!/bin/bash
 # Download one model year of ACCESS-ESM1.6 historical monthly ocean temp
-# (about 70 MB), looking its URL up in the virtual store's source table.
+# (about 70 MB), looking its URL up in the virtual store's source table, and
+# the run's fixed fields geolon_t and geolat_t (about 130 KB), which the
+# yearly files name in `coordinates` but do not carry. Prints the three paths,
+# yearly file first, for build/build_f08.py.
 #   bash build/fetch_esm.sh 2014 data/esm
 set -euo pipefail
 year=${1:?YYYY}; dest=${2:?destination dir}
@@ -8,6 +11,10 @@ meta="https://data.source.coop/ausantarctic/ausantarctic-scratch/access-esm/acce
 url=$(curl -sSf "$meta" | awk -F'\t' -v y="$year" 'NR > 1 && $4 == y {print $3; exit}')
 [ -n "$url" ] || { echo "no source for year $year in $meta"; exit 1; }
 mkdir -p "$dest"
-f="$dest/$(basename "$url")"
-[ -s "$f" ] || { curl -sSf --retry 4 --retry-delay 5 -o "$f.part" "$url" && mv "$f.part" "$f"; }
-echo "$f"
+get() {
+  local f="$dest/$(basename "$1")"
+  [ -s "$f" ] || { curl -sSf --retry 4 --retry-delay 5 -o "$f.part" "$1" && mv "$f.part" "$f"; }
+  echo "$f"
+}
+get "$url"
+for v in geolon_t geolat_t; do get "$(dirname "$url")/ocean-2d-$v-fx.nc"; done

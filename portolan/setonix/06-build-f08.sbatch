@@ -21,12 +21,12 @@ module load "$PYTHON_MODULE"   # the venv needs the Python it was built with
 out="$WORK/out"
 mkdir -p "$out"
 
-# 1. download one yearly file (skips if present)
-srcfile=$(bash ../build/fetch_esm.sh "$ESM_YEAR" "$WORK/src/esm")
+# 1. download one yearly file and the geolon_t/geolat_t fixed fields (skips if present)
+mapfile -t srcfiles < <(bash ../build/fetch_esm.sh "$ESM_YEAR" "$WORK/src/esm")
 
 # 2. build
 rm -rf "$out/stores/f08"* "$out/catalog/f08"
-"$VENV/bin/python" -I ../build/build_f08.py "$srcfile" "$out" "$BASE_URL"
+"$VENV/bin/python" -I ../build/build_f08.py "${srcfiles[0]}" "$out" "$BASE_URL" "${srcfiles[@]:1}"
 "$VENV/bin/python" -I ../build/catalog.py "$out"
 cp ../bucket/README.md "$out/README.md"
 cp ../bucket/AGENTS.md "$out/AGENTS.md"

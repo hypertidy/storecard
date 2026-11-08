@@ -2,12 +2,16 @@
 """Build the F08 ocean-model native grid twins from one year of ACCESS-ESM1.6.
 
 Usage:
-    python3 -I build/build_f08.py SRC_FILE OUT_DIR BASE_URL
+    python3 -I build/build_f08.py SRC_FILE OUT_DIR BASE_URL [GRID_FILE ...]
 
 SRC_FILE  one yearly MOM5 history file, ocean-3d-temp-1mon-mean-y_YYYY.nc
           (12 monthly means, 50 depth levels), see build/fetch_esm.sh
 OUT_DIR   output root (stores/ and catalog/f08/ are written under it)
 BASE_URL  public https URL OUT_DIR is served at, no trailing slash
+GRID_FILE optional files holding geolon_t and geolat_t on the same grid, for
+          sources that name them in `coordinates` without carrying them (the
+          ACCESS-ESM1.6 yearly files do: the positions are in the run's fixed
+          fields, ocean-2d-geolon_t-fx.nc and ocean-2d-geolat_t-fx.nc)
 
 The source is a tripolar MOM5 grid, 300 x 360: regular in longitude and
 non-uniform in latitude south of the fold (about 65N), curvilinear north of
@@ -40,10 +44,22 @@ FILL = np.float32(-1.0e20)
 WKT_4326 = pyproj.CRS.from_epsg(4326).to_wkt()
 
 
-def open_source(path):
+def open_source(path, grid_files=()):
     ds = xr.open_dataset(path, engine="netcdf4", decode_coords=False)
     keep = ["temp"] + [v for v in ("geolon_t", "geolat_t") if v in ds.variables]
     ds = ds[keep].load()
+    for gf in grid_files:
+        g = xr.open_dataset(gf, engine="netcdf4", decode_coords=False, decode_times=False)
+        for v in ("geolon_t", "geolat_t"):
+            if v not in g.variables or v in ds.variables:
+                continue
+            for ax in ("xt_ocean", "yt_ocean"):
+                if not np.array_equal(g[ax].values, ds[ax].values):
+                    sys.exit(f"{gf}: {ax} differs from the source's")
+            a = g[v]
+            if "time" in a.dims:
+                a = a.isel(time=0, drop=True)
+            ds[v] = a.drop_vars([c for c in a.coords if c not in ("xt_ocean", "yt_ocean")]).load()
     for c in ("xt_ocean", "yt_ocean", "st_ocean"):
         ds[c] = ds[c].astype("float64")
     return ds
@@ -126,12 +142,12 @@ def collection(fid, desc, href, ds, expected, dims, proj):
 
 
 def main():
-    if len(sys.argv) != 4:
+    if len(sys.argv) < 4:
         sys.exit(__doc__)
     src, out, base = sys.argv[1], sys.argv[2], sys.argv[3].rstrip("/")
     stores = os.path.join(out, "stores")
     os.makedirs(stores, exist_ok=True)
-    ds = open_source(src)
+    ds = open_source(src, sys.argv[4:])
     have_geo = "geolon_t" in ds and "geolat_t" in ds
     nominal = ds[["temp"]]
     nominal["temp"].attrs["coordinates"] = "geolon_t geolat_t"   # as published: names arrays it lacks
