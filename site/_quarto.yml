@@ -14,8 +14,12 @@ website:
     left:
       - href: index.qmd
         text: Home
-      - href: demo/index.html
-        text: Demo
+      - text: Demos
+        menu:
+          - href: demo/costumes.html
+            text: "Five costumes, one grid"
+          - href: demo/index.html
+            text: "One assertion, end to end"
       - href: why.qmd
       - href: card.qmd
       - href: assertions.qmd

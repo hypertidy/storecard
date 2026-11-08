@@ -149,6 +149,15 @@ made the same point from the other side.
    draws identically to f03e (values, transform, CRS and every pixel). It
    can also recheck the fit over every cell from f03d's lon/lat (68 MB).
    Still open: the same overlay in portolan-browser.
+   A second page, `site/demo/costumes.html`, leads into it: f03a, f03c,
+   f03e, f03f and f03d (the published F03 twins) read in the browser under
+   four reader rules (zarr-conventions only; CF with fixed `crs` or
+   `spatial_ref` names; CF by `grid_mapping`; the card, every declaration
+   checked for agreement). Each rule places a different subset; the card
+   places the four declared stores, which draw identically to f03e cell for
+   cell, and refuses f03d, which the assertion page then places. Next demos,
+   in order: the tripolar refusal (f08c, once F08 is published), then
+   packing (f01a against f01e) and fill values (f01f, f08a).
 4. Cards over the `ausantarctic` stores on source.coop; fix findings at
    source.
 5. Rule packs and viewer capability matching.

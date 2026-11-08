@@ -15,6 +15,14 @@ without copying or editing a byte of it.
 
 ## See it work
 
+[Five costumes, one grid](demo/costumes.html): five published Zarr stores
+hold the same sea ice on the same polar stereographic grid, each declaring it
+differently: CF with 1-D axes, CF with a renamed grid mapping, a transform
+with an EPSG code and a pyramid, a transform with PROJJSON only, and nothing
+but 2-D longitude and latitude. Four common reader rules each place a
+different subset. The card reads every declaration, checks they agree, and
+places the first four, which then draw identically cell for cell.
+
 [One assertion, end to end](demo/index.html): two published Zarr stores hold
 the same Antarctic sea ice. One declares its grid in six numbers and a CRS;
 the other hides the same grid behind 68 MB of 2-D longitude and latitude, so
