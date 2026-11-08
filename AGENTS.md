@@ -10,7 +10,9 @@ Working rules:
 - Never edit someone else's store. Fixes are assertions: separate documents
   keyed to the store's URL and version, with evidence.
 - Grid inference belongs to hypertidy/degredation (formerly gproj). Do not
-  reimplement it here; pass it the card's coordinate sample. The spelling
+  reimplement it here; pass it the card's coordinate sample. The exception
+  is `storecard.fit`, a check of named frames only (osgeo.gdal); keep it
+  that narrow. The spelling
   "degredation" is deliberate ("deg" as in degrees): do not correct it to
   "degradation" or "degridation".
 - The rasterwise problem-file archive lives in rgdal-dev/rasterwise. Read it;

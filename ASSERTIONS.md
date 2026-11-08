@@ -41,7 +41,7 @@ adopts is marked `settled`.
 | `subject.metadata_digest` | sha256 of the store's metadata as read when the assertion was made (every array's metadata document and the root attributes, canonical JSON). The card records the same digest as `source.metadata_digest`. If the store changes, the digest changes and the assertion goes stale |
 | `asserts` | only zarr-conventions `spatial:` and `proj:` keys, so it can be written into a virtual store's metadata as it stands. The transform is in the zarr-conventions / STAC order, cell corners: x = a col + b row + c, y = d col + e row + f |
 | `crs_axes` | the variable's spatial dimensions, by role, in the CRS's axis order: `["x", "y"]` for easting/northing, `["y", "x"]` for latitude/longitude. Needed for the VRT's axis mapping without consulting PROJ |
-| `evidence` | free form for now: for a fit, residuals and the coordinate sample fitted (degredation, step 2 of the brief); for a known grid, where it is known from |
+| `evidence` | free form for now: for a fit (`storecard.fit`), the method, the coordinate names and number of points fitted, the tolerance, the residual in cells for every frame tried, other frames that also fit, and the GDAL and PROJ versions; for a known grid, where it is known from |
 | `by` | who or what asserted it |
 | `status` | `proposed`, `settled` (the publisher adopted it) or `withdrawn` |
 
@@ -75,14 +75,16 @@ From `storecard.assertion` (CLI: `--emit zarr|stac|vrt`):
 ## Published
 
 `assertions/` holds assertions about published stores. The first is
-`f03d-asi-latlon2d.json`: the known EPSG:3412 grid of the F03 twins, which
-makes the published f03d's card match its declared twin f03e
+`f03d-asi-latlon2d.json`: the EPSG:3412 grid of the F03 twins, fitted from
+the published f03d's card (`python -m storecard URL --stac COLLECTION
+--fit`), which makes its card match its declared twin f03e
 (`STORECARD_NETWORK=1 pytest tests/test_remote.py`).
 
 ## Open
 
 - Standing: who may assert, and how a reader weighs assertions from
   different sources.
-- Evidence schema, once degredation produces fits.
+- Evidence schema: the fit's evidence fields above are a first draft;
+  degredation's fits should be able to fill the same fields.
 - Where the register lives (open question 4 of the brief): a static catalog
   on object storage beside the stores it describes.

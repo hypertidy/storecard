@@ -1,4 +1,4 @@
-"""Command line: python -m storecard URL [--stac PATH_OR_URL] [--assertion FILE ...] [--emit FORM]"""
+"""Command line: python -m storecard URL [--stac PATH_OR_URL] [--assertion FILE ...] [--emit FORM] [--fit]"""
 
 import argparse
 import json
@@ -19,6 +19,9 @@ def main(argv=None):
                     help="assertion file to apply as an overlay (repeatable)")
     ap.add_argument("--emit", choices=["zarr", "stac", "vrt"],
                     help="print the (first) assertion in this form instead of the card")
+    ap.add_argument("--fit", action="store_true",
+                    help="print a grid fit of the card's coordinate sample as an assertion (needs osgeo.gdal)")
+    ap.add_argument("--variable", help="variable to fit (default: the first with a coordinate sample)")
     a = ap.parse_args(argv)
     so = {}
     if a.anon:
@@ -35,6 +38,12 @@ def main(argv=None):
             return
         out = A.to_zarr_attrs(doc) if a.emit == "zarr" else A.to_stac_patch(doc)
         json.dump(out, sys.stdout, indent=1)
+        sys.stdout.write("\n")
+        return
+    if a.fit:
+        from . import fit
+        c = card(a.url, stac=a.stac, storage_options=so or None, probe_hosts=False)
+        json.dump(fit.assertion(c, a.variable), sys.stdout, indent=1)
         sys.stdout.write("\n")
         return
     c = card(a.url, stac=a.stac, storage_options=so or None, probe_hosts=not a.no_hosts,
