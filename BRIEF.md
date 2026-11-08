@@ -83,9 +83,13 @@ made the same point from the other side.
   (residuals, the coordinate sample fitted) and who asserted it. It can be
   emitted as a GDAL VRT, zarr-conventions attributes, or a STAC asset patch.
   Upstream adoption closes it as settled.
-- **Grid inference is not reimplemented here.** It belongs to degredation;
-  the card carries a coordinate sample (edges plus a central cross) so
-  inference runs from the card alone.
+- **Grid inference belongs to degredation; storecard checks named frames.**
+  The card carries a coordinate sample (edges plus a central cross) so
+  inference runs from the card alone. `storecard.fit` (decided 2026-11-08)
+  tests that sample against a short list of published frames with
+  osgeo.gdal and records the result as an assertion or a refusal; choosing
+  a frame for coordinates that match no published grid stays with
+  degredation, and `tests/test_fit.py` is the contract it is held to.
 - **rasterwise stays its own repo** as the archive of problem files and their
   lessons. storecard reads it and keys cards to its manifest checksums.
 - **Dependencies stay small.** The extractor needs zarr and numpy only. No
@@ -127,11 +131,18 @@ made the same point from the other side.
    Icechunk and kerchunk forms; tooling and containers to be settled from
    hypertidy/gdal-r-ci.
 2. Grid fit from a card: must recover EPSG:3412 and the exact transform from
-   `f03d-asi-latlon2d`, and refuse the tripolar `f08c-esm-geo2d`.
+   `f03d-asi-latlon2d`, and refuse the tripolar `f08c-esm-geo2d`. Done for
+   named frames (`src/storecard/fit.py`, `python -m storecard URL --fit`):
+   the published f03d fits EPSG:3412 at 5e-10 cells with the transform
+   snapped exactly; f08c is refused (best frame 475 cells off). The WGS84
+   variants EPSG:3976 and EPSG:3031 also fit within tolerance, at pixel
+   sizes that are not round, so the roundest transform is chosen and the
+   others recorded. f08c is local only (not in the published catalog).
+   Still to do: frames outside the list, through degredation.
 3. One assertion end to end: a refused store is fitted, the assertion is
    published, a viewer applies it, and the store draws identically to its
    twin. This is the demo. Done up to the viewer: the f03d assertion
-   (hand-written from the known grid until step 2 fits it) is published in
+   (now made by the step 2 fit) is published in
    `assertions/` and makes f03d's card match f03e's; still to do is a
    viewer (portolan-browser) applying the zarr-conventions overlay and
    drawing f03d like f03e.

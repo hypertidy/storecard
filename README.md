@@ -78,7 +78,7 @@ overlay; `--emit zarr|stac|vrt` writes it as zarr-conventions attributes, a
 STAC patch or a GDAL multidimensional VRT. See [ASSERTIONS.md](ASSERTIONS.md);
 published assertions are in `assertions/`.
 
-Network tests are opt-in: `STORECARD_NETWORK=1 pytest` (needs `[remote]`).
+`tests/test_fit.py` is skipped without osgeo.gdal. Network tests are opt-in: `STORECARD_NETWORK=1 pytest` (needs `[remote]`).
 
 Tests: `pip install -e .[test] && pytest`. The tests write small synthetic
 sources, run the unchanged `portolan/build` builders on them (about 10 s), and
@@ -96,6 +96,19 @@ snapping, half-cell extent recovery and a known-grid table, returning a CRS,
 an extent, a resolution, residuals and a confidence. storecard does not
 reimplement it: the card's `coord_sample` carries what `detect_grid` needs,
 so inference runs from the card alone.
+
+`storecard.fit` is the narrow part kept here: it projects the card's sample
+into a short list of published frames (polar stereographic, EASE, web
+mercator, lon/lat) with osgeo.gdal, fits one affine per frame, and passes a
+frame only if every sampled cell centre is within 0.001 cell. The passing
+transform is snapped to its shortest decimal form and checked again; the
+roundest wins and the rest are recorded. No frame passing gives a refusal
+listing every frame and its residual. Needs osgeo.gdal (`python3-gdal`, or
+the `gdal` wheel built against the system GDAL).
+
+```
+python -m storecard URL --stac COLLECTION --fit
+```
 
 ## Assertion
 
@@ -131,7 +144,8 @@ edited; fixes go upstream by asking the publisher.
    Icechunk and kerchunk access are easiest there); the card format is
    language-neutral so R can produce and read cards too. Tested against the
    `portolan/` fixtures, whose cards are known.
-2. **Grid inference** via degredation on the card's coordinate sample. Passes if it
+2. **Grid inference** on the card's coordinate sample (named frames in
+   `storecard.fit`, open-ended inference via degredation). Passes if it
    recovers EPSG:3412 and the exact transform from the fixture with only 2-D
    lon/lat (`f03d-asi-latlon2d`), and refuses the tripolar ocean grid
    (`f08c-esm-geo2d`). A passing fit is recorded as an assertion.

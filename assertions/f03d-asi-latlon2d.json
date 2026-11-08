@@ -32,13 +32,86 @@
   "y"
  ],
  "evidence": {
-  "method": "known grid: f03d was built from the same EPSG:3412 grid as its twins (portolan/build/build_f03.py, latlon2d)",
+  "method": "storecard.fit: affine of projected coord_sample cell centres in named frames",
+  "coords": [
+   "lon",
+   "lat"
+  ],
+  "points": 1542,
+  "tolerance_cells": 0.001,
+  "frames_tried": [
+   {
+    "frame": "EPSG:3412",
+    "residual_cells": 5.322e-10
+   },
+   {
+    "frame": "EPSG:3411",
+    "residual_cells": 1102000.0
+   },
+   {
+    "frame": "EPSG:3976",
+    "residual_cells": 0.0001128
+   },
+   {
+    "frame": "EPSG:3413",
+    "residual_cells": 1102000.0
+   },
+   {
+    "frame": "EPSG:3031",
+    "residual_cells": 0.0001128
+   },
+   {
+    "frame": "EPSG:3995",
+    "residual_cells": 1102000.0
+   },
+   {
+    "frame": "EPSG:6932",
+    "residual_cells": 64.74
+   },
+   {
+    "frame": "EPSG:6931",
+    "residual_cells": 1484.0
+   },
+   {
+    "frame": "EPSG:3409",
+    "residual_cells": 63.54
+   },
+   {
+    "frame": "EPSG:3408",
+    "residual_cells": 1483.0
+   },
+   {
+    "frame": "EPSG:6933",
+    "residual_cells": 23670.0
+   },
+   {
+    "frame": "EPSG:3410",
+    "residual_cells": 23660.0
+   },
+   {
+    "frame": "EPSG:3857",
+    "residual_cells": 28340.0
+   },
+   {
+    "frame": "EPSG:4326",
+    "residual_cells": 21480.0
+   }
+  ],
+  "software": {
+   "gdal": "3.8.4",
+   "proj": "9.4.0"
+  },
+  "residual_cells": 7.069e-10,
+  "also_regular_in": [
+   "EPSG:3976",
+   "EPSG:3031"
+  ],
   "twin": "f03e-asi-projjson"
  },
  "by": {
-  "name": "storecard",
-  "kind": "fixture author"
+  "name": "storecard.fit",
+  "kind": "fit"
  },
- "made_at": "2026-11-07T21:30:00Z",
+ "made_at": "2026-11-08T12:59:56Z",
  "status": "proposed"
 }

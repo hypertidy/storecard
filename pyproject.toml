@@ -13,6 +13,9 @@ dependencies = ["zarr>=3", "numpy"]
 
 [project.optional-dependencies]
 remote = ["fsspec", "aiohttp", "s3fs"]
+# the grid fit (storecard.fit): osgeo.gdal; the wheel builds against the
+# system GDAL, so match its version (pip install gdal==$(gdal-config --version))
+fit = ["gdal"]
 # the fixture builders in portolan/build, run by the tests on small synthetic sources
 test = ["pytest", "xarray", "netcdf4", "pyproj", "scipy"]
 
