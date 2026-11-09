@@ -84,6 +84,17 @@ tripolar f08c is regular in none of the 14 frames tried (best EPSG:4326,
 448.5 cells off). Applied as an overlay it records that the frames were
 tried; it changes no attribute.
 
+`assertions/ausantarctic/` holds CRS assertions for the ausantarctic
+scratch virtual stores that raadtools reads (OISST, G02202 south and north,
+Bremen ASI south, MUR), one per dataset, form and variable. Each store
+declares its grid by regular 1-D coordinates and states no CRS; the
+assertion restates the transform from those axes and supplies the CRS
+(`crs_assertion(card, variable, crs)`, `axes_transform(variable)`), with
+the evidence for it in `evidence.crs_from`: the source files' own grid
+mapping where they have one, a convention where they do not (OISST).
+`build.py` there rebuilds them; `STORECARD_NETWORK=1 pytest
+tests/test_remote.py -k crs_assertions` checks they still apply.
+
 ## Open
 
 - Standing: who may assert, and how a reader weighs assertions from

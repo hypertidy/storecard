@@ -208,6 +208,16 @@ made the same point from the other side.
    not carry, and the kerchunk form drops CF `_FillValue`. Not fixable
    there: G02202 (NSIDC) and ASI (Bremen) chunk hosts send no CORS
    (`CHUNK_HOST_NO_CORS`); NOAA's S3, NCI THREDDS and source.coop do.
+   CRS assertions published 2026-11-09 for the five raadtools tier 1 stores
+   (`assertions/ausantarctic/`, built by its `build.py`, checked by
+   `tests/test_remote.py`): OISST and MUR EPSG:4326, G02202 south
+   EPSG:3412 and north EPSG:3411, ASI south EPSG:3976. The G02202 and ASI
+   source files declare these CRSs themselves (GDAL reads them into each
+   dataset's `plan.vrt` `<SRS>`); the virtual stores drop them, so the fix
+   at source is for raad.virtualize to write the plan's SRS. When it does,
+   the store's digest changes and these assertions go stale, as they
+   should. These rows feed the raadtools contract (rgdal-dev/rasterwise
+   `ledger/raadtools.csv`): one contract row per (dataset, era).
 5. Rule packs and viewer capability matching.
 
 ## Reading

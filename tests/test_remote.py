@@ -5,7 +5,9 @@ The expected facts are from a run of the card against this store on
 2026-11-07; if the publisher changes the store, update them.
 """
 
+import json
 import os
+import pathlib
 
 import pytest
 
@@ -176,3 +178,36 @@ def test_ausantarctic_forms_agree(virtual_cards, store):
             vk = dict(vk, values=dict(vk["values"]))
             vk["values"].pop("fill_agree", None)
         assert vk == vi, vk["name"]
+
+
+# the published CRS assertions for these stores (assertions/ausantarctic/,
+# built by its build.py): each must still apply (digest current) and clear
+# the CRS findings, leaving the store's other findings as they are
+ASSERTED = {
+    "oisst/oisst-v2.1-daily": "EPSG:4326",
+    "seaice/g02202-v6-daily-south": "EPSG:3412",
+    "seaice/g02202-v6-daily-north": "EPSG:3411",
+    "seaice/asi-amsr2-v5.4-daily-south": "EPSG:3976",
+    "ghrsst/ghrsst-mur-cog-analysed_sst": "EPSG:4326",
+}
+ASSERTIONS_DIR = pathlib.Path(__file__).parent.parent / "assertions" / "ausantarctic"
+
+
+@pytest.mark.parametrize("form", ["kerchunk", "icechunk"])
+@pytest.mark.parametrize("store", list(ASSERTED))
+def test_ausantarctic_crs_assertions_apply(store, form):
+    docs = sorted((ASSERTIONS_DIR / store.split("/")[1]).glob(f"{form}-*.json"))
+    assert docs
+    c = card(SCRATCH + store + "/" + form, probe_hosts=False, assertions=docs)
+    assert all(a["applied"] for a in c["source"]["assertions"]), c["source"]["assertions"]
+    asserted = {json.loads(d.read_text())["subject"]["variable"] for d in docs}
+    for v in c["variables"]:
+        if v["name"] in asserted:
+            assert v["crs"]["declared"]
+            assert v["crs"]["sources"][0] == {"via": "proj:code", "on": "assertion",
+                                               "value": ASSERTED[store]}
+    if store in VIRTUAL:
+        # the GHRSST overview arrays are not asserted, so they keep CRS_NOT_DECLARED
+        crs = {"PROJECTED_NO_GRID_MAPPING"} | ({"CRS_NOT_DECLARED"} if not store.startswith("ghrsst") else set())
+        # hosts are not probed here, so no host findings either
+        assert set(c["findings_summary"]) == VIRTUAL[store][2] - crs - {"CHUNK_HOST_NO_CORS"}
