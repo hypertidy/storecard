@@ -42,6 +42,13 @@ most of the ocean past the top of the colour ramp; applying the packing the
 card reads from metadata gives values equal, bit for bit in float32, to a
 twin stored as float32.
 
+[Which cells are missing?](demo/fill.html): three published stores under
+four reader rules for fill values. STAC `nodata` alone misses a store that
+declares none, and misses -1e20 against float32 cells; a CF `_FillValue`
+parsed as a number misses xarray's base64 encoding. The card reads every
+source, casts each to the stored type, and masks every fill cell in all
+three.
+
 ## The idea in three lines
 
 - **Cards are facts, not opinions.** A spec's conformance, a viewer's
