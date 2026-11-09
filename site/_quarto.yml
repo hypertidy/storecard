@@ -22,6 +22,8 @@ website:
             text: "One assertion, end to end"
           - href: demo/tripolar.html
             text: "An honest refusal"
+          - href: demo/packing.html
+            text: "The numbers are not the values"
       - href: why.qmd
       - href: card.qmd
       - href: assertions.qmd

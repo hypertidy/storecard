@@ -161,8 +161,15 @@ made the same point from the other side.
    A third page, `site/demo/tripolar.html`, reads the published f08c: the
    1-D axes against the true positions in a north polar view, the per-row
    deviation (under 0.5 cells to row 245, 74.8 at the top row), and the
-   published refusal with every frame tried. Next demos, in order: packing
-   (f01a against f01e) and fill values (f01f, f08a).
+   published refusal with every frame tried. A fourth page,
+   `site/demo/packing.html`, reads f01b and f01e (f01e is f01b unpacked;
+   f01a differs from both in latitude order): skipping packing puts 78% of
+   ocean cells past the top of the ramp, and f01b unpacked in float32 (the
+   type of `scale_factor`) equals f01e bit for bit, every ocean and fill
+   cell; float64 unpacking differs in the last bits. f01e kept the packed
+   `valid_min`/`valid_max` (-300, 4500) after unpacking; a finding for a
+   valid range left in packed units is not written yet. Next demo: fill
+   values (f01f, f08a).
 4. Cards over the `ausantarctic` stores on source.coop; fix findings at
    source.
 5. Rule packs and viewer capability matching.

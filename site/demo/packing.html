@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>storecard: the numbers are not the values</title>
+<meta name="description" content="Sea surface temperature stored as 16-bit integers in hundredths of a degree. A reader that skips CF packing draws the whole ocean saturated; a reader that applies the card's packing draws it identically, bit for bit, to a twin stored as float32. Read straight from object storage in the browser.">
+<style>
+:root {
+  --bg: #fbfbf9; --fg: #1d2125; --muted: #5d6670; --line: #d9dcdf; --panel: #ffffff;
+  --accent: #1f5fa8; --ok: #1d7a46; --bad: #b3261e; --land: #9ba3a8; --code: #f1f2f0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181b; --fg: #e6e8ea; --muted: #9aa3ab; --line: #343a40; --panel: #1d2125;
+    --accent: #7fb0ea; --ok: #5cc48a; --bad: #f08b84; --land: #5b6368; --code: #262b30;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15181b; --fg: #e6e8ea; --muted: #9aa3ab; --line: #343a40; --panel: #1d2125;
+  --accent: #7fb0ea; --ok: #5cc48a; --bad: #f08b84; --land: #5b6368; --code: #262b30;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 1.6rem; margin: 0 0 4px; }
+h2 { font-size: 1.15rem; margin: 32px 0 8px; }
+p { margin: 8px 0; max-width: 72ch; }
+a { color: var(--accent); }
+code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.86em; }
+code { background: var(--code); padding: 1px 4px; border-radius: 3px; }
+pre { background: var(--code); padding: 10px 12px; border-radius: 6px; overflow-x: auto; margin: 8px 0; }
+.lede { color: var(--muted); }
+.controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin: 16px 0;
+  padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+.controls label { display: flex; gap: 8px; align-items: center; }
+#status { color: var(--muted); font-size: 0.9rem; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .pair { grid-template-columns: 1fr; } }
+.panel { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 12px;
+  display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.panel h3 { margin: 0; font-size: 1rem; }
+.panel .sub { color: var(--muted); font-size: 0.85rem; margin: 0; }
+.frame { position: relative; width: 100%; aspect-ratio: 2; background: var(--code); border-radius: 4px; overflow: hidden; }
+.frame canvas { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; cursor: crosshair; }
+.verdict { font-weight: 600; }
+.verdict.ok { color: var(--ok); }
+.verdict.bad { color: var(--bad); }
+table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tablewrap { overflow-x: auto; }
+.legend { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--muted); }
+.legend canvas { width: 160px; height: 10px; border-radius: 2px; }
+.swatch { display: inline-block; width: 12px; height: 10px; background: var(--land); border-radius: 2px; }
+.banner { border: 1px solid var(--bad); color: var(--bad); border-radius: 6px; padding: 8px 12px; display: none; }
+#probe { font-size: 0.88rem; min-height: 1.5em; color: var(--muted); font-variant-numeric: tabular-nums; }
+#probe b { color: var(--fg); }
+footer { margin-top: 40px; color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<main>
+<p class="lede"><a href="../">storecard</a> / demo. Before this: <a href="costumes.html">five costumes, one grid</a>,
+<a href="./">one assertion, end to end</a> and <a href="tripolar.html">an honest refusal</a>.</p>
+<h1>The numbers are not the values</h1>
+<p class="lede">NOAA OISST stores sea surface temperature as 16-bit integers: hundredths of a degree,
+with <code>scale_factor</code> 0.01 and <code>_FillValue</code> -999. That is CF packing, and it
+halves the bytes before compression. A reader that skips it reads 2846 where the value is 28.46 &deg;C,
+and draws most of the ocean past the top of the colour ramp; one such reader did exactly that with
+these fixtures. The
+card reads the packing from the store's metadata alone, so a reader can apply it before drawing.
+This page reads <b>f01b</b> (packed, as published) and its twin <b>f01e</b> (the same values stored
+as float32) from the bucket and compares them cell for cell.</p>
+
+<div class="banner" id="banner"></div>
+
+<div class="controls">
+  <label>Day <input type="range" id="day" min="0" max="30" step="1" value="0"> <span id="daylabel">-</span></label>
+  <div class="legend"><canvas id="ramp" width="160" height="10"></canvas> <span>-2 to 35 &deg;C</span>
+    <span class="swatch"></span> land and sea ice (fill)</div>
+  <span id="status">starting</span>
+</div>
+
+<div class="grid">
+  <section class="panel" id="p-raw">
+    <h3>f01b, packing skipped</h3>
+    <p class="sub">the stored int16 drawn as if it were &deg;C</p>
+    <div class="frame"><canvas></canvas></div>
+    <p class="sub verdict bad" id="v-raw">&nbsp;</p>
+  </section>
+  <section class="panel" id="p-unpacked">
+    <h3>f01b, packing applied</h3>
+    <p class="sub"><code>value &times; scale_factor + add_offset</code>, as the card states it</p>
+    <div class="frame"><canvas></canvas></div>
+    <p class="sub verdict" id="v-unpacked">&nbsp;</p>
+  </section>
+  <section class="panel" id="p-float">
+    <h3>f01e, stored unpacked</h3>
+    <p class="sub">float32 &deg;C, NaN fill: nothing to apply</p>
+    <div class="frame"><canvas></canvas></div>
+    <p class="sub verdict" id="v-float">&nbsp;</p>
+  </section>
+</div>
+<p id="probe">Point at any panel to read one cell from both stores.</p>
+<p>All three panels treat the fill as missing (land and sea ice, drawn grey), so the only thing that
+varies is packing; fill values are the next page. Without packing, the stored integers run from
+about -180 to 3300, so every ocean cell above 0.35 &deg;C lands past the top of a -2 to 35 &deg;C ramp:
+all but the polar water near freezing. With packing applied, the f01b panel and the f01e panel are the same picture.</p>
+
+<h2>Cell for cell</h2>
+<p id="compare">comparing</p>
+<p>CF says the unpacked type is the type of <code>scale_factor</code>, here float32, so the comparison
+is done in float32. Unpacking in float64 and stopping there gives values that differ from f01e in the
+last bits; the line above counts them too. Neither is wrong as temperature, but only one is the same
+number as the twin's, and a reader checking twins, or a hash of the values, needs to know which.</p>
+
+<h2>What the card reads</h2>
+<p>From each store's <code>sst/zarr.json</code>, no data: the stored type, the packing, every fill
+source and whether they agree, and the valid range. CF gives <code>valid_min</code> and
+<code>valid_max</code> in packed units, so f01b's -300 and 4500 mean -3 and 45 &deg;C. The fields below
+are the card's <code>values</code> block, recomputed in this page from the metadata it fetched.</p>
+<div class="pair">
+  <section class="panel"><h3>f01b</h3><pre id="card-b">loading</pre></section>
+  <section class="panel"><h3>f01e</h3><pre id="card-e">loading</pre></section>
+</div>
+<p>f01e kept <code>valid_min</code> -300 and <code>valid_max</code> 4500 when it was unpacked. With
+no packing left, CF reads them in &deg;C. They exclude nothing real, so the picture is unaffected,
+but they are wrong, and a tool that sets its colour range from them would draw f01e near-uniform.
+The card records the attributes as found; a finding for a valid range left in packed units is not
+written yet.</p>
+
+<h2>What each reader fetched</h2>
+<p>Packing halves the stored values, two bytes a cell against four, but zstd closes much of the gap:
+the float32 twin costs about a third more per day, not twice as much.</p>
+<div class="tablewrap"><table id="bytes">
+  <thead><tr><th>Store</th><th>Fetched</th><th class="num">Bytes</th></tr></thead>
+  <tbody></tbody>
+</table></div>
+
+<footer>
+  <p>Part of <a href="https://github.com/hypertidy/storecard">hypertidy/storecard</a>. Fixtures:
+  <code>portolan/</code> in that repo (the F01 twins, built from one month of NOAA OISST v2.1,
+  January 2025), published on Pawsey Acacia. f01b is OISST as published with latitude flipped to
+  north-up; f01e is f01b decoded by xarray and written as float32.</p>
+  <p>This page is a minimal reader: Zarr v3, <code>bytes</code> and <code>zstd</code> codecs, one
+  pixel per 0.25 degree cell, longitude 0 to 360 from the left edge.</p>
+</footer>
+</main>
+
+<script type="module">
+import { decompress } from "https://cdn.jsdelivr.net/npm/fzstd@0.1.1/+esm";
+
+// Store locations in one place, so a storage move is a one-line change.
+const BASE = "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores";
+const PACKED = BASE + "/f01b-oisst-ydesc.zarr";
+const FLOAT = BASE + "/f01e-oisst-unpacked.zarr";
+const VAR = "sst";
+const T_MIN = -2, T_MAX = 35;    // display range, degrees C
+
+const $ = (s, el = document) => el.querySelector(s);
+const status = (t) => { $("#status").textContent = t; };
+const banner = (t) => { const b = $("#banner"); b.textContent = t; b.style.display = "block"; };
+const fmtB = (n) => n == null ? "-" : n < 1024 ? n + " B" : n < 1048576 ? (n / 1024).toFixed(1) + " KB" : (n / 1048576).toFixed(2) + " MB";
+const fmtN = (n) => n.toLocaleString("en");
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+
+// ---------------------------------------------------------------- fetching, counted per store
+
+const meter = {};
+const count = (store, kind, n) => { (meter[store] ??= { meta: 0, coords: 0, chunks: 0 })[kind] += n; };
+async function getBytes(url, store, kind) {
+  const r = await fetch(url);
+  if (r.status === 404 || r.status === 403) return null;
+  if (!r.ok) throw new Error(r.status + " " + url);
+  const u = new Uint8Array(await r.arrayBuffer());
+  if (store) count(store, kind, u.byteLength);
+  return u;
+}
+async function getJSON(url, store, kind) {
+  const u = await getBytes(url, store, kind);
+  if (!u) throw new Error("not found: " + url);
+  // Zarr v3 JSON may carry the bare token NaN as a fill value.
+  return JSON.parse(new TextDecoder().decode(u).replace(/:\s*NaN\b/g, ': "NaN"'));
+}
+
+// ---------------------------------------------------------------- a small Zarr v3 reader
+
+async function openArray(store, name) {
+  const m = await getJSON(`${store}/${name}/zarr.json`, store, "meta");
+  const names = m.codecs.map((c) => c.name);
+  if (!names.every((n) => n === "bytes" || n === "zstd")) throw new Error("codecs not supported here: " + names.join(", "));
+  if (((m.codecs.find((c) => c.name === "bytes") || {}).configuration?.endian || "little") !== "little") throw new Error("big-endian not supported here");
+  return { store, name, meta: m, shape: m.shape, chunks: m.chunk_grid.configuration.chunk_shape, dtype: m.data_type,
+    fill: m.fill_value, zstd: names.includes("zstd"), sep: m.chunk_key_encoding?.configuration?.separator || "/",
+    attrs: m.attributes || {} };
+}
+function typed(dtype, u) {
+  const buf = u.buffer.slice(u.byteOffset, u.byteOffset + u.byteLength);
+  switch (dtype) {
+    case "int16": return new Int16Array(buf);
+    case "float32": return new Float32Array(buf);
+    case "float64": return new Float64Array(buf);
+    case "int64": return new BigInt64Array(buf);
+    default: throw new Error("dtype not supported here: " + dtype);
+  }
+}
+async function readChunk(arr, idx, kind) {
+  const u = await getBytes(`${arr.store}/${arr.name}/c/${idx.join(arr.sep)}`, arr.store, kind);
+  if (!u) return null;    // absent chunk: every cell is the fill value
+  return typed(arr.dtype, arr.zstd ? decompress(u) : u);
+}
+async function readWhole(arr, kind) {
+  if (arr.chunks.some((c, i) => c < arr.shape[i])) throw new Error(arr.name + ": expected one chunk");
+  return readChunk(arr, arr.shape.map(() => 0), kind);
+}
+// One time step at zlev 0, assembled from its spatial chunks into a [lat, lon] array.
+async function readSlice(arr, t) {
+  const [, , H, W] = arr.shape, [, , ch, cw] = arr.chunks;
+  const Ctor = { int16: Int16Array, float32: Float32Array, float64: Float64Array }[arr.dtype];
+  const out = new Ctor(H * W);
+  const jobs = [];
+  for (let cj = 0; cj < Math.ceil(H / ch); cj++) for (let ci = 0; ci < Math.ceil(W / cw); ci++) {
+    jobs.push(readChunk(arr, [t, 0, cj, ci], "chunks").then((c) => {
+      for (let j = 0; j < ch && cj * ch + j < H; j++) for (let i = 0; i < cw && ci * cw + i < W; i++) {
+        out[(cj * ch + j) * W + ci * cw + i] = c ? c[j * cw + i] : Number(arr.fill);
+      }
+    }));
+  }
+  await Promise.all(jobs);
+  return out;
+}
+
+// ---------------------------------------------------------------- the card's values block, from metadata
+
+// The same fields as storecard's card, `variables[].values`, for one variable.
+function valuesBlock(arr) {
+  const a = arr.attrs, v = { dtype: arr.dtype };
+  if (a.units != null) v.units = a.units;
+  for (const k of ["valid_min", "valid_max", "valid_range"]) if (a[k] != null) v[k] = a[k];
+  const packed = a.scale_factor != null || a.add_offset != null;
+  if (packed) v.packing = { scale_factor: a.scale_factor ?? 1, add_offset: a.add_offset ?? 0 };
+  const fills = [{ from: "zarr fill_value", value: arr.fill }];
+  for (const k of ["_FillValue", "missing_value"]) if (a[k] != null) fills.push({ from: "CF " + k, value: a[k] });
+  v.fill = fills;
+  if (fills.length > 1) v.fill_agree = fills.every((f) => String(Number(f.value)) === String(Number(fills[0].value)));
+  return v;
+}
+// Physical valid range: CF gives valid_* in packed units, so unpack them too.
+function physicalRange(arr) {
+  const a = arr.attrs, s = a.scale_factor ?? 1, o = a.add_offset ?? 0;
+  const lo = a.valid_range ? a.valid_range[0] : a.valid_min, hi = a.valid_range ? a.valid_range[1] : a.valid_max;
+  return lo == null || hi == null ? null : [lo * s + o, hi * s + o];
+}
+
+// ---------------------------------------------------------------- drawing
+
+const RAMP = [[13, 8, 135], [84, 2, 163], [139, 10, 165], [185, 50, 137], [219, 92, 104], [244, 136, 73], [254, 188, 43], [240, 249, 33]];
+function rampColour(f) {
+  const x = Math.max(0, Math.min(1, f)) * (RAMP.length - 1), i = Math.min(RAMP.length - 2, Math.floor(x)), g = x - i;
+  return RAMP[i].map((c, k) => Math.round(c + g * (RAMP[i + 1][k] - c)));
+}
+function landRGB() {
+  const c = document.createElement("canvas").getContext("2d");
+  c.fillStyle = css("--land"); c.fillRect(0, 0, 1, 1);
+  return c.getImageData(0, 0, 1, 1).data;
+}
+
+// vals: the numbers a reader would hand to the ramp; isMissing(k): is cell k fill.
+function draw(canvas, vals, isMissing, H, W) {
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext("2d"), img = ctx.createImageData(W, H), land = landRGB();
+  let saturated = 0, ocean = 0;
+  for (let k = 0; k < H * W; k++) {
+    let c;
+    if (isMissing(k)) c = land;
+    else { ocean++; if (vals[k] > T_MAX) saturated++; c = rampColour((vals[k] - T_MIN) / (T_MAX - T_MIN)); }
+    img.data[4 * k] = c[0]; img.data[4 * k + 1] = c[1]; img.data[4 * k + 2] = c[2]; img.data[4 * k + 3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+  return { saturated, ocean };
+}
+
+// ---------------------------------------------------------------- the page
+
+let S = null;
+
+async function setup() {
+  const ramp = $("#ramp").getContext("2d");
+  for (let i = 0; i < 160; i++) { ramp.fillStyle = `rgb(${rampColour(i / 159)})`; ramp.fillRect(i, 0, 1, 10); }
+  status("reading metadata");
+  await Promise.all([getJSON(`${PACKED}/zarr.json`, PACKED, "meta"), getJSON(`${FLOAT}/zarr.json`, FLOAT, "meta")]);
+  const [b, e] = await Promise.all([openArray(PACKED, VAR), openArray(FLOAT, VAR)]);
+  const [btime, blat, blon, elat, elon] = await Promise.all([
+    openArray(PACKED, "time"), openArray(PACKED, "lat"), openArray(PACKED, "lon"), openArray(FLOAT, "lat"), openArray(FLOAT, "lon")]);
+  const metaB = meter[PACKED].meta, metaE = meter[FLOAT].meta;
+  const [tv, lat, lon, lat2, lon2] = await Promise.all([readWhole(btime, null), readWhole(blat, "coords"), readWhole(blon, "coords"),
+    readWhole(elat, "coords"), readWhole(elon, "coords")]);
+
+  // Twins must share a grid before their values can be compared.
+  const sameAxes = lat.length === lat2.length && lon.length === lon2.length &&
+    lat.every((v, i) => v === lat2[i]) && lon.every((v, i) => v === lon2[i]);
+  if (!sameAxes) banner("f01b and f01e do not share their lat/lon axes; the comparison below is not cell for cell.");
+  if (!(lat[0] > lat[lat.length - 1])) banner("Latitude is not descending in f01b; the panels below are drawn upside down.");
+
+  // The card's values blocks.
+  const vb = valuesBlock(b), ve = valuesBlock(e), rb = physicalRange(b), re = physicalRange(e);
+  const show = (v, r, packed) => JSON.stringify(v, null, 1).replace(/\[\s+([^\[\]{}]*?)\s+\]/g, (m, inner) => "[" + inner.replace(/\s*\n\s*/g, " ") + "]") +
+    (r ? `\n\nvalid range as ${packed ? "unpacked" : "stored"}: ${+r[0].toFixed(4)} to ${+r[1].toFixed(4)} ${v.units || ""}` : "");
+  $("#card-b").textContent = show(vb, rb, true);
+  $("#card-e").textContent = show(ve, re, false);
+
+  // Unpacking, as the card states it, in the type CF names: that of scale_factor.
+  // JSON loses the attribute's width; 0.009999999776482582 is float32's nearest to 0.01,
+  // which is how a float32 scale_factor reads once widened.
+  const sc = vb.packing.scale_factor, off = vb.packing.add_offset;
+  const f32 = Math.fround(sc) === sc;
+  const bfill = Number(b.fill);
+
+  // Day labels from the store's own CF time units.
+  const tu = String(btime.attrs.units || "").match(/^\s*(day|hour|minute|second)s?\s+since\s+(\d+)-(\d+)-(\d+)(?:[ T](\d+):(\d+):?(\d*))?/i);
+  if (!tu) throw new Error("time units not understood here: " + btime.attrs.units);
+  const step = { day: 86400000, hour: 3600000, minute: 60000, second: 1000 }[tu[1].toLowerCase()];
+  const t0 = new Date(0); t0.setUTCFullYear(+tu[2], +tu[3] - 1, +tu[4]); t0.setUTCHours(+(tu[5] || 0), +(tu[6] || 0), +(tu[7] || 0), 0);
+  const dayLabel = (d) => new Date(t0.getTime() + Number(tv[d]) * step).toISOString().slice(0, 10);
+
+  S = { b, e, lat, lon, sc, off, f32, bfill, dayLabel, metaB, metaE, H: lat.length, W: lon.length };
+  $("#day").max = b.shape[0] - 1;
+  $("#day").addEventListener("input", () => { $("#daylabel").textContent = dayLabel(+$("#day").value); });
+  $("#day").addEventListener("change", () => { history.replaceState(null, "", "#day=" + $("#day").value); drawDay(); });
+  const dh = location.hash.match(/day=(\d+)/); if (dh) $("#day").value = Math.min(b.shape[0] - 1, +dh[1]);
+  $("#daylabel").textContent = dayLabel(+$("#day").value);
+
+  for (const id of ["p-raw", "p-unpacked", "p-float"]) {
+    const cv = $(`#${id} canvas`);
+    cv.addEventListener("pointermove", (ev) => probe(cv, ev));
+    cv.addEventListener("pointerleave", () => { $("#probe").textContent = "Point at any panel to read one cell from both stores."; });
+  }
+}
+
+async function drawDay() {
+  const d = +$("#day").value, { b, e, H, W, sc, off, bfill } = S;
+  status(`reading ${S.dayLabel(d)}`);
+  const before = { b: meter[PACKED].chunks, e: meter[FLOAT].chunks };
+  const [raw, fl] = await Promise.all([readSlice(b, d), readSlice(e, d)]);
+  const bytesB = meter[PACKED].chunks - before.b, bytesE = meter[FLOAT].chunks - before.e;
+
+  const un32 = new Float32Array(H * W), un64 = new Float64Array(H * W);
+  for (let k = 0; k < H * W; k++) {
+    un32[k] = Math.fround(Math.fround(Math.fround(raw[k]) * Math.fround(sc)) + Math.fround(off));
+    un64[k] = raw[k] * sc + off;
+  }
+  const missB = (k) => raw[k] === bfill, missE = (k) => Number.isNaN(fl[k]);
+
+  const r1 = draw($("#p-raw canvas"), raw, missB, H, W);
+  const r2 = draw($("#p-unpacked canvas"), un32, missB, H, W);
+  const r3 = draw($("#p-float canvas"), fl, missE, H, W);
+  $("#v-raw").textContent = `${(100 * r1.saturated / r1.ocean).toFixed(1)}% of ocean cells past the top of the ramp`;
+  $("#v-raw").className = "sub verdict bad";
+  $("#v-unpacked").textContent = `${(100 * r2.saturated / r2.ocean).toFixed(1)}% past the top`;
+  $("#v-float").textContent = `${(100 * r3.saturated / r3.ocean).toFixed(1)}% past the top`;
+
+  // Cell for cell: masks, then values in float32 and in float64.
+  let maskDiff = 0, eq32 = 0, ne32 = 0, ne64 = 0, max64 = 0, n = 0;
+  for (let k = 0; k < H * W; k++) {
+    const mb = missB(k), me = missE(k);
+    if (mb !== me) { maskDiff++; continue; }
+    if (mb) continue;
+    n++;
+    if (un32[k] === fl[k]) eq32++; else ne32++;
+    if (un64[k] !== fl[k]) { ne64++; max64 = Math.max(max64, Math.abs(un64[k] - fl[k])); }
+  }
+  const ok = maskDiff === 0 && ne32 === 0;
+  $("#v-unpacked").className = $("#v-float").className = "sub verdict " + (ok ? "ok" : "bad");
+  $("#compare").innerHTML = `<span class="verdict ${ok ? "ok" : "bad"}">${S.dayLabel(d)}: ` +
+    (ok ? `every one of ${fmtN(n)} ocean cells is equal, bit for bit, to f01e, and the ${fmtN(H * W - n)} fill cells are the same cells.`
+        : `${fmtN(ne32)} of ${fmtN(n)} ocean cells differ from f01e in float32, and ${fmtN(maskDiff)} cells are fill in one store only.`) +
+    `</span> Unpacked in float64 instead: ${fmtN(ne64)} cells differ from f01e, by at most ${max64.toExponential(1)} &deg;C.`;
+
+  $("#bytes tbody").innerHTML =
+    `<tr><td>f01b, packed int16</td><td>metadata</td><td class="num">${fmtB(S.metaB)}</td></tr>` +
+    `<tr><td></td><td>one day of <code>sst</code>, ${Math.ceil(H / b.chunks[2]) * Math.ceil(W / b.chunks[3])} chunks</td><td class="num">${fmtB(bytesB)}</td></tr>` +
+    `<tr><td>f01e, float32</td><td>metadata</td><td class="num">${fmtB(S.metaE)}</td></tr>` +
+    `<tr><td></td><td>one day of <code>sst</code>, ${Math.ceil(H / e.chunks[2]) * Math.ceil(W / e.chunks[3])} chunks</td><td class="num">${fmtB(bytesE)}</td></tr>` +
+    `<tr><td colspan="2">f01e's bytes over f01b's, for the same values</td><td class="num">${(bytesE / bytesB).toFixed(2)} &times;</td></tr>`;
+
+  S.raw = raw; S.un32 = un32; S.fl = fl;
+  status(`${S.dayLabel(d)}: drawn from ${fmtB(bytesB)} (f01b) and ${fmtB(bytesE)} (f01e)`);
+}
+
+function probe(cv, ev) {
+  if (!S || !S.raw) return;
+  const r = cv.getBoundingClientRect();
+  const i = Math.min(S.W - 1, Math.floor((ev.clientX - r.left) / r.width * S.W));
+  const j = Math.min(S.H - 1, Math.floor((ev.clientY - r.top) / r.height * S.H));
+  const k = j * S.W + i, la = S.lat[j], lo = S.lon[i];
+  const where = `${Math.abs(la).toFixed(3)} ${la < 0 ? "S" : "N"}, ${lo.toFixed(3)} E: `;
+  if (S.raw[k] === S.bfill) { $("#probe").innerHTML = where + `f01b stores <b>${S.raw[k]}</b> (fill); f01e stores <b>${S.fl[k]}</b>`; return; }
+  $("#probe").innerHTML = where + `f01b stores <b>${S.raw[k]}</b>, which unpacks to <b>${S.un32[k].toPrecision(4)} &deg;C</b>; ` +
+    `f01e stores <b>${S.fl[k].toPrecision(4)} &deg;C</b>` + (S.un32[k] === S.fl[k] ? ", the same float32" : ", <b>a different float32</b>");
+}
+
+setup().then(drawDay).catch((err) => {
+  status("stopped");
+  banner("Could not read the stores from this browser (" + err.message + "). The bucket must allow cross-origin reads from this page's origin.");
+  console.error(err);
+});
+</script>
+</body>
+</html>

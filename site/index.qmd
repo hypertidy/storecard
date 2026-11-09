@@ -36,6 +36,12 @@ published with 1-D axes that are exact south of 65 N and wrong north of it,
 beside its true 2-D positions. The page shows where the axes go wrong, and
 why a grid fit refuses to assert a frame: no six numbers describe this grid.
 
+[The numbers are not the values](demo/packing.html): sea surface temperature
+stored as 16-bit integers in hundredths of a degree. Skipping CF packing puts
+most of the ocean past the top of the colour ramp; applying the packing the
+card reads from metadata gives values equal, bit for bit in float32, to a
+twin stored as float32.
+
 ## The idea in three lines
 
 - **Cards are facts, not opinions.** A spec's conformance, a viewer's
