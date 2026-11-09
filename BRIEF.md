@@ -168,8 +168,15 @@ made the same point from the other side.
    type of `scale_factor`) equals f01e bit for bit, every ocean and fill
    cell; float64 unpacking differs in the last bits. f01e kept the packed
    `valid_min`/`valid_max` (-300, 4500) after unpacking; a finding for a
-   valid range left in packed units is not written yet. Next demo: fill
-   values (f01f, f08a).
+   valid range left in packed units is not written yet. A fifth page,
+   `site/demo/fill.html`, reads f01b, f01f and f08b under four reader
+   rules (STAC nodata; CF `_FillValue` parsed as a number; Zarr
+   `fill_value`; the card). STAC nodata misses f01b (none declared) and
+   f08b (-1e20 never equals a float32 cell in float64); the number parse
+   misses f08b, whose `_FillValue` xarray wrote as base64; the card masks
+   every fill cell in all three, checked against f01e's NaN and f08b's
+   values beyond 1e19. f08b stands in for f08a: same fill metadata, one
+   level per chunk (0.2 MB for the surface against 6.7 MB).
 4. Cards over the `ausantarctic` stores on source.coop; fix findings at
    source.
 5. Rule packs and viewer capability matching.

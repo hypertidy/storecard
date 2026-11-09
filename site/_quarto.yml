@@ -24,6 +24,8 @@ website:
             text: "An honest refusal"
           - href: demo/packing.html
             text: "The numbers are not the values"
+          - href: demo/fill.html
+            text: "Which cells are missing?"
       - href: why.qmd
       - href: card.qmd
       - href: assertions.qmd

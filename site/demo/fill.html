@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>storecard: which cells are missing?</title>
+<meta name="description" content="A store can say which value means missing in four places: the Zarr fill_value, CF _FillValue and missing_value, and STAC nodata. Readers each look in one. Three published stores read under four reader rules: land drawn as data, or masked, depending on where the reader looked and how it compared. Read straight from object storage in the browser.">
+<style>
+:root {
+  --bg: #fbfbf9; --fg: #1d2125; --muted: #5d6670; --line: #d9dcdf; --panel: #ffffff;
+  --accent: #1f5fa8; --ok: #1d7a46; --bad: #b3261e; --land: #9ba3a8; --code: #f1f2f0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15181b; --fg: #e6e8ea; --muted: #9aa3ab; --line: #343a40; --panel: #1d2125;
+    --accent: #7fb0ea; --ok: #5cc48a; --bad: #f08b84; --land: #5b6368; --code: #262b30;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15181b; --fg: #e6e8ea; --muted: #9aa3ab; --line: #343a40; --panel: #1d2125;
+  --accent: #7fb0ea; --ok: #5cc48a; --bad: #f08b84; --land: #5b6368; --code: #262b30;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--fg);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 1180px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 1.6rem; margin: 0 0 4px; }
+h2 { font-size: 1.15rem; margin: 32px 0 8px; }
+h3 { font-size: 1rem; margin: 0; }
+p { margin: 8px 0; max-width: 72ch; }
+a { color: var(--accent); }
+code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.86em; }
+code { background: var(--code); padding: 1px 4px; border-radius: 3px; }
+pre { background: var(--code); padding: 10px 12px; border-radius: 6px; overflow-x: auto; margin: 8px 0; }
+.lede { color: var(--muted); }
+.controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin: 16px 0;
+  padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--panel); }
+#status { color: var(--muted); font-size: 0.9rem; }
+.store { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 12px; margin: 16px 0; }
+.store .head { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: baseline; margin-bottom: 8px; }
+.store .sources { color: var(--muted); font-size: 0.85rem; }
+.rules { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 900px) { .rules { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.cell { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.cell .rule { font-size: 0.82rem; color: var(--muted); }
+.frame { position: relative; width: 100%; background: var(--code); border-radius: 4px; overflow: hidden; }
+.frame canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+.verdict { font-weight: 600; font-size: 0.82rem; }
+.verdict.ok { color: var(--ok); }
+.verdict.bad { color: var(--bad); }
+table { border-collapse: collapse; font-size: 0.88rem; width: 100%; }
+th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { color: var(--muted); font-weight: 600; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.ok { color: var(--ok); font-weight: 600; }
+td.bad { color: var(--bad); font-weight: 600; }
+.tablewrap { overflow-x: auto; }
+.legend { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--muted); }
+.legend canvas { width: 160px; height: 10px; border-radius: 2px; }
+.swatch { display: inline-block; width: 12px; height: 10px; background: var(--land); border-radius: 2px; }
+.banner { border: 1px solid var(--bad); color: var(--bad); border-radius: 6px; padding: 8px 12px; display: none; }
+.pair { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .pair { grid-template-columns: 1fr; } }
+.pair .panel { border: 1px solid var(--line); border-radius: 8px; background: var(--panel); padding: 12px; min-width: 0; }
+footer { margin-top: 40px; color: var(--muted); font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<main>
+<p class="lede"><a href="../">storecard</a> / demo. Before this: <a href="costumes.html">five costumes, one grid</a>,
+<a href="./">one assertion, end to end</a>, <a href="tripolar.html">an honest refusal</a> and
+<a href="packing.html">the numbers are not the values</a>.</p>
+<h1>Which cells are missing?</h1>
+<p class="lede">A store can name the value that means "no data here" in four places: the Zarr array's
+<code>fill_value</code>, the CF attributes <code>_FillValue</code> and <code>missing_value</code>,
+and the STAC catalog's <code>nodata</code>. A reader usually looks in one. When it looks in the wrong
+one, or finds the right number and compares it the wrong way, land and ice are drawn as data, at the
+bottom of the colour ramp. This page reads three published stores under four reader rules. The card
+reads every source, casts each to the stored type, and checks that they agree.</p>
+
+<div class="banner" id="banner"></div>
+
+<div class="controls">
+  <div class="legend"><canvas id="ramp" width="160" height="10"></canvas> <span>-2 to 32 &deg;C</span>
+    <span class="swatch"></span> masked as missing</div>
+  <span id="status">starting</span>
+</div>
+
+<div id="stores"></div>
+
+<h2>Every rule, every store</h2>
+<div class="tablewrap"><table id="matrix">
+  <thead><tr><th>Reader rule</th></tr></thead>
+  <tbody></tbody>
+</table></div>
+<p>Each count is cells masked, out of the fill cells found without any of the four rules: for the
+F01 stores, the NaN cells of their float32 twin f01e; for f08b, the cells whose value is beyond
+&plusmn;1e19, which no ocean temperature is. The card's mask equals that set, cell for cell, in all
+three stores; the page says so in red at the top if it ever does not.</p>
+
+<h2>Why -1e20 misses</h2>
+<p>The ocean model writes its fill as float32. The nearest float32 to -1e20 is
+<code>-100000002004087734272</code>, and that is the value in every land cell. The Zarr
+<code>fill_value</code> carries it exactly (<code>-1.0000000200408773e+20</code>). The STAC
+<code>nodata</code> says <code>-1e20</code>, which float32 cannot hold. A browser reads the cell into a
+64-bit number and compares: <code>-1.0000000200408773e+20 === -1e20</code> is false, in every cell.
+NumPy 2 compares <code>np.float32(-1e20) == -1e20</code> as true, because it casts the Python number
+down to float32 first; the same check written in float64 is false. The reader's language decides
+whether land is masked. The card casts every source to the stored type before comparing, and reports
+the STAC value as <code>FILL_NOT_REPRESENTABLE</code>.</p>
+<p>The CF <code>_FillValue</code> on the same store is the string <code>"AAAAgB2vFcQ="</code>: xarray
+writes floating-point fill attributes for Zarr v3 as the base64 of their eight bytes. xarray reads it
+back; a reader expecting a number gets <code>NaN</code> from it and masks nothing.</p>
+
+<h2>What the card reads</h2>
+<p>The card's <code>fill</code> entries for each store, recomputed in this page from the metadata and
+STAC it fetched: every source, its value cast to the stored type, and whether the value survives the
+cast.</p>
+<div class="pair" id="cards"></div>
+
+<h2>What each reader fetched</h2>
+<div class="tablewrap"><table id="bytes">
+  <thead><tr><th>Store</th><th>Fetched</th><th class="num">Bytes</th></tr></thead>
+  <tbody></tbody>
+</table></div>
+
+<footer>
+  <p>Part of <a href="https://github.com/hypertidy/storecard">hypertidy/storecard</a>. Fixtures:
+  <code>portolan/</code> in that repo, published on Pawsey Acacia. f01b is NOAA OISST v2.1 (1 January
+  2025) north-up; f01f is f01b with <code>nodata</code> -999 declared on its STAC asset, the only
+  difference. f08b is ACCESS-ESM1.6 ocean temperature (January 2014, surface) with one level per chunk;
+  f08a, the store as the virtual index presents it, has the same fill metadata but 25 levels per chunk,
+  so its surface would cost 6.7 MB here instead of 0.2 MB.</p>
+  <p>This page is a minimal reader: Zarr v3, <code>bytes</code> and <code>zstd</code> codecs. Packing
+  is applied in every panel (see the previous page), so only the fill varies. Maps are the arrays drawn
+  north up, one pixel per cell; f08b is drawn on its nominal 1-D axes, which is wrong in the Arctic (see
+  <a href="tripolar.html">an honest refusal</a>) and does not matter for which cells are missing.</p>
+</footer>
+</main>
+
+<script type="module">
+import { decompress } from "https://cdn.jsdelivr.net/npm/fzstd@0.1.1/+esm";
+
+// Store locations in one place, so a storage move is a one-line change.
+const ROOT = "https://projects.pawsey.org.au/aad-derived/portolan-fixtures";
+const STORES = [
+  { id: "f01b-oisst-ydesc", family: "f01", v: "sst", idx: [0, 0], note: "OISST, CF-packed int16" },
+  { id: "f01f-oisst-nodata", family: "f01", v: "sst", idx: [0, 0], note: "f01b plus STAC nodata, int16" },
+  { id: "f08b-esm-levelchunk", family: "f08", v: "temp", idx: [0, 0], note: "ocean model, float32, kelvin" },
+];
+const TWIN_NAN = "f01e-oisst-unpacked";    // f01b's values as float32 with NaN fill: an independent mask
+const T_MIN = -2, T_MAX = 32;    // display range, degrees C
+
+const $ = (s, el = document) => el.querySelector(s);
+const status = (t) => { $("#status").textContent = t; };
+const banner = (t) => { const b = $("#banner"); b.textContent = t; b.style.display = "block"; };
+const fmtB = (n) => n == null ? "-" : n < 1024 ? n + " B" : n < 1048576 ? (n / 1024).toFixed(1) + " KB" : (n / 1048576).toFixed(2) + " MB";
+const fmtN = (n) => n.toLocaleString("en");
+const css = (v) => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const esc = (s) => String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+
+// ---------------------------------------------------------------- fetching, counted per store
+
+const meter = {};
+const count = (key, kind, n) => { (meter[key] ??= { meta: 0, stac: 0, chunks: 0 })[kind] += n; };
+async function getBytes(url, key, kind) {
+  const r = await fetch(url);
+  if (r.status === 404 || r.status === 403) return null;
+  if (!r.ok) throw new Error(r.status + " " + url);
+  const u = new Uint8Array(await r.arrayBuffer());
+  if (key) count(key, kind, u.byteLength);
+  return u;
+}
+async function getJSON(url, key, kind) {
+  const u = await getBytes(url, key, kind);
+  if (!u) throw new Error("not found: " + url);
+  // Zarr v3 JSON may carry the bare tokens NaN / Infinity as a fill value; keep them as strings.
+  return JSON.parse(new TextDecoder().decode(u).replace(/:\s*(-?Infinity|NaN)\b/g, ': "$1"'));
+}
+
+// ---------------------------------------------------------------- a small Zarr v3 reader
+
+async function openArray(store, name, key) {
+  const m = await getJSON(`${store}/${name}/zarr.json`, key, "meta");
+  const names = m.codecs.map((c) => c.name);
+  if (!names.every((n) => n === "bytes" || n === "zstd")) throw new Error("codecs not supported here: " + names.join(", "));
+  if (((m.codecs.find((c) => c.name === "bytes") || {}).configuration?.endian || "little") !== "little") throw new Error("big-endian not supported here");
+  return { store, key, name, meta: m, shape: m.shape, chunks: m.chunk_grid.configuration.chunk_shape, dtype: m.data_type,
+    fill: m.fill_value, zstd: names.includes("zstd"), sep: m.chunk_key_encoding?.configuration?.separator || "/", attrs: m.attributes || {} };
+}
+const CTOR = { int16: Int16Array, float32: Float32Array, float64: Float64Array };
+function typed(dtype, u) {
+  if (!CTOR[dtype]) throw new Error("dtype not supported here: " + dtype);
+  return new CTOR[dtype](u.buffer.slice(u.byteOffset, u.byteOffset + u.byteLength));
+}
+// The Zarr fill_value as a number of the stored type ("NaN" and friends included).
+function zarrFill(arr) {
+  const f = arr.fill;
+  if (typeof f === "number") return f;
+  if (f === "NaN") return NaN;
+  if (f === "Infinity") return Infinity;
+  if (f === "-Infinity") return -Infinity;
+  if (typeof f === "string" && f.startsWith("0x")) return new CTOR[arr.dtype](new Uint32Array([parseInt(f, 16)]).buffer)[0];
+  return Number(f);
+}
+// The [y, x] slice at the leading indices `lead`, assembled from its chunks.
+async function readSlice(arr, lead) {
+  const nl = lead.length, H = arr.shape[nl], W = arr.shape[nl + 1], ch = arr.chunks[nl], cw = arr.chunks[nl + 1];
+  const inner = arr.chunks.slice(0, nl).map((c, k) => lead[k] % c);    // position of the slice inside its chunk
+  const per = ch * cw, offset = inner.reduce((o, p, k) => o * arr.chunks[k] + p, 0) * per;
+  const out = new CTOR[arr.dtype](H * W);
+  const fz = zarrFill(arr), jobs = [];
+  for (let cj = 0; cj < Math.ceil(H / ch); cj++) for (let ci = 0; ci < Math.ceil(W / cw); ci++) {
+    const key = [...lead.map((l, k) => Math.floor(l / arr.chunks[k])), cj, ci];
+    jobs.push(getBytes(`${arr.store}/${arr.name}/c/${key.join(arr.sep)}`, arr.key, "chunks").then((u) => {
+      const c = u ? typed(arr.dtype, arr.zstd ? decompress(u) : u) : null;
+      for (let j = 0; j < ch && cj * ch + j < H; j++) for (let i = 0; i < cw && ci * cw + i < W; i++) {
+        out[(cj * ch + j) * W + ci * cw + i] = c ? c[offset + j * cw + i] : fz;
+      }
+    }));
+  }
+  await Promise.all(jobs);
+  return out;
+}
+
+// ---------------------------------------------------------------- fill sources and reader rules
+
+// Decode a CF fill attribute the way the card does: numbers as given, xarray's base64 of the value's
+// eight (or four) bytes as that float.
+function decodeAttr(v, dtype) {
+  if (typeof v === "number") return { value: v };
+  if (typeof v === "string" && /^[A-Za-z0-9+/]+=*$/.test(v) && v.length % 4 === 0) {
+    const bin = Uint8Array.from(atob(v), (c) => c.charCodeAt(0));
+    if (bin.length === 8) return { value: new Float64Array(bin.buffer)[0], encoding: "base64" };
+    if (bin.length === 4) return { value: new Float32Array(bin.buffer)[0], encoding: "base64" };
+  }
+  return { value: Number(v), unparsed: true };
+}
+// Cast to the stored type: what a value becomes when it is written into the array.
+function inDtype(v, dtype) {
+  if (Number.isNaN(v)) return NaN;
+  if (dtype === "float32") return Math.fround(v);
+  if (dtype === "int16") return Number.isInteger(v) && v >= -32768 && v <= 32767 ? v : NaN;
+  return v;
+}
+function fillSources(arr, nodata) {
+  const out = [{ from: "zarr fill_value", raw: arr.fill, value: zarrFill(arr) }];
+  for (const k of ["_FillValue", "missing_value"]) if (arr.attrs[k] != null) {
+    const d = decodeAttr(arr.attrs[k], arr.dtype);
+    out.push({ from: "CF " + k, raw: arr.attrs[k], value: d.value, ...(d.encoding ? { encoding: d.encoding } : {}) });
+  }
+  if (nodata != null) out.push({ from: "STAC nodata", raw: nodata, value: nodata });
+  for (const s of out) {
+    s.in_dtype = inDtype(s.value, arr.dtype);
+    s.representable = Number.isNaN(s.value) ? Number.isNaN(s.in_dtype) : s.in_dtype === s.value;
+  }
+  return out;
+}
+const isFill = (x, f) => Number.isNaN(f) ? Number.isNaN(x) : x === f;
+
+// Four readers. Each returns the fill value it will compare against (or null for none) and how.
+const RULES = [
+  { id: "stac", name: "STAC nodata", how: "the catalog's nodata, compared as given",
+    fill: (S) => S.nodata ?? null },
+  { id: "cf", name: "CF _FillValue as a number", how: "the attribute parsed as a number",
+    fill: (S) => S.arr.attrs._FillValue == null ? null : Number(S.arr.attrs._FillValue) },
+  { id: "zarr", name: "Zarr fill_value", how: "the array's fill_value, compared as given",
+    fill: (S) => zarrFill(S.arr) },
+  { id: "card", name: "the card", how: "every source, cast to the stored type, must agree",
+    fill: (S) => {
+      const vals = S.sources.filter((s) => !Number.isNaN(s.in_dtype) || Number.isNaN(s.value)).map((s) => s.in_dtype);
+      return vals.length ? vals[0] : null;
+    } },
+];
+
+// ---------------------------------------------------------------- drawing
+
+const RAMP = [[13, 8, 135], [84, 2, 163], [139, 10, 165], [185, 50, 137], [219, 92, 104], [244, 136, 73], [254, 188, 43], [240, 249, 33]];
+function rampColour(f) {
+  const x = Math.max(0, Math.min(1, f)) * (RAMP.length - 1), i = Math.min(RAMP.length - 2, Math.floor(x)), g = x - i;
+  return RAMP[i].map((c, k) => Math.round(c + g * (RAMP[i + 1][k] - c)));
+}
+function landRGB() {
+  const c = document.createElement("canvas").getContext("2d");
+  c.fillStyle = css("--land"); c.fillRect(0, 0, 1, 1);
+  return c.getImageData(0, 0, 1, 1).data;
+}
+// Draw north up: flipY when row 0 is the south.
+function draw(canvas, vals, masked, toC, H, W, flipY) {
+  canvas.width = W; canvas.height = H;
+  const ctx = canvas.getContext("2d"), img = ctx.createImageData(W, H), land = landRGB();
+  for (let j = 0; j < H; j++) for (let i = 0; i < W; i++) {
+    const k = j * W + i, o = 4 * ((flipY ? H - 1 - j : j) * W + i);
+    const c = masked[k] ? land : rampColour((toC(vals[k]) - T_MIN) / (T_MAX - T_MIN));
+    img.data[o] = c[0]; img.data[o + 1] = c[1]; img.data[o + 2] = c[2]; img.data[o + 3] = 255;
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+// ---------------------------------------------------------------- the page
+
+// Large numbers as exponents, the shortest that round-trips, as Python's json writes them:
+// -1.0000000200408773e+20 and -1e+20 must not both print as twenty-digit integers.
+const show = (v) => JSON.stringify(v, (k, x) => typeof x !== "number" ? x : !Number.isFinite(x) ? String(x) :
+  Math.abs(x) >= 1e16 ? "@exp@" + x.toExponential() : x, 1).replace(/"@exp@([^"]*)"/g, "$1");
+
+async function readStore(st) {
+  const store = `${ROOT}/stores/${st.id}.zarr`, key = st.id;
+  const [col] = await Promise.all([getJSON(`${ROOT}/catalog/${st.family}/${st.id}/collection.json`, key, "stac"),
+    getJSON(`${store}/zarr.json`, key, "meta")]);
+  const bands = Object.values(col.assets || {}).flatMap((a) => a.bands || []);
+  const band = bands.find((b) => b.name === st.v) || bands[0] || {};
+  const arr = await openArray(store, st.v, key);
+  // The y coordinate, to draw north up (one chunk, as the F01 and F08 builders write it).
+  const ay = await openArray(store, arr.meta.dimension_names.at(-2), key);
+  const yu = await getBytes(`${store}/${ay.name}/c/0`, key, "meta");
+  const yv = yu ? typed(ay.dtype, ay.zstd ? decompress(yu) : yu) : null;
+  const vals = await readSlice(arr, st.idx);
+  const sources = fillSources(arr, band.nodata);
+  const a = arr.attrs, sc = a.scale_factor ?? 1, off = a.add_offset ?? 0;
+  const kelvin = /^k(elvin)?$/i.test(a.units || "");
+  const toC = (x) => Math.fround(x * sc + off) - (kelvin ? 273.15 : 0);
+  return { st, arr, vals, sources, nodata: band.nodata, toC, H: arr.shape.at(-2), W: arr.shape.at(-1),
+    flipY: yv ? yv[0] < yv[yv.length - 1] : false };
+}
+
+async function main() {
+  const ramp = $("#ramp").getContext("2d");
+  for (let i = 0; i < 160; i++) { ramp.fillStyle = `rgb(${rampColour(i / 159)})`; ramp.fillRect(i, 0, 1, 10); }
+  status("reading three stores and their STAC");
+  const all = await Promise.all(STORES.map(readStore));
+
+  // Independent checks of the card's mask.
+  status("checking the card's mask against f01e");
+  const twin = await openArray(`${ROOT}/stores/${TWIN_NAN}.zarr`, "sst", TWIN_NAN);
+  const tv = await readSlice(twin, [0, 0]);
+  const results = {};
+  for (const S of all) {
+    const n = S.H * S.W, masks = {};
+    for (const R of RULES) {
+      const f = R.fill(S), m = new Uint8Array(n);
+      if (f != null) for (let k = 0; k < n; k++) m[k] = isFill(S.vals[k], f) ? 1 : 0;
+      masks[R.id] = { f, m, count: m.reduce((p, q) => p + q, 0) };
+    }
+    // Truth, from outside the card: for the F01 stores, f01e's NaN cells; for f08b, cells whose value
+    // is not a plausible temperature (|x| >= 1e19).
+    const truth = new Uint8Array(n);
+    for (let k = 0; k < n; k++) truth[k] = S.st.family === "f01" ? (Number.isNaN(tv[k]) ? 1 : 0) : (Math.abs(S.vals[k]) >= 1e19 ? 1 : 0);
+    const tc = truth.reduce((p, q) => p + q, 0);
+    let cardAgrees = true;
+    for (let k = 0; k < n; k++) if (truth[k] !== masks.card.m[k]) { cardAgrees = false; break; }
+    if (!cardAgrees) banner(`The card's mask for ${S.st.id} does not match the independent check.`);
+    results[S.st.id] = { masks, truth: tc, cardAgrees };
+  }
+
+  // One section per store, four panels each.
+  const host = $("#stores");
+  for (const S of all) {
+    const R0 = results[S.st.id];
+    const src = S.sources.map((s) => `${s.from} <code>${esc(typeof s.raw === "string" ? JSON.stringify(s.raw) : Math.abs(s.raw) >= 1e15 ? s.raw.toExponential() : s.raw)}</code>`).join(" &middot; ");
+    const sec = document.createElement("section");
+    sec.className = "store";
+    sec.innerHTML = `<div class="head"><h3>${S.st.id}</h3><span class="sources">${S.st.note}; ` +
+      `${fmtN(R0.truth)} of ${fmtN(S.H * S.W)} cells are fill</span></div>` +
+      `<p class="sources">${src}</p><div class="rules"></div>`;
+    host.append(sec);
+    for (const R of RULES) {
+      const M = R0.masks[R.id], ok = M.count === R0.truth, div = document.createElement("div");
+      div.className = "cell";
+      div.innerHTML = `<div class="rule"><b>${R.name}</b>: ${R.how}</div><div class="frame"><canvas></canvas></div>` +
+        `<div class="verdict ${ok ? "ok" : "bad"}">${M.f == null ? "no fill value found; " : ""}` +
+        (ok ? `masks all ${fmtN(M.count)}` : `masks ${fmtN(M.count)}: ${fmtN(R0.truth - M.count)} fill cells drawn as data`) + `</div>`;
+      $(".rules", sec).append(div);
+      draw($("canvas", div), S.vals, M.m, S.toC, S.H, S.W, S.flipY);
+    }
+  }
+
+  // The matrix.
+  $("#matrix thead tr").innerHTML = `<th>Reader rule</th>` + all.map((S) => `<th class="num">${S.st.id}</th>`).join("");
+  $("#matrix tbody").innerHTML = RULES.map((R) => `<tr><td>${R.name}</td>` + all.map((S) => {
+    const r = results[S.st.id], c = r.masks[R.id].count;
+    return `<td class="num ${c === r.truth ? "ok" : "bad"}">${fmtN(c)} / ${fmtN(r.truth)}</td>`;
+  }).join("") + `</tr>`).join("");
+
+  // The card's fill entries.
+  $("#cards").innerHTML = all.map((S) => {
+    const agree = new Set(S.sources.filter((s) => !Number.isNaN(s.in_dtype) || Number.isNaN(s.value)).map((s) => String(s.in_dtype))).size <= 1;
+    const findings = S.sources.filter((s) => !s.representable).map((s) => ({ code: "FILL_NOT_REPRESENTABLE", source: s.from, value: s.value, in_dtype: s.in_dtype, dtype: S.arr.dtype }));
+    return `<section class="panel"><h3>${S.st.id}</h3><pre>${esc(show({ dtype: S.arr.dtype, fill: S.sources, fill_agree: agree }))}` +
+      (findings.length ? "\n\nfindings:\n" + esc(show(findings)) : "\n\nfindings: none") + `</pre></section>`;
+  }).join("");
+
+  // Bytes.
+  $("#bytes tbody").innerHTML = all.map((S) => { const m = meter[S.st.id];
+    return `<tr><td>${S.st.id}</td><td>metadata, STAC collection</td><td class="num">${fmtB(m.meta + m.stac)}</td></tr>` +
+      `<tr><td></td><td>one ${S.st.family === "f01" ? "day" : "month, surface level"}: ${((n) => n + (n === 1 ? " chunk" : " chunks"))(Math.ceil(S.H / S.arr.chunks.at(-2)) * Math.ceil(S.W / S.arr.chunks.at(-1)))}</td><td class="num">${fmtB(m.chunks)}</td></tr>`; }).join("") +
+    `<tr><td>${TWIN_NAN}</td><td>metadata and one day, for the independent check only</td><td class="num">${fmtB(meter[TWIN_NAN].meta + meter[TWIN_NAN].chunks)}</td></tr>`;
+  status("done: " + all.map((S) => S.st.id).join(", "));
+}
+
+main().catch((err) => {
+  status("stopped");
+  banner("Could not read the stores from this browser (" + err.message + "). The bucket must allow cross-origin reads from this page's origin.");
+  console.error(err);
+});
+</script>
+</body>
+</html>
