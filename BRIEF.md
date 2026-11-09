@@ -4,7 +4,7 @@ Read this first. It records how the project came about, what exists, what
 has been learned, what is decided and what is open. Keep it current: when a
 decision is made or a next step is done, edit this file in the same PR.
 
-Last updated: 2026-11-08.
+Last updated: 2026-11-09.
 
 ## In one paragraph
 
@@ -39,9 +39,9 @@ made the same point from the other side.
 | Zarr browser fixtures, built as twins | `portolan/` | F01 OISST (6 twins), F03 polar sea ice (Bremen ASI AMSR2 3.125 km, 6 twins; NOAA/NSIDC G02202 25 km south and north, 4 twins), F08 ACCESS-ESM1.6 tripolar ocean (4 twins). Published at `https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/catalog.json` (20 collections; F08's true positions come from the run's fixed fields `ocean-2d-geolon_t-fx.nc` / `ocean-2d-geolat_t-fx.nc`, which the yearly files name but do not carry, so f08c exists and f08d is regridded on them) |
 | Fixture builders, local CORS/range server, Setonix runbook | `portolan/build`, `portolan/serve`, `portolan/setonix` | working |
 | Prototype card extractor (local netCDF) | `proto/protocard.py` | PR 4 |
-| Card extractor for Zarr v2/v3 stores | `src/storecard/`, codes in `FINDINGS.md` | working on local stores; remote (s3, https) written, not yet run against the published catalog |
+| Card extractor | `src/storecard/` (`forms.py` for kerchunk and Icechunk), codes in `FINDINGS.md` | Zarr v2/v3, kerchunk JSON and Parquet, Icechunk; local, https and s3; checked against the published catalog and the five ausantarctic virtual stores in both forms |
 | Assertions v0: schema, overlay, emitters (zarr-conventions attrs, STAC patch, multidim VRT) | `src/storecard/assertion.py`, `ASSERTIONS.md`, `assertions/` | the f03d assertion makes its card match its twin f03e, locally and on the published store; the VRT is checked as XML, not yet opened with GDAL |
-| Fixture tests | `tests/`: synthetic sources run through the unchanged `portolan/build` builders, so shapes, chunking and attributes match the published fixtures | 18 fixtures (F01, F03 Bremen and G02202 south, F08), 96 tests; opt-in network tests (`STORECARD_NETWORK=1`) check the published Pawsey catalog against the same expectations (all match) and a sharded source.coop store |
+| Fixture tests | `tests/`: synthetic sources run through the unchanged `portolan/build` builders, so shapes, chunking and attributes match the published fixtures | 18 fixtures (F01, F03 Bremen and G02202 south, F08), each also as a kerchunk JSON, kerchunk Parquet and Icechunk twin (`tests/virtual.py`) that must give the same variables; 175 tests; opt-in network tests (`STORECARD_NETWORK=1`) check the published Pawsey catalog against the same expectations (all match), a sharded source.coop store, and the five ausantarctic virtual stores |
 | Prototype cards over the rasterwise problem files | `cases/rasterwise/cards.jsonl` | PR 4 |
 | Problem-file archive | rgdal-dev/rasterwise | being consolidated into a checksummed superset; stays its own repo |
 | Grid inference design | hypertidy/degredation, formerly mdsumner/gproj (`design.md`, Phase 2 `detect_grid`) | R, design written, detector partly prototyped |
@@ -70,6 +70,24 @@ made the same point from the other side.
   mapping; the ACCESS-ESM1.6 store names `geolon_t geolat_t` in `coordinates`
   but does not carry them, leaving 1-D nominal axes that are wrong north of
   the tripolar fold.
+- **Probing chunk hosts needs a browser's request, not a HEAD.** THREDDS
+  (thredds.nci.org.au, the BRAN source) answers 403 to HEAD with an Origin
+  header and serves the browser's ranged GET with `Access-Control-Allow-Origin: *`.
+  The card probes by HEAD and falls back to a GET of the file's first byte
+  when the sampled chunk starts past it, so no chunk byte is read. Listing
+  every reference instead takes 25 s to over 3 minutes per store (37.5
+  million for BRAN), so a card samples the first and last chunk of each
+  data array; every store so far references one host.
+- **The two forms of one virtual store can differ.** raad.virtualize writes
+  CF `_FillValue` into its Icechunk stores but not into the kerchunk stores
+  of the same data (OISST, G02202, BRAN, MUR; the value equals Zarr
+  `fill_value`, so nothing disagrees, but a reader masking by `_FillValue`
+  finds nothing in the kerchunk form). Fix in raad.virtualize.
+- **A codec chain is a fact, not a capability.** The MUR store's chunks are
+  TIFF tiles with an `imagecodecs_delta` filter; zarr refuses to parse
+  metadata naming a codec it cannot load. The card registers placeholders
+  that parse and refuse to decode, so it records the chain without needing
+  imagecodecs.
 - **The rasterwise heuristics find the known cases unprompted:**
   Mercator-spaced latitude (Aviso MADT, ACCfronts), swapped axes (3A-DAY),
   and five files with only 2-D lon/lat that are candidates for a grid fit.
@@ -126,10 +144,14 @@ made the same point from the other side.
    catalog: every published fixture gives its expected card. Over plain
    HTTP the unconsolidated fixture stores cannot be listed, so arrays are
    found from STAC `cube:variables` by following dimension, `coordinates`
-   and `grid_mapping` names (`GROUP_NOT_LISTABLE` records it). Still to do:
-   CORS probing of the hosts of referenced chunks for virtual stores, and
-   Icechunk and kerchunk forms; tooling and containers to be settled from
-   hypertidy/gdal-r-ci.
+   and `grid_mapping` names (`GROUP_NOT_LISTABLE` records it). kerchunk
+   (JSON and Parquet) and Icechunk done (`src/storecard/forms.py`): each
+   fixture's virtual twin gives the fixture's variables, and the hosts its
+   chunk references point at are probed for CORS and range support
+   (`CHUNK_HOST_NO_CORS`, `CHUNK_REFS_NOT_HTTP`) without reading a chunk.
+   An Icechunk twin keeps the v3 metadata documents, so its metadata digest
+   is the store's and assertions carry over. Still to do: mdim VRT and COG
+   forms; tooling and containers to be settled from hypertidy/gdal-r-ci.
 2. Grid fit from a card: must recover EPSG:3412 and the exact transform from
    `f03d-asi-latlon2d`, and refuse the tripolar `f08c-esm-geo2d`. Done for
    named frames (`src/storecard/fit.py`, `python -m storecard URL --fit`):
@@ -178,7 +200,14 @@ made the same point from the other side.
    values beyond 1e19. f08b stands in for f08a: same fill metadata, one
    level per chunk (0.2 MB for the surface against 6.7 MB).
 4. Cards over the `ausantarctic` stores on source.coop; fix findings at
-   source.
+   source. First pass done for the five virtual stores (OISST, G02202
+   south, Bremen ASI south, BRAN salt, MUR), kerchunk and Icechunk forms
+   (`tests/test_remote.py`). To fix in raad.virtualize: no CRS declared on
+   any of them (`CRS_NOT_DECLARED`; G02202 and ASI also
+   `PROJECTED_NO_GRID_MAPPING`), BRAN's `coordinates` names arrays it does
+   not carry, and the kerchunk form drops CF `_FillValue`. Not fixable
+   there: G02202 (NSIDC) and ASI (Bremen) chunk hosts send no CORS
+   (`CHUNK_HOST_NO_CORS`); NOAA's S3, NCI THREDDS and source.coop do.
 5. Rule packs and viewer capability matching.
 
 ## Reading

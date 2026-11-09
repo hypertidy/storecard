@@ -10,8 +10,10 @@ from .card import card
 
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="storecard", description="Print a store card as JSON.")
-    ap.add_argument("url", help="path or URL of a Zarr store")
+    ap.add_argument("url", help="path or URL of a store: Zarr, kerchunk references (.json or a Parquet directory) or an Icechunk repository")
     ap.add_argument("--stac", help="STAC collection, item or asset (path or URL)")
+    ap.add_argument("--form", choices=["zarr", "kerchunk json", "kerchunk parquet", "icechunk"],
+                    help="the store's form (default: detected from the documents at its root)")
     ap.add_argument("--no-hosts", action="store_true", help="do not probe hosts for CORS and range support")
     ap.add_argument("--anon", action="store_true", help="anonymous access for s3:// URLs")
     ap.add_argument("--endpoint", help="S3 endpoint URL, for s3:// URLs outside AWS")
@@ -33,7 +35,7 @@ def main(argv=None):
             ap.error("--emit needs --assertion")
         doc = A.load(a.assertion[0])
         if a.emit == "vrt":
-            c = card(a.url, stac=a.stac, storage_options=so or None, probe_hosts=False)
+            c = card(a.url, stac=a.stac, storage_options=so or None, probe_hosts=False, form=a.form)
             sys.stdout.write(A.to_vrt(doc, c))
             return
         out = A.to_zarr_attrs(doc) if a.emit == "zarr" else A.to_stac_patch(doc)
@@ -42,12 +44,12 @@ def main(argv=None):
         return
     if a.fit:
         from . import fit
-        c = card(a.url, stac=a.stac, storage_options=so or None, probe_hosts=False)
+        c = card(a.url, stac=a.stac, storage_options=so or None, probe_hosts=False, form=a.form)
         json.dump(fit.assertion(c, a.variable), sys.stdout, indent=1)
         sys.stdout.write("\n")
         return
     c = card(a.url, stac=a.stac, storage_options=so or None, probe_hosts=not a.no_hosts,
-             assertions=a.assertion)
+             assertions=a.assertion, form=a.form)
     json.dump(c, sys.stdout, indent=1)
     sys.stdout.write("\n")
 

@@ -72,8 +72,12 @@ from storecard import card
 c = card("f03d-asi-latlon2d.zarr", stac="collection.json")
 ```
 
-Zarr v2 and v3 only for now (Icechunk, kerchunk and VRT are later). The card
-reads metadata and coordinate arrays, never a data chunk. The variables
+Plain Zarr (v2 and v3), kerchunk references (a `.json` file or a Parquet
+directory, needing the `virtual` extra) and Icechunk repositories; the form
+is detected from the store's root (mdim VRT and COG are later). The card
+reads metadata and coordinate arrays, never a data chunk. For a virtual
+store, `hosts` also lists each host its chunk references point at, from a
+sample of the index, with that host's CORS and range answers. The variables
 section holds `values`, `grid` (with `coord_sample` and the presented
 `costume`, A to H from regular-in-what), `crs` and `cost` (non-spatial read
 factor for the inner chunk and the shard; tile amplification aligned and

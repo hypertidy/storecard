@@ -27,6 +27,8 @@ meaning.
 | `TRANSFORM_SHAPE_MISMATCH` | `spatial:shape` differs from the array's spatial shape | |
 | `FILL_DISAGREE` | the fill sources (Zarr `fill_value`, CF `_FillValue`, `missing_value`, STAC `nodata`) give different values once cast to the stored dtype | xarray's Zarr v3 default: `fill_value` 0 beside `_FillValue` -999 |
 | `FILL_NOT_REPRESENTABLE` | a declared fill value cannot be held exactly by the stored dtype, so a comparison at the declared precision never matches | f08a (STAC nodata -1e20 against float32) |
+| `CHUNK_HOST_NO_CORS` | a host that a virtual store's chunk references point at answers without `Access-Control-Allow-Origin`: no browser can read those chunks, wherever the index is hosted. Probed from a sample of the index (first and last chunk of each data array) by HEAD, or, where HEAD with an Origin is refused and the sampled chunk starts past byte 0, by a GET of the file's first byte; never a chunk byte | source.coop G02202 and Bremen ASI virtual stores |
+| `CHUNK_REFS_NOT_HTTP` | chunk references use a scheme a browser cannot fetch (`s3://`, a file path) | the virtual twins in `tests/test_forms.py` |
 | `GROUP_NOT_LISTABLE` | the store's arrays could not be listed (no consolidated metadata, a host that does not list) and were found from hints | |
 | `OPEN_FAILED` | the store could not be opened (from `proto/protocard.py`) | |
 
