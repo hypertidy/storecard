@@ -76,7 +76,7 @@ storecard URL --assertion assertions/f03d-asi-latlon2d.json --emit vrt
 
 | Step | State |
 | ---- | ----- |
-| 1. Card extractor, URL in, card out | Zarr v2 and v3 done, checked against every published fixture. Icechunk, kerchunk and CORS probing of referenced-chunk hosts to do |
+| 1. Card extractor, URL in, card out | Zarr v2 and v3, kerchunk (JSON, Parquet) and Icechunk done, with CORS probing of referenced-chunk hosts; checked against every published fixture and the five ausantarctic virtual stores |
 | 2. Grid fit from a card | Named frames done: f03d recovers EPSG:3412 exactly, the tripolar f08c is refused ([published](demo/tripolar.html)) |
 | 3. One assertion end to end | Done: [the demo](demo/index.html). The same overlay in portolan-browser is open |
 | 4. Cards over the `ausantarctic` stores on source.coop | Next |

@@ -4,19 +4,22 @@ subtitle: "One JSON document per store, read from metadata alone"
 ---
 
 A card is built from a URL by reading metadata documents and, for 1-D and 2-D
-coordinates, a sample of their values. It never reads a data chunk. Draft v0
+coordinates, a sample of their values. It never reads a data chunk. Plain
+Zarr, kerchunk references (JSON or Parquet) and Icechunk repositories give
+the same card for the same metadata; a codec the environment cannot load is
+recorded, not needed. Draft v0
 sections:
 
 | Section | Fields |
 | ------- | ------ |
-| `source` | url, form (zarr v2/v3; icechunk, kerchunk, mdim VRT and COG planned), version or etag, metadata digest, scanned_at, assertions applied |
+| `source` | url, form (zarr v2/v3, kerchunk json, kerchunk parquet, icechunk; mdim VRT and COG planned), Icechunk branch, snapshot and virtual chunk containers, metadata digest, scanned_at, assertions applied |
 | `arrays` | name, dtype, shape, dimension names, chunk shape (inner and shard), codec chain |
 | `values` | units, CF packing (`scale_factor`, `add_offset`), fill values from every source (Zarr `fill_value`, CF `_FillValue`, `missing_value`, STAC `nodata`) and whether they agree, `valid_range`, flag values |
 | `grid` | declared form (`transform`, `coords_1d_regular`, `coords_1d_irregular`, `coords_2d`, `coords_named_missing`, `none`); axis order and direction; registration; the presented costume |
 | `crs` | declared CRS (proj convention, CF grid mapping, WKT), and how it was found |
 | `coord_sample` | for 1-D and 2-D coordinates: edges plus a central cross, enough for grid inference without re-reading the arrays |
 | `cost` | non-spatial read factor for the inner chunk and the shard; tile amplification aligned and worst case |
-| `hosts` | each host serving bytes: CORS status, range support, protocol (planned) |
+| `hosts` | each host serving bytes: the metadata host, and for virtual stores each host the chunk references point at (from a sample of the index), with CORS status, range support, protocol and how it was probed |
 | `findings` | ordered list of problems, each with a code from the table below |
 
 ```sh

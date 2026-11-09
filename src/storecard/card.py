@@ -11,6 +11,7 @@ import base64
 import datetime
 import json
 import math
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -18,6 +19,7 @@ import numpy as np
 import zarr
 
 from . import assertion as _assertion
+from . import forms as _forms
 
 CARD_VERSION = "0"
 
@@ -226,17 +228,6 @@ def _decimate(n, k=SAMPLE_2D_POINTS):
 
 # ---------------------------------------------------------------- store access
 
-def _open(url, storage_options=None):
-    kw = {"mode": "r"}
-    if "://" in url and not url.startswith("file://"):
-        so = dict(storage_options or {})
-        if url.startswith(("http://", "https://")):
-            # honour HTTPS_PROXY and friends, as urllib does for the host probe
-            so.setdefault("client_kwargs", {}).setdefault("trust_env", True)
-        kw["storage_options"] = so
-    return zarr.open_group(url, **kw)
-
-
 def _members(group, hints=(), levels=()):
     """All arrays below group as {path: array}, and whether the group listed.
 
@@ -247,7 +238,7 @@ def _members(group, hints=(), levels=()):
     `coordinates`, `grid_mapping`, `bounds`)."""
     out = {}
     try:
-        for path, node in group.members(max_depth=None):
+        for path, node in _forms.tolerant(lambda: list(group.members(max_depth=None))):
             if isinstance(node, zarr.Array):
                 out[path] = node
     except Exception:
@@ -262,7 +253,7 @@ def _members(group, hints=(), levels=()):
             continue
         tried.add(name)
         try:
-            node = group[name]
+            node = _forms.tolerant(lambda: group[name])
         except Exception:
             continue
         if not isinstance(node, zarr.Array):
@@ -324,16 +315,15 @@ def _sibling(path, name):
 
 # ---------------------------------------------------------------- hosts
 
-def _probe_host(url, zarr_format):
+def _probe_host(url, meta_key):
     """CORS and range behaviour of the host serving the store's metadata."""
     parts = urllib.parse.urlsplit(url)
     if parts.scheme not in ("http", "https"):
         return None
-    meta = "zarr.json" if zarr_format == 3 else ".zgroup"
-    target = url.rstrip("/") + "/" + meta
+    target = url.rstrip("/") + "/" + meta_key if meta_key else url
     req = urllib.request.Request(target, headers={
         "Origin": "https://storecard.invalid", "Range": "bytes=0-0"})
-    out = {"host": parts.netloc, "protocol": parts.scheme, "probed": target}
+    out = {"role": "metadata", "host": parts.netloc, "protocol": parts.scheme, "probed": target}
     try:
         with urllib.request.urlopen(req, timeout=20) as r:
             h = r.headers
@@ -343,6 +333,69 @@ def _probe_host(url, zarr_format):
     except Exception as e:
         out["error"] = str(e)[:200]
     return out
+
+
+def _probe_chunk_host(location, offset):
+    """CORS and range behaviour of a host serving referenced chunks.
+
+    First a HEAD request with an Origin header: its response headers say
+    whether a browser may read the bytes and whether the host serves ranges,
+    and no byte is read. Some hosts refuse HEAD with an Origin and serve the
+    GET a browser sends (THREDDS answers 403); then, if the sampled chunk
+    starts past the file's first byte (offset > 0, so that byte is a header,
+    not chunk data), a GET for bytes 0-0, as the metadata probe does."""
+    def ask(method, headers):
+        req = urllib.request.Request(location, method=method, headers={
+            "Origin": "https://storecard.invalid", **headers})
+        out = {"method": method if method == "HEAD" else "GET bytes=0-0"}
+        try:
+            with urllib.request.urlopen(req, timeout=20) as r:
+                h = r.headers
+                out["status"] = r.status
+                out["cors"] = h.get("Access-Control-Allow-Origin")
+                out["range"] = r.status == 206 or h.get("Accept-Ranges", "").lower() == "bytes"
+        except urllib.error.HTTPError as e:
+            out["status"] = e.code
+            out["error"] = str(e)[:200]
+        except Exception as e:
+            out["error"] = str(e)[:200]
+        return out
+
+    out = {"probed": location, **ask("HEAD", {})}
+    if "error" in out and offset > 0:
+        head = {k: out.pop(k) for k in ("status", "error") if k in out}
+        out.update(ask("GET", {"Range": "bytes=0-0"}))
+        out["head"] = head
+    return out
+
+
+def _chunk_hosts(locations, probe):
+    """Hosts entries for the referenced chunks, one per host, and findings.
+
+    locations: {array path: [location, ...]}, a sample from the index."""
+    by_host = {}
+    for path, locs in locations.items():
+        for loc, offset in locs:
+            scheme, netloc = _forms.host_of(loc)
+            h = by_host.setdefault((scheme, netloc), {
+                "role": "chunks", "host": netloc, "protocol": scheme,
+                "arrays": [], "sampled": loc, "_offset": offset})
+            if path not in h["arrays"]:
+                h["arrays"].append(path)
+    hosts, findings = [], []
+    for (scheme, netloc), h in by_host.items():
+        if scheme in ("http", "https"):
+            if probe:
+                h.update(_probe_chunk_host(h["sampled"], h["_offset"]))
+                if "error" not in h and not h.get("cors"):
+                    findings.append({"code": "CHUNK_HOST_NO_CORS", "host": netloc,
+                                     "arrays": h["arrays"]})
+        else:
+            findings.append({"code": "CHUNK_REFS_NOT_HTTP", "host": netloc or None,
+                             "protocol": scheme, "arrays": h["arrays"]})
+        h.pop("_offset")
+        hosts.append(h)
+    return hosts, findings
 
 
 # ---------------------------------------------------------------- card
@@ -372,8 +425,13 @@ def _stac_asset(stac):
     return next(iter(assets.values()), None)
 
 
-def card(url, stac=None, storage_options=None, probe_hosts=True, assertions=()):
-    """Build a store card for the Zarr store at url (a path or a URL).
+def card(url, stac=None, storage_options=None, probe_hosts=True, assertions=(), form=None):
+    """Build a store card for the store at url (a path or a URL).
+
+    The store may be plain Zarr (v2 or v3), a kerchunk reference store (a
+    .json file, or a Parquet directory) or an Icechunk repository; the form
+    is detected from the documents at the root unless given (one of the
+    names in storecard.forms).
 
     stac: optional STAC collection, item or asset (dict, path or URL) whose
           proj:code, bands nodata and cube:variables are recorded as sources.
@@ -387,7 +445,8 @@ def card(url, stac=None, storage_options=None, probe_hosts=True, assertions=()):
     asset = _stac_asset(stac)
     hints = list((asset or {}).get("cube:variables", {}).keys())
 
-    root = _open(url, storage_options)
+    opened = _forms.open_store(url, storage_options, form)
+    root = opened.group
     zf = root.metadata.zarr_format
     consolidated = getattr(root.metadata, "consolidated_metadata", None) is not None
     ms = _multiscales(dict(root.attrs))
@@ -518,16 +577,22 @@ def card(url, stac=None, storage_options=None, probe_hosts=True, assertions=()):
 
     hosts = []
     if probe_hosts:
-        h = _probe_host(url, zf)
+        h = _probe_host(url, opened.meta_key)
         if h:
             hosts.append(h)
+    # where a virtual store's chunk bytes live, from a sample of its index
+    data_arrays = {p: i["arr"] for p, i in info.items() if i["kind"] == "data"}
+    ch, cf = _chunk_hosts(opened.chunk_locations(data_arrays), probe_hosts)
+    hosts.extend(ch)
+    findings.extend(cf)
 
-    form = f"zarr v{zf}"
+    form = f"zarr v{zf}" if opened.form == _forms.ZARR else opened.form
     return _jsonable({
         "card_version": CARD_VERSION,
         "source": {
             "url": url, "form": form, "zarr_format": zf, "consolidated": consolidated,
             "listable": listable, "multiscales": _multiscales(root_attrs),
+            **opened.source,
             "metadata_digest": digest,
             "assertions": applied,
             "scanned_at": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -545,9 +610,9 @@ def _summary(findings):
     out = {}
     for f in findings:
         arrs = out.setdefault(f["code"], [])
-        a = f.get("array")
-        if a is not None and a not in arrs:
-            arrs.append(a)
+        for a in [f.get("array"), *f.get("arrays", ())]:
+            if a is not None and a not in arrs:
+                arrs.append(a)
     return out
 
 

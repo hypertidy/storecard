@@ -105,3 +105,74 @@ def test_pawsey_f03d_assertion_matches_twin():
     for k in ("spatial:transform", "spatial:shape", "spatial:dimensions"):
         assert va["grid"]["transform"][k] == vt["grid"]["transform"][k]
     assert set(asserted["findings_summary"]) == set(twin["findings_summary"])
+
+
+# ---------------------------------------------------------------- ausantarctic virtual stores
+
+SCRATCH = "https://data.source.coop/ausantarctic/ausantarctic-scratch/"
+# store: (host its chunk references point at, that host's CORS answer, findings)
+# from runs on 2026-11-09; both forms (kerchunk Parquet, Icechunk) give the same
+VIRTUAL = {
+    "oisst/oisst-v2.1-daily": (
+        "noaa-cdr-sea-surface-temp-optimum-interpolation-pds.s3.amazonaws.com", "*",
+        {"LON_0_360", "Y_ASCENDING", "CRS_NOT_DECLARED"}),
+    "seaice/g02202-v6-daily-south": (
+        "noaadata.apps.nsidc.org", None,
+        {"CRS_NOT_DECLARED", "PROJECTED_NO_GRID_MAPPING", "CHUNK_HOST_NO_CORS"}),
+    "seaice/asi-amsr2-v5.4-daily-south": (
+        "data.seaice.uni-bremen.de", None,
+        {"Y_ASCENDING", "CRS_NOT_DECLARED", "PROJECTED_NO_GRID_MAPPING", "CHUNK_HOST_NO_CORS"}),
+    "bluelink/bluelink-daily-salt": (
+        "thredds.nci.org.au", "*",
+        {"COORDS_NAMED_MISSING", "LON_0_360", "Y_ASCENDING", "CRS_NOT_DECLARED"}),
+    "ghrsst/ghrsst-mur-cog-analysed_sst": (
+        "data.source.coop", "*", {"CRS_NOT_DECLARED"}),
+}
+# raad.virtualize writes CF _FillValue into the Icechunk form only; the
+# kerchunk form carries the same value as Zarr fill_value alone
+KERCHUNK_NO_CF_FILL = {"oisst/oisst-v2.1-daily", "seaice/g02202-v6-daily-south",
+                       "bluelink/bluelink-daily-salt", "ghrsst/ghrsst-mur-cog-analysed_sst"}
+
+
+@pytest.fixture(scope="module")
+def virtual_cards():
+    cache = {}
+
+    def get(store, form):
+        if (store, form) not in cache:
+            cache[store, form] = card(SCRATCH + store + "/" + form)
+        return cache[store, form]
+    return get
+
+
+@pytest.mark.parametrize("form", ["kerchunk", "icechunk"])
+@pytest.mark.parametrize("store", list(VIRTUAL))
+def test_ausantarctic_virtual_store(virtual_cards, store, form):
+    host, cors, findings = VIRTUAL[store]
+    c = virtual_cards(store, form)
+    assert c["source"]["form"] == ("kerchunk parquet" if form == "kerchunk" else "icechunk")
+    assert set(c["findings_summary"]) == findings
+    meta, *chunks = c["hosts"]
+    assert meta["role"] == "metadata" and meta["cors"] == "*"
+    assert [h["host"] for h in chunks] == [host]
+    assert chunks[0]["cors"] == cors and chunks[0]["range"]
+    if host == "thredds.nci.org.au":
+        # THREDDS refuses HEAD with an Origin and serves the browser's GET
+        assert chunks[0]["head"]["status"] == 403 and chunks[0]["method"] == "GET bytes=0-0"
+    if form == "icechunk":
+        assert c["source"]["snapshot"]
+        assert c["source"]["virtual_chunk_containers"] == [f"https://{host}/"]
+
+
+@pytest.mark.parametrize("store", list(VIRTUAL))
+def test_ausantarctic_forms_agree(virtual_cards, store):
+    k, i = virtual_cards(store, "kerchunk"), virtual_cards(store, "icechunk")
+    for vk, vi in zip(k["variables"], i["variables"]):
+        cf = [f for f in vi["values"]["fill"] if f["from"] == "CF _FillValue"]
+        if store in KERCHUNK_NO_CF_FILL:
+            assert cf and cf[0]["value"] == vk["values"]["fill"][0]["value"]
+            vi = dict(vi, values=dict(vi["values"], fill=[f for f in vi["values"]["fill"] if f not in cf]))
+            vi["values"].pop("fill_agree", None)
+            vk = dict(vk, values=dict(vk["values"]))
+            vk["values"].pop("fill_agree", None)
+        assert vk == vi, vk["name"]
