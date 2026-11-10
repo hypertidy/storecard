@@ -132,6 +132,49 @@ def grid_assertion(card, variable, transform, crs, *, shape=None, dimensions=Non
     return doc
 
 
+def axes_transform(variable):
+    """The affine transform (cell corners) implied by a card variable's
+    regular 1-D coordinate axes, or None when either axis is not regular.
+
+    The step is (last - first) / (n - 1), so it is exact for the whole axis,
+    not one difference; a descending axis gives a negative step. No CRS is
+    implied: this only restates what the coordinates already say as four
+    numbers."""
+    axes = (variable.get("grid") or {}).get("axes") or {}
+    ax, ay = axes.get("x"), axes.get("y")
+    if not ax or not ay or ax.get("spacing") != "regular" or ay.get("spacing") != "regular":
+        return None
+    if ax["n"] < 2 or ay["n"] < 2:
+        return None
+    dx = (ax["last"] - ax["first"]) / (ax["n"] - 1)
+    dy = (ay["last"] - ay["first"]) / (ay["n"] - 1)
+    # 12 significant digits: drops float noise from the axis arithmetic
+    # (89.99499999999999 for 89.995), far below any cell size
+    return [float(f"{t:.12g}") for t in
+            (dx, 0.0, ax["first"] - dx / 2, 0.0, dy, ay["first"] - dy / 2)]
+
+
+def crs_assertion(card, variable, crs, *, crs_axes=("x", "y"), evidence=None, by=None,
+                  status="proposed"):
+    """A grid assertion for a variable whose grid its regular 1-D coordinates
+    already declare but whose CRS the store does not state: the transform is
+    restated from the axes and the CRS is the claim. evidence should say
+    where the CRS is known from (the source files' own grid mapping, the
+    product's documentation, a convention)."""
+    v = next((x for x in card["variables"] if x["name"] == variable), None)
+    if v is None:
+        raise AssertionError_(f"variable {variable!r} not in card")
+    t = axes_transform(v)
+    if t is None:
+        raise AssertionError_(f"variable {variable!r} has no regular 1-D x and y axes")
+    sd = v["grid"]["spatial_dims"]
+    ev = {"method": "transform restated from the regular 1-D coordinates; CRS asserted",
+          "axes": {k: v["grid"]["axes"][k]["name"] for k in ("x", "y")}}
+    ev.update(evidence or {})
+    return grid_assertion(card, variable, t, crs, dimensions=sd, crs_axes=crs_axes,
+                          evidence=ev, by=by, status=status)
+
+
 def refusal(card, variable, reason, *, frames_tried=(), evidence=None, by=None, status="proposed"):
     """A refusal: the variable's grid is regular in no frame tried."""
     doc = {

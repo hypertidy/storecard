@@ -170,3 +170,43 @@ def test_cli_applies_and_emits(tmp_path, f03d, f03d_assertion, capsys):
     assert json.loads(capsys.readouterr().out)["proj:code"] == "EPSG:3412"
     main([f03d, "--assertion", str(p), "--emit", "vrt"])
     assert capsys.readouterr().out.startswith("<VRTDataset>")
+
+
+# ---------------------------------------------------------------- CRS from regular axes
+
+def _axes_card(x, y):
+    """A minimal card: one variable on regular 1-D axes, no CRS."""
+    def ax(name, first, last, n):
+        return {"name": name, "n": n, "first": first, "last": last, "spacing": "regular"}
+    return {"source": {"url": "memory://axes", "metadata_digest": "sha256:0"},
+            "variables": [{"name": "v", "shape": [3, y[2], x[2]], "dims": ["time", "lat", "lon"],
+                           "grid": {"spatial_dims": ["lat", "lon"],
+                                    "axes": {"x": ax("lon", *x), "y": ax("lat", *y)}}}]}
+
+
+def test_axes_transform_restates_regular_axes():
+    # OISST: 0.25 degree centres from 0.125, latitude ascending
+    c = _axes_card((0.125, 359.875, 1440), (-89.875, 89.875, 720))
+    assert A.axes_transform(c["variables"][0]) == [0.25, 0.0, 0.0, 0.0, 0.25, -90.0]
+    # MUR: descending latitude, float noise in the axis arithmetic snapped
+    c = _axes_card((-179.99, 180.0, 36000), (89.99, -89.99, 17999))
+    assert A.axes_transform(c["variables"][0]) == [0.01, 0.0, -179.995, 0.0, -0.01, 89.995]
+
+
+def test_crs_assertion_is_a_valid_grid_assertion():
+    c = _axes_card((0.125, 359.875, 1440), (-89.875, 89.875, 720))
+    doc = A.crs_assertion(c, "v", {"proj:code": "EPSG:4326"}, crs_axes=("y", "x"),
+                          evidence={"crs_from": "convention"}, by=BY)
+    assert doc["asserts"]["spatial:shape"] == [720, 1440]
+    assert doc["asserts"]["spatial:dimensions"] == ["lat", "lon"]
+    assert doc["crs_axes"] == ["y", "x"]
+    assert doc["evidence"]["axes"] == {"x": "lon", "y": "lat"}
+    assert doc["evidence"]["crs_from"] == "convention"
+
+
+def test_crs_assertion_refuses_irregular_axes():
+    c = _axes_card((0.125, 359.875, 1440), (-89.875, 89.875, 720))
+    c["variables"][0]["grid"]["axes"]["y"]["spacing"] = "irregular"
+    assert A.axes_transform(c["variables"][0]) is None
+    with pytest.raises(A.AssertionError_):
+        A.crs_assertion(c, "v", {"proj:code": "EPSG:4326"})
