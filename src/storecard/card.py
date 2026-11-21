@@ -44,6 +44,10 @@ CF_VALUES = ("units", "valid_range", "valid_min", "valid_max",
 
 # ---------------------------------------------------------------- helpers
 
+def _is_tiff(url):
+    return url.split("?", 1)[0].lower().endswith((".tif", ".tiff", ".gtiff", ".cog"))
+
+
 def _jsonable(v):
     """Make numpy scalars, arrays and non-finite floats JSON-safe."""
     if isinstance(v, dict):
@@ -431,7 +435,8 @@ def card(url, stac=None, storage_options=None, probe_hosts=True, assertions=(), 
     The store may be plain Zarr (v2 or v3), a kerchunk reference store (a
     .json file, or a Parquet directory) or an Icechunk repository; the form
     is detected from the documents at the root unless given (one of the
-    names in storecard.forms).
+    names in storecard.forms). A GeoTIFF or COG (a .tif URL, or form="cog")
+    is carded from its header by storecard.cog, which needs osgeo.gdal.
 
     stac: optional STAC collection, item or asset (dict, path or URL) whose
           proj:code, bands nodata and cube:variables are recorded as sources.
@@ -440,6 +445,9 @@ def card(url, stac=None, storage_options=None, probe_hosts=True, assertions=(), 
           the card then describes the variable as asserted, and keeps the
           presented costume beside it. The store is never written.
     """
+    if form == "cog" or (form is None and _is_tiff(url)):
+        from .cog import card_cog
+        return card_cog(url, probe_hosts=probe_hosts, assertions=assertions)
     assertions = [_assertion.load(a) for a in assertions or ()]
     stac = _load_stac(stac)
     asset = _stac_asset(stac)

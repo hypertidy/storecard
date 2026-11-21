@@ -269,13 +269,17 @@ GDAL_TYPES = {"uint8": "Byte", "int8": "Int8", "uint16": "UInt16", "int16": "Int
 
 
 def to_vrt(doc, card, source=None):
-    """A GDAL multidimensional VRT that presents the variable on the asserted
+    """For a GeoTIFF card, the classic VRT of storecard.cog.to_vrt. Otherwise
+    a GDAL multidimensional VRT that presents the variable on the asserted
     grid: 1-D regularly spaced x and y indexing variables and the asserted
     SRS, with the data read from the store unchanged.
 
     source: the GDAL name of the store, default ZARR:"/vsicurl/<url>" for
     http(s) URLs and ZARR:"<path>" otherwise.
     """
+    if card["source"].get("form") in ("cog", "geotiff"):
+        from .cog import to_vrt as classic
+        return classic(doc, card, source)
     a = _grid(doc)
     var = doc["subject"]["variable"]
     v = next(x for x in card["variables"] if x["name"] == var)

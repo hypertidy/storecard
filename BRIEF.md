@@ -4,7 +4,7 @@ Read this first. It records how the project came about, what exists, what
 has been learned, what is decided and what is open. Keep it current: when a
 decision is made or a next step is done, edit this file in the same PR.
 
-Last updated: 2026-11-09.
+Last updated: 2026-11-21.
 
 ## In one paragraph
 
@@ -39,7 +39,7 @@ made the same point from the other side.
 | Zarr browser fixtures, built as twins | `portolan/` | F01 OISST (6 twins), F03 polar sea ice (Bremen ASI AMSR2 3.125 km, 6 twins; NOAA/NSIDC G02202 25 km south and north, 4 twins), F08 ACCESS-ESM1.6 tripolar ocean (4 twins). Published at `https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/catalog.json` (20 collections; F08's true positions come from the run's fixed fields `ocean-2d-geolon_t-fx.nc` / `ocean-2d-geolat_t-fx.nc`, which the yearly files name but do not carry, so f08c exists and f08d is regridded on them) |
 | Fixture builders, local CORS/range server, Setonix runbook | `portolan/build`, `portolan/serve`, `portolan/setonix` | working |
 | Prototype card extractor (local netCDF) | `proto/protocard.py` | PR 4 |
-| Card extractor | `src/storecard/` (`forms.py` for kerchunk and Icechunk), codes in `FINDINGS.md` | Zarr v2/v3, kerchunk JSON and Parquet, Icechunk; local, https and s3; checked against the published catalog and the five ausantarctic virtual stores in both forms |
+| Card extractor | `src/storecard/` (`forms.py` for kerchunk and Icechunk), codes in `FINDINGS.md` | Zarr v2/v3, kerchunk JSON and Parquet, Icechunk, GeoTIFF/COG (`cog.py`, osgeo.gdal); local, https and s3; checked against the published catalog and the five ausantarctic virtual stores in both forms |
 | Assertions v0: schema, overlay, emitters (zarr-conventions attrs, STAC patch, multidim VRT) | `src/storecard/assertion.py`, `ASSERTIONS.md`, `assertions/` | the f03d assertion makes its card match its twin f03e, locally and on the published store; the VRT is checked as XML, not yet opened with GDAL |
 | Fixture tests | `tests/`: synthetic sources run through the unchanged `portolan/build` builders, so shapes, chunking and attributes match the published fixtures | 18 fixtures (F01, F03 Bremen and G02202 south, F08), each also as a kerchunk JSON, kerchunk Parquet and Icechunk twin (`tests/virtual.py`) that must give the same variables; 175 tests; opt-in network tests (`STORECARD_NETWORK=1`) check the published Pawsey catalog against the same expectations (all match), a sharded source.coop store, and the five ausantarctic virtual stores |
 | Prototype cards over the rasterwise problem files | `cases/rasterwise/cards.jsonl` | PR 4 |
@@ -150,8 +150,24 @@ made the same point from the other side.
    chunk references point at are probed for CORS and range support
    (`CHUNK_HOST_NO_CORS`, `CHUNK_REFS_NOT_HTTP`) without reading a chunk.
    An Icechunk twin keeps the v3 metadata documents, so its metadata digest
-   is the store's and assertions carry over. Still to do: mdim VRT and COG
-   forms; tooling and containers to be settled from hypertidy/gdal-r-ci.
+   is the store's and assertions carry over. GeoTIFF and COG done
+   (`src/storecard/cog.py`, osgeo.gdal, header only, one variable per
+   band; 2026-11-21): first run over the 167 COGs of the Tasmanian LIST
+   mirror (source.coop `mdsumner/thelist-opendata`). All present costume
+   B. The 25 m DEM tiles carry two generations of CRS WKT (ESRI-named
+   and unnamed Transverse Mercator, no EPSG id; GDAL matches EPSG:28355
+   at 70 and 90 percent, equivalent) and every DEM origin is 2e-7 m off
+   round (`CRS_NO_AUTHORITY_ID`, `TRANSFORM_NEAR_ROUND`); `cog.tidy_assertion`
+   restates both exactly and the classic VRT it emits opens in GDAL as
+   EPSG:28355 on round origins. The tiles are windows of the statewide
+   mosaic (`cog.lattice_member`). The Landsat mosaics do not name their
+   6 bands (`BANDS_UNNAMED`); the NCH class grids have internal masks,
+   not nodata, and their attribute tables are in separate Parquet files,
+   which a card does not yet link. The 25 m DEM is itself legacy (a 2 m
+   DEM of Tasmania from NRE Tas is published as a COG); it serves here as a
+   test set. Still to do: mdim VRT; a card for a set of files (a mosaic
+   and its tiles, one lattice); tooling and containers to be settled from
+   hypertidy/gdal-r-ci.
 2. Grid fit from a card: must recover EPSG:3412 and the exact transform from
    `f03d-asi-latlon2d`, and refuse the tripolar `f08c-esm-geo2d`. Done for
    named frames (`src/storecard/fit.py`, `python -m storecard URL --fit`):

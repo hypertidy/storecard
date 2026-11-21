@@ -15,7 +15,7 @@ dependencies = ["zarr>=3", "numpy"]
 remote = ["fsspec", "aiohttp", "s3fs"]
 # virtual stores: kerchunk references (Parquet needs pandas and fastparquet) and Icechunk
 virtual = ["fsspec", "aiohttp", "pandas", "fastparquet", "icechunk>=2"]
-# the grid fit (storecard.fit): osgeo.gdal; the wheel builds against the
+# the grid fit (storecard.fit) and GeoTIFF/COG cards (storecard.cog): osgeo.gdal; the wheel builds against the
 # system GDAL, so match its version (pip install gdal==$(gdal-config --version))
 fit = ["gdal"]
 # the fixture builders in portolan/build, run by the tests on small synthetic sources

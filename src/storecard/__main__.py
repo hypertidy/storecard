@@ -10,9 +10,9 @@ from .card import card
 
 def main(argv=None):
     ap = argparse.ArgumentParser(prog="storecard", description="Print a store card as JSON.")
-    ap.add_argument("url", help="path or URL of a store: Zarr, kerchunk references (.json or a Parquet directory) or an Icechunk repository")
+    ap.add_argument("url", help="path or URL of a store: Zarr, kerchunk references (.json or a Parquet directory), an Icechunk repository, or a GeoTIFF/COG (needs osgeo.gdal)")
     ap.add_argument("--stac", help="STAC collection, item or asset (path or URL)")
-    ap.add_argument("--form", choices=["zarr", "kerchunk json", "kerchunk parquet", "icechunk"],
+    ap.add_argument("--form", choices=["zarr", "kerchunk json", "kerchunk parquet", "icechunk", "cog"],
                     help="the store's form (default: detected from the documents at its root)")
     ap.add_argument("--no-hosts", action="store_true", help="do not probe hosts for CORS and range support")
     ap.add_argument("--anon", action="store_true", help="anonymous access for s3:// URLs")
