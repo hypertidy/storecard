@@ -1324,7 +1324,7 @@
    "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/seaice/asi-amsr2-v5.4-daily-south/icechunk",
    "form": "icechunk",
    "metadata_digest": "sha256:d97bf540681c6e0aa53b3143fe616b908f5eb92b0b5605c77d803796e9f63260",
-   "scanned_at": "2026-11-21T07:08:56Z",
+   "scanned_at": "2026-11-21T20:50:37Z",
    "variables": [
     "z"
    ],
@@ -1343,14 +1343,15 @@
      "role": "chunks",
      "host": "data.seaice.uni-bremen.de",
      "cors": null,
-     "range": null,
-     "probed": false
+     "range": true,
+     "probed": true
     }
    ],
    "findings": {
     "Y_ASCENDING": 1,
     "CRS_NOT_DECLARED": 1,
-    "PROJECTED_NO_GRID_MAPPING": 1
+    "PROJECTED_NO_GRID_MAPPING": 1,
+    "CHUNK_HOST_NO_CORS": 1
    },
    "shape": [
     5208,
@@ -1407,6 +1408,10 @@
      "PROJECTED_NO_GRID_MAPPING": {
       "of": 1,
       "cleared": 1
+     },
+     "CHUNK_HOST_NO_CORS": {
+      "of": 1,
+      "cleared": 1
      }
     },
     "adds": [],
@@ -1422,7 +1427,7 @@
    "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/seaice/asi-amsr2-v5.4-daily-south/kerchunk",
    "form": "kerchunk parquet",
    "metadata_digest": "sha256:90c19b472ceda5f3d81042003c0b1c445227f0fdbf4d0f81327f47021453437a",
-   "scanned_at": "2026-11-21T07:08:57Z",
+   "scanned_at": "2026-11-21T20:50:37Z",
    "variables": [
     "z"
    ],
@@ -1441,14 +1446,15 @@
      "role": "chunks",
      "host": "data.seaice.uni-bremen.de",
      "cors": null,
-     "range": null,
-     "probed": false
+     "range": true,
+     "probed": true
     }
    ],
    "findings": {
     "Y_ASCENDING": 1,
     "CRS_NOT_DECLARED": 1,
-    "PROJECTED_NO_GRID_MAPPING": 1
+    "PROJECTED_NO_GRID_MAPPING": 1,
+    "CHUNK_HOST_NO_CORS": 1
    },
    "shape": [
     5208,
@@ -1505,6 +1511,10 @@
      "PROJECTED_NO_GRID_MAPPING": {
       "of": 1,
       "cleared": 1
+     },
+     "CHUNK_HOST_NO_CORS": {
+      "of": 1,
+      "cleared": 1
      }
     },
     "adds": [],
@@ -1520,7 +1530,7 @@
    "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/bluelink/bluelink-daily-salt/icechunk",
    "form": "icechunk",
    "metadata_digest": "sha256:874debc0c967104f67047656ca558ea0b69c7db5e24a35dc082a3ecd28d46dcc",
-   "scanned_at": "2026-11-21T07:08:58Z",
+   "scanned_at": "2026-11-21T20:50:39Z",
    "variables": [
     "salt"
    ],
@@ -1538,9 +1548,9 @@
     {
      "role": "chunks",
      "host": "thredds.nci.org.au",
-     "cors": null,
-     "range": null,
-     "probed": false
+     "cors": "*",
+     "range": true,
+     "probed": true
     }
    ],
    "findings": {
@@ -1586,7 +1596,7 @@
    "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/bluelink/bluelink-daily-salt/kerchunk",
    "form": "kerchunk parquet",
    "metadata_digest": "sha256:0f53f1e63df7e508457cb0f57b8e79ce8135e72b7deb9c89ec5ceccc37a5df84",
-   "scanned_at": "2026-11-21T07:08:58Z",
+   "scanned_at": "2026-11-21T20:50:39Z",
    "variables": [
     "salt"
    ],
@@ -1604,9 +1614,9 @@
     {
      "role": "chunks",
      "host": "thredds.nci.org.au",
-     "cors": null,
-     "range": null,
-     "probed": false
+     "cors": "*",
+     "range": true,
+     "probed": true
     }
    ],
    "findings": {
@@ -1652,7 +1662,7 @@
    "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/seaice/g02202-v6-daily-north/icechunk",
    "form": "icechunk",
    "metadata_digest": "sha256:9309459c9b6bf5548ccc5a15811b9533fe29b840125c14e40425ed181e4428b6",
-   "scanned_at": "2026-11-21T07:08:55Z",
+   "scanned_at": "2026-11-21T20:50:33Z",
    "variables": [
     "cdr_seaice_conc"
    ],
@@ -1671,13 +1681,14 @@
      "role": "chunks",
      "host": "noaadata.apps.nsidc.org",
      "cors": null,
-     "range": null,
-     "probed": false
+     "range": true,
+     "probed": true
     }
    ],
    "findings": {
     "CRS_NOT_DECLARED": 1,
-    "PROJECTED_NO_GRID_MAPPING": 1
+    "PROJECTED_NO_GRID_MAPPING": 1,
+    "CHUNK_HOST_NO_CORS": 1
    },
    "shape": [
     17533,
@@ -1734,6 +1745,10 @@
      "PROJECTED_NO_GRID_MAPPING": {
       "of": 1,
       "cleared": 1
+     },
+     "CHUNK_HOST_NO_CORS": {
+      "of": 1,
+      "cleared": 1
      }
     },
     "adds": [],
@@ -1749,7 +1764,7 @@
    "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/seaice/g02202-v6-daily-north/kerchunk",
    "form": "kerchunk parquet",
    "metadata_digest": "sha256:a10347aa8668e3f900967b78ab03c6f2ba5bb5409f4a40d238d1f1d5ddc66c09",
-   "scanned_at": "2026-11-21T07:08:55Z",
+   "scanned_at": "2026-11-21T20:50:33Z",
    "variables": [
     "cdr_seaice_conc"
    ],
@@ -1768,13 +1783,14 @@
      "role": "chunks",
      "host": "noaadata.apps.nsidc.org",
      "cors": null,
-     "range": null,
-     "probed": false
+     "range": true,
+     "probed": true
     }
    ],
    "findings": {
     "CRS_NOT_DECLARED": 1,
-    "PROJECTED_NO_GRID_MAPPING": 1
+    "PROJECTED_NO_GRID_MAPPING": 1,
+    "CHUNK_HOST_NO_CORS": 1
    },
    "shape": [
     17533,
@@ -1831,6 +1847,10 @@
      "PROJECTED_NO_GRID_MAPPING": {
       "of": 1,
       "cleared": 1
+     },
+     "CHUNK_HOST_NO_CORS": {
+      "of": 1,
+      "cleared": 1
      }
     },
     "adds": [],
@@ -1846,7 +1866,7 @@
    "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/seaice/g02202-v6-daily-south/icechunk",
    "form": "icechunk",
    "metadata_digest": "sha256:51a10034322159bf7808153949bf9ca197a8e07ae85fea06f99073f7792d1bea",
-   "scanned_at": "2026-11-21T07:08:52Z",
+   "scanned_at": "2026-11-21T20:50:33Z",
    "variables": [
     "cdr_seaice_conc"
    ],
@@ -1865,13 +1885,14 @@
      "role": "chunks",
      "host": "noaadata.apps.nsidc.org",
      "cors": null,
-     "range": null,
-     "probed": false
+     "range": true,
+     "probed": true
     }
    ],
    "findings": {
     "CRS_NOT_DECLARED": 1,
-    "PROJECTED_NO_GRID_MAPPING": 1
+    "PROJECTED_NO_GRID_MAPPING": 1,
+    "CHUNK_HOST_NO_CORS": 1
    },
    "shape": [
     17531,
@@ -1928,6 +1949,10 @@
      "PROJECTED_NO_GRID_MAPPING": {
       "of": 1,
       "cleared": 1
+     },
+     "CHUNK_HOST_NO_CORS": {
+      "of": 1,
+      "cleared": 1
      }
     },
     "adds": [],
@@ -1943,7 +1968,7 @@
    "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/seaice/g02202-v6-daily-south/kerchunk",
    "form": "kerchunk parquet",
    "metadata_digest": "sha256:d4910c5e1817b49e5de8b9034128071d5fe2ea759ac54e8ebee6ec33b8496e7f",
-   "scanned_at": "2026-11-21T07:08:53Z",
+   "scanned_at": "2026-11-21T20:50:34Z",
    "variables": [
     "cdr_seaice_conc"
    ],
@@ -1962,13 +1987,14 @@
      "role": "chunks",
      "host": "noaadata.apps.nsidc.org",
      "cors": null,
-     "range": null,
-     "probed": false
+     "range": true,
+     "probed": true
     }
    ],
    "findings": {
     "CRS_NOT_DECLARED": 1,
-    "PROJECTED_NO_GRID_MAPPING": 1
+    "PROJECTED_NO_GRID_MAPPING": 1,
+    "CHUNK_HOST_NO_CORS": 1
    },
    "shape": [
     17531,
@@ -2025,6 +2051,10 @@
      "PROJECTED_NO_GRID_MAPPING": {
       "of": 1,
       "cleared": 1
+     },
+     "CHUNK_HOST_NO_CORS": {
+      "of": 1,
+      "cleared": 1
      }
     },
     "adds": [],
@@ -2040,7 +2070,7 @@
    "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/ghrsst/ghrsst-mur-cog-analysed_sst/icechunk",
    "form": "icechunk",
    "metadata_digest": "sha256:7253fcfd645ddf7119c4e864fc7544774d5f439e2d6ec5c99f3abfe17cc22175",
-   "scanned_at": "2026-11-21T07:09:06Z",
+   "scanned_at": "2026-11-21T20:50:44Z",
    "variables": [
     "analysed_sst",
     "analysed_sst_x16",
@@ -2138,7 +2168,7 @@
    "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/ghrsst/ghrsst-mur-cog-analysed_sst/kerchunk",
    "form": "kerchunk parquet",
    "metadata_digest": "sha256:fb3200231150d8165a2b546d0a93256813513a3c07cd4fc2c95f67d15ee3e372",
-   "scanned_at": "2026-11-21T07:09:05Z",
+   "scanned_at": "2026-11-21T20:50:42Z",
    "variables": [
     "analysed_sst",
     "analysed_sst_x16",
@@ -2236,7 +2266,7 @@
    "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/oisst/oisst-v2.1-daily/icechunk",
    "form": "icechunk",
    "metadata_digest": "sha256:1d6c9a8747f1b0c1ee3cf5fcdff4b7b7403e2079d558f286bf64f7a66d9f8a08",
-   "scanned_at": "2026-11-21T07:08:52Z",
+   "scanned_at": "2026-11-21T20:50:34Z",
    "variables": [
     "anom",
     "err",
@@ -2392,7 +2422,7 @@
    "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/oisst/oisst-v2.1-daily/kerchunk",
    "form": "kerchunk parquet",
    "metadata_digest": "sha256:992a8d17dfaa1f6a763e44440aef2721538292968a3760ead0c4eb6d47764f54",
-   "scanned_at": "2026-11-21T07:08:54Z",
+   "scanned_at": "2026-11-21T20:50:34Z",
    "variables": [
     "anom",
     "err",

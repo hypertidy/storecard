@@ -10,7 +10,7 @@
   "record_size": 100000,
   "metadata_digest": "sha256:90c19b472ceda5f3d81042003c0b1c445227f0fdbf4d0f81327f47021453437a",
   "assertions": [],
-  "scanned_at": "2026-11-21T07:08:57Z"
+  "scanned_at": "2026-11-21T20:50:37Z"
  },
  "arrays": [
   {
@@ -5394,11 +5394,10 @@
    ],
    "sampled": "https://data.seaice.uni-bremen.de/amsr2/asi_daygrid_swath/s3125/netcdf/2012/asi-AMSR2-s3125-20120801-v5.4.nc",
    "probed": "https://data.seaice.uni-bremen.de/amsr2/asi_daygrid_swath/s3125/netcdf/2012/asi-AMSR2-s3125-20120801-v5.4.nc",
-   "method": "GET bytes=0-0",
-   "error": "<urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>",
-   "head": {
-    "error": "<urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
-   }
+   "method": "HEAD",
+   "status": 200,
+   "cors": null,
+   "range": true
   }
  ],
  "findings": [
@@ -5414,6 +5413,13 @@
   {
    "code": "PROJECTED_NO_GRID_MAPPING",
    "array": "z"
+  },
+  {
+   "code": "CHUNK_HOST_NO_CORS",
+   "host": "data.seaice.uni-bremen.de",
+   "arrays": [
+    "z"
+   ]
   }
  ],
  "findings_summary": {
@@ -5424,6 +5430,9 @@
    "z"
   ],
   "PROJECTED_NO_GRID_MAPPING": [
+   "z"
+  ],
+  "CHUNK_HOST_NO_CORS": [
    "z"
   ]
  }

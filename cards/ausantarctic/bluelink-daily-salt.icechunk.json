@@ -14,7 +14,7 @@
   ],
   "metadata_digest": "sha256:874debc0c967104f67047656ca558ea0b69c7db5e24a35dc082a3ecd28d46dcc",
   "assertions": [],
-  "scanned_at": "2026-11-21T07:08:58Z"
+  "scanned_at": "2026-11-21T20:50:39Z"
  },
  "arrays": [
   {
@@ -5369,9 +5369,12 @@
    "sampled": "https://thredds.nci.org.au/thredds/fileServer/gb6/BRAN/BRAN2020/daily/ocean_salt_1993_01.nc",
    "probed": "https://thredds.nci.org.au/thredds/fileServer/gb6/BRAN/BRAN2020/daily/ocean_salt_1993_01.nc",
    "method": "GET bytes=0-0",
-   "error": "<urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>",
+   "status": 206,
+   "cors": "*",
+   "range": true,
    "head": {
-    "error": "<urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
+    "status": 403,
+    "error": "HTTP Error 403: 403"
    }
   }
  ],

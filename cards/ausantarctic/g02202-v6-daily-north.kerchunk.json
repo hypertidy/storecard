@@ -10,7 +10,7 @@
   "record_size": 100000,
   "metadata_digest": "sha256:a10347aa8668e3f900967b78ab03c6f2ba5bb5409f4a40d238d1f1d5ddc66c09",
   "assertions": [],
-  "scanned_at": "2026-11-21T07:08:55Z"
+  "scanned_at": "2026-11-21T20:50:33Z"
  },
  "arrays": [
   {
@@ -971,11 +971,10 @@
    ],
    "sampled": "https://noaadata.apps.nsidc.org/NOAA/G02202_V6/north/daily/1978/sic_psn25_19781025_n07_v06r00.nc",
    "probed": "https://noaadata.apps.nsidc.org/NOAA/G02202_V6/north/daily/1978/sic_psn25_19781025_n07_v06r00.nc",
-   "method": "GET bytes=0-0",
-   "error": "<urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>",
-   "head": {
-    "error": "<urlopen error Tunnel connection failed: 403 Forbidden (agent proxy: no rule or network setting allows this host)>"
-   }
+   "method": "HEAD",
+   "status": 200,
+   "cors": null,
+   "range": true
   }
  ],
  "findings": [
@@ -986,6 +985,13 @@
   {
    "code": "PROJECTED_NO_GRID_MAPPING",
    "array": "cdr_seaice_conc"
+  },
+  {
+   "code": "CHUNK_HOST_NO_CORS",
+   "host": "noaadata.apps.nsidc.org",
+   "arrays": [
+    "cdr_seaice_conc"
+   ]
   }
  ],
  "findings_summary": {
@@ -993,6 +999,9 @@
    "cdr_seaice_conc"
   ],
   "PROJECTED_NO_GRID_MAPPING": [
+   "cdr_seaice_conc"
+  ],
+  "CHUNK_HOST_NO_CORS": [
    "cdr_seaice_conc"
   ]
  }
