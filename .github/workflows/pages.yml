@@ -3,7 +3,7 @@ name: pages
 on:
   push:
     branches: [main]
-    paths: ["site/**", "assertions/**", "FINDINGS.md", "ASSERTIONS.md", "portolan/README.md", ".github/workflows/pages.yml"]
+    paths: ["site/**", "assertions/**", "cards/**", "FINDINGS.md", "ASSERTIONS.md", "portolan/README.md", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
@@ -22,8 +22,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: quarto-dev/quarto-actions/setup@v2
       - name: Render the site
+        # site/gallery.py draws the gallery from cards/index.json and copies
+        # cards/ and assertions/ into the site. It runs first because Quarto
+        # resolves includes before any pre-render step.
         run: |
-          cp -r assertions site/assertions
+          python3 site/gallery.py
           quarto render site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

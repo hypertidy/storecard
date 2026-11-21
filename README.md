@@ -127,6 +127,27 @@ The first real set is the Tasmanian LIST mirror on source.coop
 25 m DEM tiles have CRSs without an id (two generations of WKT) and origins
 2e-7 m off round, and the Landsat mosaics do not name their bands.
 
+## Published cards
+
+`cards/` holds the card of every store storecard has been run over, as
+committed JSON: the Portolan fixtures on Pawsey (`cards/portolan/`), the
+ausantarctic virtual stores on source.coop in both forms
+(`cards/ausantarctic/`), and the LIST COGs, one JSON Lines file per product
+(`cards/thelist/`). `python cards/build.py` builds what is missing and
+writes `cards/index.json`, one entry per store or product with a summary of
+its card and the assertions in `assertions/` that apply to it (digest
+current or stale, and the findings they clear when applied); `--force`
+rebuilds every card. The site's home page is a gallery drawn from that
+index by `site/gallery.py`, which needs only the standard library:
+
+```
+python3 site/gallery.py && quarto render site
+```
+
+A card records what the build machine could reach: a chunk host that could
+not be probed is recorded with its error, and the gallery shows it as not
+probed.
+
 ## Inferring the grid: degredation
 
 Grid inference is the job of degredation (formerly gproj
@@ -206,6 +227,8 @@ proto/             prototype card extractor (local netCDF files)
 src/storecard/     card extractor for Zarr stores and GeoTIFF/COG (step 1 of the plan), and
                    assertions: apply as overlay, emit (step 3)
 assertions/        assertions about published stores
+cards/             the published cards, one per store, and index.json (the gallery's
+                   data); rebuilt over the network by cards/build.py
 site/              GitHub Pages: Quarto website and the demo (site/demo/), deployed by
                    .github/workflows/pages.yml; some pages include FINDINGS.md,
                    ASSERTIONS.md and portolan/README.md

@@ -4,6 +4,7 @@ project:
   resources:
     - demo/**
     - assertions/**
+    - cards/**
 
 website:
   title: "storecard"
@@ -13,9 +14,11 @@ website:
   navbar:
     left:
       - href: index.qmd
-        text: Home
+        text: Gallery
       - text: Demos
         menu:
+          - href: demos.qmd
+            text: "All demos"
           - href: demo/costumes.html
             text: "Five costumes, one grid"
           - href: demo/index.html
@@ -26,12 +29,15 @@ website:
             text: "The numbers are not the values"
           - href: demo/fill.html
             text: "Which cells are missing?"
-      - href: why.qmd
-      - href: card.qmd
-      - href: assertions.qmd
-      - href: fit.qmd
-      - href: fixtures.qmd
-      - href: ecosystem.qmd
+      - text: Reference
+        menu:
+          - href: why.qmd
+          - href: card.qmd
+          - href: assertions.qmd
+          - href: fit.qmd
+          - href: fixtures.qmd
+          - href: ecosystem.qmd
+      - href: about.qmd
     right:
       - icon: github
         href: https://github.com/hypertidy/storecard
