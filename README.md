@@ -74,7 +74,10 @@ c = card("f03d-asi-latlon2d.zarr", stac="collection.json")
 
 Plain Zarr (v2 and v3), kerchunk references (a `.json` file or a Parquet
 directory, needing the `virtual` extra) and Icechunk repositories; the form
-is detected from the store's root (mdim VRT and COG are later). The card
+is detected from the store's root (mdim VRT is later). A GeoTIFF or COG
+(a `.tif` URL, or `--form cog`) is carded from its header by
+`storecard.cog` with osgeo.gdal (the `fit` extra), one variable per band;
+see below. The card
 reads metadata and coordinate arrays, never a data chunk. For a virtual
 store, `hosts` also lists each host its chunk references point at, from a
 sample of the index, with that host's CORS and range answers. The variables
@@ -89,12 +92,40 @@ overlay; `--emit zarr|stac|vrt` writes it as zarr-conventions attributes, a
 STAC patch or a GDAL multidimensional VRT. See [ASSERTIONS.md](ASSERTIONS.md);
 published assertions are in `assertions/`.
 
-`tests/test_fit.py` is skipped without osgeo.gdal. Network tests are opt-in: `STORECARD_NETWORK=1 pytest` (needs `[remote]`).
+`tests/test_fit.py` and `tests/test_cog.py` are skipped without osgeo.gdal. Network tests are opt-in: `STORECARD_NETWORK=1 pytest` (needs `[remote]`).
 
 Tests: `pip install -e .[test] && pytest`. The tests write small synthetic
 sources, run the unchanged `portolan/build` builders on them (about 10 s), and
 check each fixture's card against its stated presentation. Set
 `STORECARD_FIXTURES=/some/dir` to keep the build between runs.
+
+## GeoTIFF and COG
+
+A GeoTIFF declares its grid in its header, so its card is costume B and the
+question is whether the declarations are exact. `storecard.cog` reads the
+header only (the IFDs, tags and overview IFDs; never a pixel block) and
+records per band: dtype, block and overview shapes, interleave and
+compression, nodata as the tag is written, mask kind, scale and offset,
+colour tables, attribute tables and band names; the geotransform in the
+zarr-conventions order with its lattice offset, and the CRS with its
+authority id or, if it has none, GDAL's best matches, their confidence and
+whether the WKT is equivalent to each.
+
+`cog.tidy_assertion(card)` restates such a file's own declarations
+exactly: near-round origins snapped, and a CRS without an id named by the
+equivalent EPSG code. Applied, it clears `CRS_NO_AUTHORITY_ID` and
+`TRANSFORM_NEAR_ROUND`; `--emit vrt` writes it as a classic VRT over the
+unchanged file. `cog.lattice_member(tile, mosaic)` says whether one file's
+grid is a window of another's (same cell, same CRS, whole-cell offset).
+
+```
+python -m storecard https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/hobart/list_dem_25m_hobart.tif
+```
+
+The first real set is the Tasmanian LIST mirror on source.coop
+(`mdsumner/thelist-opendata`, 167 COGs): every file presents costume B; the
+25 m DEM tiles have CRSs without an id (two generations of WKT) and origins
+2e-7 m off round, and the Landsat mosaics do not name their bands.
 
 ## Inferring the grid: degredation
 
@@ -172,7 +203,7 @@ portolan/          Zarr fixtures, builders, Setonix runbook, and notes on the
 cases/rasterwise/  prototype cards for the rasterwise problem-file collection
                    (the files themselves live in rgdal-dev/rasterwise)
 proto/             prototype card extractor (local netCDF files)
-src/storecard/     card extractor for Zarr stores (step 1 of the plan), and
+src/storecard/     card extractor for Zarr stores and GeoTIFF/COG (step 1 of the plan), and
                    assertions: apply as overlay, emit (step 3)
 assertions/        assertions about published stores
 site/              GitHub Pages: Quarto website and the demo (site/demo/), deployed by

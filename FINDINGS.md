@@ -26,9 +26,15 @@ meaning.
 | `PROJECTED_NO_GRID_MAPPING` | projected x/y axes and no CRS | |
 | `TRANSFORM_SHAPE_MISMATCH` | `spatial:shape` differs from the array's spatial shape | |
 | `FILL_DISAGREE` | the fill sources (Zarr `fill_value`, CF `_FillValue`, `missing_value`, STAC `nodata`) give different values once cast to the stored dtype | xarray's Zarr v3 default: `fill_value` 0 beside `_FillValue` -999 |
-| `FILL_NOT_REPRESENTABLE` | a declared fill value cannot be held exactly by the stored dtype, so a comparison at the declared precision never matches | f08a (STAC nodata -1e20 against float32) |
+| `FILL_NOT_REPRESENTABLE` | a declared fill value cannot be held exactly by the stored dtype, so a comparison at the declared precision never matches (for a GeoTIFF, the nodata tag as written: GDAL rounds it to the band type on read, readers that parse the tag do not) | f08a (STAC nodata -1e20 against float32) |
 | `CHUNK_HOST_NO_CORS` | a host that a virtual store's chunk references point at answers without `Access-Control-Allow-Origin`: no browser can read those chunks, wherever the index is hosted. Probed from a sample of the index (first and last chunk of each data array) by HEAD, or, where HEAD with an Origin is refused and the sampled chunk starts past byte 0, by a GET of the file's first byte; never a chunk byte | source.coop G02202 and Bremen ASI virtual stores |
 | `CHUNK_REFS_NOT_HTTP` | chunk references use a scheme a browser cannot fetch (`s3://`, a file path) | the virtual twins in `tests/test_forms.py` |
+| `FILL_NOT_DECLARED` | a GeoTIFF band has no nodata value, no internal (per-dataset) mask and no alpha band: every cell is data | |
+| `CRS_NO_AUTHORITY_ID` | a GeoTIFF's CRS is WKT without an authority id; `best_match`, GDAL's `confidence` and whether the WKT is `equivalent` to that definition are recorded | LIST 25 m DEM tiles (unnamed or ESRI-named Transverse Mercator, equivalent to EPSG:28355 at 70 or 90 percent) |
+| `TRANSFORM_NEAR_ROUND` | a geotransform origin is within 1e-6 cells of a value with no more decimals than the cell size, but not equal to it (5256399.9999998 for 5256400 on a 25 m grid); exact-equality alignment checks fail on it | every LIST 25 m DEM file |
+| `REGISTRATION_POINT` | a GeoTIFF declares `AREA_OR_POINT=Point` | |
+| `BANDS_UNNAMED` | a multi-band GeoTIFF has no band descriptions and colour interpretations that are not RGB(A): which band is which is not in the file | LIST Landsat mosaics (6 bands: Gray, then Undefined) |
+| `GEOTIFF_STRIPPED` | a GeoTIFF is in strips, not tiles: a window read fetches whole rows | |
 | `GROUP_NOT_LISTABLE` | the store's arrays could not be listed (no consolidated metadata, a host that does not list) and were found from hints | |
 | `OPEN_FAILED` | the store could not be opened (from `proto/protocard.py`) | |
 
