@@ -1,0 +1,40 @@
+---
+title: "About"
+subtitle: "The idea, how to run it, and where it stands"
+---
+
+## The idea in three lines
+
+- **Cards are facts, not opinions.** A spec's conformance, a viewer's
+  capabilities and house rules are thresholds over cards, so any number of
+  them can be checked against one card. See [The card](card.qmd).
+- **Assertions, not edits.** A fix is a document keyed to the store's URL and
+  a digest of its metadata, with its evidence and who made it. It can be
+  emitted as zarr-conventions attributes, a STAC patch or a GDAL VRT. See
+  [Assertions](assertions.qmd).
+- **Inference is narrow and checked.** `storecard.fit` tests a card's
+  coordinate sample against a short list of published frames and either
+  asserts one or refuses with the residual of every frame tried. Open-ended
+  inference belongs to [degredation](ecosystem.qmd). See [Grid fit](fit.qmd).
+
+## Try it
+
+```sh
+pip install -e .                      # zarr and numpy; add [remote] for s3:// and https://
+storecard path/to/store.zarr          # or: python -m storecard URL --stac collection.json
+python -m storecard URL --stac COLLECTION --fit
+storecard URL --assertion assertions/f03d-asi-latlon2d.json --emit vrt
+```
+
+## Where it stands
+
+| Step | State |
+| ---- | ----- |
+| 1. Card extractor, URL in, card out | Zarr v2 and v3, kerchunk (JSON, Parquet) and Icechunk done, with CORS probing of referenced-chunk hosts; checked against every published fixture and the five ausantarctic virtual stores |
+| 2. Grid fit from a card | Named frames done: f03d recovers EPSG:3412 exactly, the tripolar f08c is refused ([published](demo/tripolar.html)) |
+| 3. One assertion end to end | Done: [the demo](demo/index.html). The same overlay in portolan-browser is open |
+| 4. Cards over the `ausantarctic` stores on source.coop | Next |
+| 5. Rule packs and viewer capability matching | Later |
+
+The project brief, with decisions and open questions, is
+[BRIEF.md](https://github.com/hypertidy/storecard/blob/main/BRIEF.md).

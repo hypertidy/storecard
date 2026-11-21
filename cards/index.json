@@ -1,0 +1,8540 @@
+{
+ "index_version": "0",
+ "collections": {
+  "portolan": {
+   "title": "Portolan fixtures",
+   "about": "Zarr twins on Pawsey: the same data in presentations that should draw identically.",
+   "home": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/catalog.json"
+  },
+  "ausantarctic": {
+   "title": "ausantarctic virtual stores",
+   "about": "Virtual stores on source.coop (Icechunk and kerchunk Parquet) over the publishers' own files.",
+   "home": "https://source.coop/ausantarctic/ausantarctic-scratch"
+  },
+  "thelist": {
+   "title": "Tasmanian LIST mirror",
+   "about": "Cloud-optimised GeoTIFFs on source.coop, one entry per product.",
+   "home": "https://source.coop/mdsumner/thelist-opendata"
+  }
+ },
+ "entries": [
+  {
+   "id": "f01a-oisst-native",
+   "collection": "portolan",
+   "card": "cards/portolan/f01a-oisst-native.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f01a-oisst-native.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:cc9a66d6e19aca6e43cdbc2f5ce177c0e452c8e9e4b4b2802c8e1f4f7fe4cfee",
+   "scanned_at": "2026-11-21T07:08:31Z",
+   "variables": [
+    "sst"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0,
+    "LON_0_360": 1,
+    "Y_ASCENDING": 1
+   },
+   "shape": [
+    31,
+    1,
+    720,
+    1440
+   ],
+   "dims": [
+    "time",
+    "zlev",
+    "lat",
+    "lon"
+   ],
+   "spatial_shape": [
+    720,
+    1440
+   ],
+   "dtype": "int16",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF latitude_longitude",
+     "EPSG:4326 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f01/f01a-oisst-native/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f01b-oisst-ydesc",
+   "collection": "portolan",
+   "card": "cards/portolan/f01b-oisst-ydesc.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f01b-oisst-ydesc.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:cc9a66d6e19aca6e43cdbc2f5ce177c0e452c8e9e4b4b2802c8e1f4f7fe4cfee",
+   "scanned_at": "2026-11-21T07:08:31Z",
+   "variables": [
+    "sst"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0,
+    "LON_0_360": 1
+   },
+   "shape": [
+    31,
+    1,
+    720,
+    1440
+   ],
+   "dims": [
+    "time",
+    "zlev",
+    "lat",
+    "lon"
+   ],
+   "spatial_shape": [
+    720,
+    1440
+   ],
+   "dtype": "int16",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF latitude_longitude",
+     "EPSG:4326 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f01/f01b-oisst-ydesc/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f01c-oisst-180",
+   "collection": "portolan",
+   "card": "cards/portolan/f01c-oisst-180.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f01c-oisst-180.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:cc9a66d6e19aca6e43cdbc2f5ce177c0e452c8e9e4b4b2802c8e1f4f7fe4cfee",
+   "scanned_at": "2026-11-21T07:08:31Z",
+   "variables": [
+    "sst"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0,
+    "Y_ASCENDING": 1
+   },
+   "shape": [
+    31,
+    1,
+    720,
+    1440
+   ],
+   "dims": [
+    "time",
+    "zlev",
+    "lat",
+    "lon"
+   ],
+   "spatial_shape": [
+    720,
+    1440
+   ],
+   "dtype": "int16",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF latitude_longitude",
+     "EPSG:4326 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f01/f01c-oisst-180/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f01d-oisst-transform",
+   "collection": "portolan",
+   "card": "cards/portolan/f01d-oisst-transform.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f01d-oisst-transform.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:04659e5debe07b5401ef1bd2ef1e7370891863b8f82c2611a7dfb6a691f37650",
+   "scanned_at": "2026-11-21T07:08:37Z",
+   "variables": [
+    "0/sst",
+    "1/sst",
+    "2/sst"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0,
+    "LON_0_360": 3
+   },
+   "shape": [
+    31,
+    1,
+    720,
+    1440
+   ],
+   "dims": [
+    "time",
+    "zlev",
+    "lat",
+    "lon"
+   ],
+   "spatial_shape": [
+    720,
+    1440
+   ],
+   "dtype": "int16",
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform",
+     "coords_1d_regular"
+    ],
+    "transform": [
+     0.25,
+     0.0,
+     0.0,
+     0.0,
+     -0.25,
+     90.0
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF latitude_longitude",
+     "EPSG:4326",
+     "EPSG:4326 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f01/f01d-oisst-transform/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f01e-oisst-unpacked",
+   "collection": "portolan",
+   "card": "cards/portolan/f01e-oisst-unpacked.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f01e-oisst-unpacked.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:d81b721bdab65bb94f257e8a4c78d4fc89a5a3f6919a14cda24ce939276f487f",
+   "scanned_at": "2026-11-21T07:08:31Z",
+   "variables": [
+    "sst"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0,
+    "LON_0_360": 1
+   },
+   "shape": [
+    31,
+    1,
+    720,
+    1440
+   ],
+   "dims": [
+    "time",
+    "zlev",
+    "lat",
+    "lon"
+   ],
+   "spatial_shape": [
+    720,
+    1440
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF latitude_longitude",
+     "EPSG:4326 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f01/f01e-oisst-unpacked/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f01f-oisst-nodata",
+   "collection": "portolan",
+   "card": "cards/portolan/f01f-oisst-nodata.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f01f-oisst-nodata.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:cc9a66d6e19aca6e43cdbc2f5ce177c0e452c8e9e4b4b2802c8e1f4f7fe4cfee",
+   "scanned_at": "2026-11-21T07:08:31Z",
+   "variables": [
+    "sst"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0,
+    "LON_0_360": 1
+   },
+   "shape": [
+    31,
+    1,
+    720,
+    1440
+   ],
+   "dims": [
+    "time",
+    "zlev",
+    "lat",
+    "lon"
+   ],
+   "spatial_shape": [
+    720,
+    1440
+   ],
+   "dtype": "int16",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF latitude_longitude",
+     "EPSG:4326 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f01/f01f-oisst-nodata/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f03a-asi-native",
+   "collection": "portolan",
+   "card": "cards/portolan/f03a-asi-native.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f03a-asi-native.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:ad00486df188c5a752046957ce3a3584cf42e3ceba32214fc94b06f01375e564",
+   "scanned_at": "2026-11-21T07:08:37Z",
+   "variables": [
+    "z"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0,
+    "Y_ASCENDING": 1
+   },
+   "shape": [
+    7,
+    2656,
+    2528
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    2656,
+    2528
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF polar_stereographic",
+     "EPSG:3412 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f03/f03a-asi-native/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f03b-asi-rowchunk",
+   "collection": "portolan",
+   "card": "cards/portolan/f03b-asi-rowchunk.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f03b-asi-rowchunk.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:e824251c3404238a862e6952ebc71ca2f85693a27190ab94ed0078c5f4acae7b",
+   "scanned_at": "2026-11-21T07:08:36Z",
+   "variables": [
+    "z"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0,
+    "Y_ASCENDING": 1
+   },
+   "shape": [
+    7,
+    2656,
+    2528
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    2656,
+    2528
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF polar_stereographic",
+     "EPSG:3412 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f03/f03b-asi-rowchunk/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f03c-asi-transform",
+   "collection": "portolan",
+   "card": "cards/portolan/f03c-asi-transform.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f03c-asi-transform.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:ee1dffb5fc12257489c94920e1bf9ba84ac61606d70508026b3081ae26cea393",
+   "scanned_at": "2026-11-21T07:08:43Z",
+   "variables": [
+    "0/z",
+    "1/z",
+    "2/z"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0
+   },
+   "shape": [
+    7,
+    2656,
+    2528
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    2656,
+    2528
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform",
+     "coords_1d_regular"
+    ],
+    "transform": [
+     3125.0,
+     0.0,
+     -3950000.0,
+     0.0,
+     -3125.0,
+     4350000.0
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF polar_stereographic",
+     "EPSG:3412",
+     "EPSG:3412 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f03/f03c-asi-transform/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f03d-asi-latlon2d",
+   "collection": "portolan",
+   "card": "cards/portolan/f03d-asi-latlon2d.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f03d-asi-latlon2d.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:c412d317c54ca518966a300458d9db950a75b686dfe386d80aa32a276e64d53e",
+   "scanned_at": "2026-11-21T07:09:31Z",
+   "variables": [
+    "z"
+   ],
+   "costumes": [
+    "E/H"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0,
+    "GRID_2D_LONLAT_ONLY": 1,
+    "CRS_NOT_DECLARED": 1
+   },
+   "shape": [
+    7,
+    2656,
+    2528
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    2656,
+    2528
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "coords_2d",
+    "declared": [
+     "coords_2d"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": []
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f03/f03d-asi-latlon2d/collection.json",
+   "assertions": [
+    {
+     "path": "assertions/f03d-asi-latlon2d.json",
+     "kind": "grid",
+     "variable": "z",
+     "status": "proposed",
+     "by": "storecard.fit",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:3412",
+      "spatial:transform": [
+       3125.0,
+       0.0,
+       -3950000.0,
+       0.0,
+       -3125.0,
+       4350000.0
+      ]
+     }
+    }
+   ],
+   "asserted": {
+    "clears": {
+     "GRID_2D_LONLAT_ONLY": {
+      "of": 1,
+      "cleared": 1
+     },
+     "CRS_NOT_DECLARED": {
+      "of": 1,
+      "cleared": 1
+     }
+    },
+    "adds": [],
+    "costumes": [
+     "B"
+    ]
+   }
+  },
+  {
+   "id": "f03e-asi-projjson",
+   "collection": "portolan",
+   "card": "cards/portolan/f03e-asi-projjson.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f03e-asi-projjson.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:2ff1fd06ce91e5bd567d7329428bf9b7a62148744511ff939f2c7cfb1b2828df",
+   "scanned_at": "2026-11-21T07:08:37Z",
+   "variables": [
+    "z"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0
+   },
+   "shape": [
+    7,
+    2656,
+    2528
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    2656,
+    2528
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform",
+     "coords_1d_regular"
+    ],
+    "transform": [
+     3125.0,
+     0.0,
+     -3950000.0,
+     0.0,
+     -3125.0,
+     4350000.0
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:3412"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f03/f03e-asi-projjson/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f03f-asi-gridmap-named",
+   "collection": "portolan",
+   "card": "cards/portolan/f03f-asi-gridmap-named.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f03f-asi-gridmap-named.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:d5a4a8c885cbf12e32528ad814dc14e3650d9483e67a46a96ba88a364b05a345",
+   "scanned_at": "2026-11-21T07:08:41Z",
+   "variables": [
+    "z"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0,
+    "Y_ASCENDING": 1
+   },
+   "shape": [
+    7,
+    2656,
+    2528
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    2656,
+    2528
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF polar_stereographic",
+     "EPSG:3412 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f03/f03f-asi-gridmap-named/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f03g-g02202-native",
+   "collection": "portolan",
+   "card": "cards/portolan/f03g-g02202-native.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f03g-g02202-native.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:491d5d28570ec49d9ed7ef6f27a149c4f676668440e9c47a6f4939648a116f96",
+   "scanned_at": "2026-11-21T07:08:42Z",
+   "variables": [
+    "cdr_seaice_conc"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0
+   },
+   "shape": [
+    7,
+    332,
+    316
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    332,
+    316
+   ],
+   "dtype": "uint8",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF polar_stereographic",
+     "EPSG:3412 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f03/f03g-g02202-native/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f03h-g02202-percent",
+   "collection": "portolan",
+   "card": "cards/portolan/f03h-g02202-percent.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f03h-g02202-percent.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:f227946e23e818cec557039d92c61e66dfedd1d4e7ac69e61dc4976762f2ac20",
+   "scanned_at": "2026-11-21T07:08:42Z",
+   "variables": [
+    "z"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0
+   },
+   "shape": [
+    7,
+    332,
+    316
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    332,
+    316
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF polar_stereographic",
+     "EPSG:3412 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f03/f03h-g02202-percent/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f03i-g02202-north-native",
+   "collection": "portolan",
+   "card": "cards/portolan/f03i-g02202-north-native.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f03i-g02202-north-native.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:cc3490df36646cb8b7260f5c79cdb920b98330fb526fb13f7b8dc58144de77ca",
+   "scanned_at": "2026-11-21T07:08:44Z",
+   "variables": [
+    "cdr_seaice_conc"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0
+   },
+   "shape": [
+    7,
+    448,
+    304
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    448,
+    304
+   ],
+   "dtype": "uint8",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF polar_stereographic",
+     "EPSG:3411 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f03/f03i-g02202-north-native/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f03j-g02202-north-percent",
+   "collection": "portolan",
+   "card": "cards/portolan/f03j-g02202-north-percent.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f03j-g02202-north-percent.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:08a54f05112173735004bba7d22dd3ba4e5b9980dd2cbd7032a3adec4fcc978f",
+   "scanned_at": "2026-11-21T07:08:46Z",
+   "variables": [
+    "z"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0
+   },
+   "shape": [
+    7,
+    448,
+    304
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    448,
+    304
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF polar_stereographic",
+     "EPSG:3411 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f03/f03j-g02202-north-percent/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f08a-esm-native",
+   "collection": "portolan",
+   "card": "cards/portolan/f08a-esm-native.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f08a-esm-native.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:3ab899d9b05ab22984067da482ad5977b909cf3226e83d0aa54800e7c3acf566",
+   "scanned_at": "2026-11-21T07:08:48Z",
+   "variables": [
+    "temp"
+   ],
+   "costumes": [
+    "G"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0,
+    "FILL_NOT_REPRESENTABLE": 1,
+    "COORDS_NAMED_MISSING": 1,
+    "LON_BELOW_MINUS_180": 1,
+    "COORD_IRREGULAR": 1,
+    "Y_ASCENDING": 1,
+    "CRS_NOT_DECLARED": 1
+   },
+   "shape": [
+    12,
+    50,
+    300,
+    360
+   ],
+   "dims": [
+    "time",
+    "st_ocean",
+    "yt_ocean",
+    "xt_ocean"
+   ],
+   "spatial_shape": [
+    300,
+    360
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "coords_1d_irregular",
+    "declared": [
+     "coords_1d_irregular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": [
+     "EPSG:4326 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f08/f08a-esm-native/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f08b-esm-levelchunk",
+   "collection": "portolan",
+   "card": "cards/portolan/f08b-esm-levelchunk.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f08b-esm-levelchunk.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:37b4a4812371d0b0869d6180354f04cb6b5edc89ad55021ad0dde4a9bde6bd03",
+   "scanned_at": "2026-11-21T07:08:48Z",
+   "variables": [
+    "temp"
+   ],
+   "costumes": [
+    "G"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0,
+    "FILL_NOT_REPRESENTABLE": 1,
+    "COORDS_NAMED_MISSING": 1,
+    "LON_BELOW_MINUS_180": 1,
+    "COORD_IRREGULAR": 1,
+    "Y_ASCENDING": 1,
+    "CRS_NOT_DECLARED": 1
+   },
+   "shape": [
+    12,
+    50,
+    300,
+    360
+   ],
+   "dims": [
+    "time",
+    "st_ocean",
+    "yt_ocean",
+    "xt_ocean"
+   ],
+   "spatial_shape": [
+    300,
+    360
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "coords_1d_irregular",
+    "declared": [
+     "coords_1d_irregular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": [
+     "EPSG:4326 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f08/f08b-esm-levelchunk/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "f08c-esm-geo2d",
+   "collection": "portolan",
+   "card": "cards/portolan/f08c-esm-geo2d.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f08c-esm-geo2d.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:d05586e6a9c001c30846628c97544f0fd1aaeec42f3aaafe558fbe6dedd11996",
+   "scanned_at": "2026-11-21T07:08:58Z",
+   "variables": [
+    "temp"
+   ],
+   "costumes": [
+    "E/H"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0,
+    "FILL_NOT_REPRESENTABLE": 1,
+    "LON_BELOW_MINUS_180": 1,
+    "COORD_IRREGULAR": 1,
+    "Y_ASCENDING": 1,
+    "NOMINAL_AXES_DISAGREE": 1,
+    "CRS_NOT_DECLARED": 1
+   },
+   "shape": [
+    12,
+    50,
+    300,
+    360
+   ],
+   "dims": [
+    "time",
+    "st_ocean",
+    "yt_ocean",
+    "xt_ocean"
+   ],
+   "spatial_shape": [
+    300,
+    360
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "coords_2d",
+    "declared": [
+     "coords_2d",
+     "coords_1d_irregular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": []
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f08/f08c-esm-geo2d/collection.json",
+   "assertions": [
+    {
+     "path": "assertions/f08c-esm-geo2d.json",
+     "kind": "refusal",
+     "variable": "temp",
+     "status": "proposed",
+     "by": "storecard.fit",
+     "current": true,
+     "refuses": {
+      "reason": "regular in none of the frames tried",
+      "frames_tried": [
+       "EPSG:3412",
+       "EPSG:3411",
+       "EPSG:3976",
+       "EPSG:3413",
+       "EPSG:3031",
+       "EPSG:3995",
+       "EPSG:6932",
+       "EPSG:6931",
+       "EPSG:3409",
+       "EPSG:3408",
+       "EPSG:6933",
+       "EPSG:3410",
+       "EPSG:3857",
+       "EPSG:4326"
+      ]
+     }
+    }
+   ],
+   "asserted": null
+  },
+  {
+   "id": "f08d-esm-regular",
+   "collection": "portolan",
+   "card": "cards/portolan/f08d-esm-regular.json",
+   "url": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/stores/f08d-esm-regular.zarr",
+   "form": "zarr v3",
+   "metadata_digest": "sha256:7ad1baf947c8d98c2d9689545206c2808f84b45c52eb51b71248f5104369b0a4",
+   "scanned_at": "2026-11-21T07:08:50Z",
+   "variables": [
+    "temp"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "projects.pawsey.org.au",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "GROUP_NOT_LISTABLE": 0,
+    "FILL_NOT_REPRESENTABLE": 1
+   },
+   "shape": [
+    12,
+    50,
+    180,
+    360
+   ],
+   "dims": [
+    "time",
+    "st_ocean",
+    "lat",
+    "lon"
+   ],
+   "spatial_shape": [
+    180,
+    360
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": true,
+    "labels": [
+     "CF latitude_longitude",
+     "EPSG:4326 (STAC only)"
+    ]
+   },
+   "stac": "https://projects.pawsey.org.au/aad-derived/portolan-fixtures/catalog/f08/f08d-esm-regular/collection.json",
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "asi-amsr2-v5.4-daily-south.icechunk",
+   "collection": "ausantarctic",
+   "card": "cards/ausantarctic/asi-amsr2-v5.4-daily-south.icechunk.json",
+   "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/seaice/asi-amsr2-v5.4-daily-south/icechunk",
+   "form": "icechunk",
+   "metadata_digest": "sha256:d97bf540681c6e0aa53b3143fe616b908f5eb92b0b5605c77d803796e9f63260",
+   "scanned_at": "2026-11-21T07:08:56Z",
+   "variables": [
+    "z"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    },
+    {
+     "role": "chunks",
+     "host": "data.seaice.uni-bremen.de",
+     "cors": null,
+     "range": null,
+     "probed": false
+    }
+   ],
+   "findings": {
+    "Y_ASCENDING": 1,
+    "CRS_NOT_DECLARED": 1,
+    "PROJECTED_NO_GRID_MAPPING": 1
+   },
+   "shape": [
+    5208,
+    2656,
+    2528
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    2656,
+    2528
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": []
+   },
+   "assertions": [
+    {
+     "path": "assertions/ausantarctic/asi-amsr2-v5.4-daily-south/icechunk-z.json",
+     "kind": "grid",
+     "variable": "z",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:3976",
+      "spatial:transform": [
+       3125.0,
+       0.0,
+       -3950000.0,
+       0.0,
+       3125.0,
+       -3950000.0
+      ]
+     }
+    }
+   ],
+   "asserted": {
+    "clears": {
+     "CRS_NOT_DECLARED": {
+      "of": 1,
+      "cleared": 1
+     },
+     "PROJECTED_NO_GRID_MAPPING": {
+      "of": 1,
+      "cleared": 1
+     }
+    },
+    "adds": [],
+    "costumes": [
+     "B"
+    ]
+   }
+  },
+  {
+   "id": "asi-amsr2-v5.4-daily-south.kerchunk",
+   "collection": "ausantarctic",
+   "card": "cards/ausantarctic/asi-amsr2-v5.4-daily-south.kerchunk.json",
+   "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/seaice/asi-amsr2-v5.4-daily-south/kerchunk",
+   "form": "kerchunk parquet",
+   "metadata_digest": "sha256:90c19b472ceda5f3d81042003c0b1c445227f0fdbf4d0f81327f47021453437a",
+   "scanned_at": "2026-11-21T07:08:57Z",
+   "variables": [
+    "z"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    },
+    {
+     "role": "chunks",
+     "host": "data.seaice.uni-bremen.de",
+     "cors": null,
+     "range": null,
+     "probed": false
+    }
+   ],
+   "findings": {
+    "Y_ASCENDING": 1,
+    "CRS_NOT_DECLARED": 1,
+    "PROJECTED_NO_GRID_MAPPING": 1
+   },
+   "shape": [
+    5208,
+    2656,
+    2528
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    2656,
+    2528
+   ],
+   "dtype": "float32",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": []
+   },
+   "assertions": [
+    {
+     "path": "assertions/ausantarctic/asi-amsr2-v5.4-daily-south/kerchunk-z.json",
+     "kind": "grid",
+     "variable": "z",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:3976",
+      "spatial:transform": [
+       3125.0,
+       0.0,
+       -3950000.0,
+       0.0,
+       3125.0,
+       -3950000.0
+      ]
+     }
+    }
+   ],
+   "asserted": {
+    "clears": {
+     "CRS_NOT_DECLARED": {
+      "of": 1,
+      "cleared": 1
+     },
+     "PROJECTED_NO_GRID_MAPPING": {
+      "of": 1,
+      "cleared": 1
+     }
+    },
+    "adds": [],
+    "costumes": [
+     "B"
+    ]
+   }
+  },
+  {
+   "id": "bluelink-daily-salt.icechunk",
+   "collection": "ausantarctic",
+   "card": "cards/ausantarctic/bluelink-daily-salt.icechunk.json",
+   "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/bluelink/bluelink-daily-salt/icechunk",
+   "form": "icechunk",
+   "metadata_digest": "sha256:874debc0c967104f67047656ca558ea0b69c7db5e24a35dc082a3ecd28d46dcc",
+   "scanned_at": "2026-11-21T07:08:58Z",
+   "variables": [
+    "salt"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    },
+    {
+     "role": "chunks",
+     "host": "thredds.nci.org.au",
+     "cors": null,
+     "range": null,
+     "probed": false
+    }
+   ],
+   "findings": {
+    "COORDS_NAMED_MISSING": 1,
+    "LON_0_360": 1,
+    "Y_ASCENDING": 1,
+    "CRS_NOT_DECLARED": 1
+   },
+   "shape": [
+    12265,
+    51,
+    1500,
+    3600
+   ],
+   "dims": [
+    "Time",
+    "st_ocean",
+    "yt_ocean",
+    "xt_ocean"
+   ],
+   "spatial_shape": [
+    1500,
+    3600
+   ],
+   "dtype": "int16",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": []
+   },
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "bluelink-daily-salt.kerchunk",
+   "collection": "ausantarctic",
+   "card": "cards/ausantarctic/bluelink-daily-salt.kerchunk.json",
+   "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/bluelink/bluelink-daily-salt/kerchunk",
+   "form": "kerchunk parquet",
+   "metadata_digest": "sha256:0f53f1e63df7e508457cb0f57b8e79ce8135e72b7deb9c89ec5ceccc37a5df84",
+   "scanned_at": "2026-11-21T07:08:58Z",
+   "variables": [
+    "salt"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    },
+    {
+     "role": "chunks",
+     "host": "thredds.nci.org.au",
+     "cors": null,
+     "range": null,
+     "probed": false
+    }
+   ],
+   "findings": {
+    "COORDS_NAMED_MISSING": 1,
+    "LON_0_360": 1,
+    "Y_ASCENDING": 1,
+    "CRS_NOT_DECLARED": 1
+   },
+   "shape": [
+    12265,
+    51,
+    1500,
+    3600
+   ],
+   "dims": [
+    "Time",
+    "st_ocean",
+    "yt_ocean",
+    "xt_ocean"
+   ],
+   "spatial_shape": [
+    1500,
+    3600
+   ],
+   "dtype": "int16",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": []
+   },
+   "assertions": [],
+   "asserted": null
+  },
+  {
+   "id": "g02202-v6-daily-north.icechunk",
+   "collection": "ausantarctic",
+   "card": "cards/ausantarctic/g02202-v6-daily-north.icechunk.json",
+   "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/seaice/g02202-v6-daily-north/icechunk",
+   "form": "icechunk",
+   "metadata_digest": "sha256:9309459c9b6bf5548ccc5a15811b9533fe29b840125c14e40425ed181e4428b6",
+   "scanned_at": "2026-11-21T07:08:55Z",
+   "variables": [
+    "cdr_seaice_conc"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    },
+    {
+     "role": "chunks",
+     "host": "noaadata.apps.nsidc.org",
+     "cors": null,
+     "range": null,
+     "probed": false
+    }
+   ],
+   "findings": {
+    "CRS_NOT_DECLARED": 1,
+    "PROJECTED_NO_GRID_MAPPING": 1
+   },
+   "shape": [
+    17533,
+    448,
+    304
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    448,
+    304
+   ],
+   "dtype": "uint8",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": []
+   },
+   "assertions": [
+    {
+     "path": "assertions/ausantarctic/g02202-v6-daily-north/icechunk-cdr_seaice_conc.json",
+     "kind": "grid",
+     "variable": "cdr_seaice_conc",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:3411",
+      "spatial:transform": [
+       25000.0,
+       0.0,
+       -3850000.0,
+       0.0,
+       -25000.0,
+       5850000.0
+      ]
+     }
+    }
+   ],
+   "asserted": {
+    "clears": {
+     "CRS_NOT_DECLARED": {
+      "of": 1,
+      "cleared": 1
+     },
+     "PROJECTED_NO_GRID_MAPPING": {
+      "of": 1,
+      "cleared": 1
+     }
+    },
+    "adds": [],
+    "costumes": [
+     "B"
+    ]
+   }
+  },
+  {
+   "id": "g02202-v6-daily-north.kerchunk",
+   "collection": "ausantarctic",
+   "card": "cards/ausantarctic/g02202-v6-daily-north.kerchunk.json",
+   "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/seaice/g02202-v6-daily-north/kerchunk",
+   "form": "kerchunk parquet",
+   "metadata_digest": "sha256:a10347aa8668e3f900967b78ab03c6f2ba5bb5409f4a40d238d1f1d5ddc66c09",
+   "scanned_at": "2026-11-21T07:08:55Z",
+   "variables": [
+    "cdr_seaice_conc"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    },
+    {
+     "role": "chunks",
+     "host": "noaadata.apps.nsidc.org",
+     "cors": null,
+     "range": null,
+     "probed": false
+    }
+   ],
+   "findings": {
+    "CRS_NOT_DECLARED": 1,
+    "PROJECTED_NO_GRID_MAPPING": 1
+   },
+   "shape": [
+    17533,
+    448,
+    304
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    448,
+    304
+   ],
+   "dtype": "uint8",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": []
+   },
+   "assertions": [
+    {
+     "path": "assertions/ausantarctic/g02202-v6-daily-north/kerchunk-cdr_seaice_conc.json",
+     "kind": "grid",
+     "variable": "cdr_seaice_conc",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:3411",
+      "spatial:transform": [
+       25000.0,
+       0.0,
+       -3850000.0,
+       0.0,
+       -25000.0,
+       5850000.0
+      ]
+     }
+    }
+   ],
+   "asserted": {
+    "clears": {
+     "CRS_NOT_DECLARED": {
+      "of": 1,
+      "cleared": 1
+     },
+     "PROJECTED_NO_GRID_MAPPING": {
+      "of": 1,
+      "cleared": 1
+     }
+    },
+    "adds": [],
+    "costumes": [
+     "B"
+    ]
+   }
+  },
+  {
+   "id": "g02202-v6-daily-south.icechunk",
+   "collection": "ausantarctic",
+   "card": "cards/ausantarctic/g02202-v6-daily-south.icechunk.json",
+   "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/seaice/g02202-v6-daily-south/icechunk",
+   "form": "icechunk",
+   "metadata_digest": "sha256:51a10034322159bf7808153949bf9ca197a8e07ae85fea06f99073f7792d1bea",
+   "scanned_at": "2026-11-21T07:08:52Z",
+   "variables": [
+    "cdr_seaice_conc"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    },
+    {
+     "role": "chunks",
+     "host": "noaadata.apps.nsidc.org",
+     "cors": null,
+     "range": null,
+     "probed": false
+    }
+   ],
+   "findings": {
+    "CRS_NOT_DECLARED": 1,
+    "PROJECTED_NO_GRID_MAPPING": 1
+   },
+   "shape": [
+    17531,
+    332,
+    316
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    332,
+    316
+   ],
+   "dtype": "uint8",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": []
+   },
+   "assertions": [
+    {
+     "path": "assertions/ausantarctic/g02202-v6-daily-south/icechunk-cdr_seaice_conc.json",
+     "kind": "grid",
+     "variable": "cdr_seaice_conc",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:3412",
+      "spatial:transform": [
+       25000.0,
+       0.0,
+       -3950000.0,
+       0.0,
+       -25000.0,
+       4350000.0
+      ]
+     }
+    }
+   ],
+   "asserted": {
+    "clears": {
+     "CRS_NOT_DECLARED": {
+      "of": 1,
+      "cleared": 1
+     },
+     "PROJECTED_NO_GRID_MAPPING": {
+      "of": 1,
+      "cleared": 1
+     }
+    },
+    "adds": [],
+    "costumes": [
+     "B"
+    ]
+   }
+  },
+  {
+   "id": "g02202-v6-daily-south.kerchunk",
+   "collection": "ausantarctic",
+   "card": "cards/ausantarctic/g02202-v6-daily-south.kerchunk.json",
+   "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/seaice/g02202-v6-daily-south/kerchunk",
+   "form": "kerchunk parquet",
+   "metadata_digest": "sha256:d4910c5e1817b49e5de8b9034128071d5fe2ea759ac54e8ebee6ec33b8496e7f",
+   "scanned_at": "2026-11-21T07:08:53Z",
+   "variables": [
+    "cdr_seaice_conc"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    },
+    {
+     "role": "chunks",
+     "host": "noaadata.apps.nsidc.org",
+     "cors": null,
+     "range": null,
+     "probed": false
+    }
+   ],
+   "findings": {
+    "CRS_NOT_DECLARED": 1,
+    "PROJECTED_NO_GRID_MAPPING": 1
+   },
+   "shape": [
+    17531,
+    332,
+    316
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    332,
+    316
+   ],
+   "dtype": "uint8",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": []
+   },
+   "assertions": [
+    {
+     "path": "assertions/ausantarctic/g02202-v6-daily-south/kerchunk-cdr_seaice_conc.json",
+     "kind": "grid",
+     "variable": "cdr_seaice_conc",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:3412",
+      "spatial:transform": [
+       25000.0,
+       0.0,
+       -3950000.0,
+       0.0,
+       -25000.0,
+       4350000.0
+      ]
+     }
+    }
+   ],
+   "asserted": {
+    "clears": {
+     "CRS_NOT_DECLARED": {
+      "of": 1,
+      "cleared": 1
+     },
+     "PROJECTED_NO_GRID_MAPPING": {
+      "of": 1,
+      "cleared": 1
+     }
+    },
+    "adds": [],
+    "costumes": [
+     "B"
+    ]
+   }
+  },
+  {
+   "id": "ghrsst-mur-cog-analysed_sst.icechunk",
+   "collection": "ausantarctic",
+   "card": "cards/ausantarctic/ghrsst-mur-cog-analysed_sst.icechunk.json",
+   "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/ghrsst/ghrsst-mur-cog-analysed_sst/icechunk",
+   "form": "icechunk",
+   "metadata_digest": "sha256:7253fcfd645ddf7119c4e864fc7544774d5f439e2d6ec5c99f3abfe17cc22175",
+   "scanned_at": "2026-11-21T07:09:06Z",
+   "variables": [
+    "analysed_sst",
+    "analysed_sst_x16",
+    "analysed_sst_x2",
+    "analysed_sst_x32",
+    "analysed_sst_x4",
+    "analysed_sst_x8"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    },
+    {
+     "role": "chunks",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "CRS_NOT_DECLARED": 6
+   },
+   "shape": [
+    8920,
+    17999,
+    36000
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    17999,
+    36000
+   ],
+   "dtype": "int16",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": []
+   },
+   "assertions": [
+    {
+     "path": "assertions/ausantarctic/ghrsst-mur-cog-analysed_sst/icechunk-analysed_sst.json",
+     "kind": "grid",
+     "variable": "analysed_sst",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:4326",
+      "spatial:transform": [
+       0.01,
+       0.0,
+       -179.995,
+       0.0,
+       -0.01,
+       89.995
+      ]
+     }
+    }
+   ],
+   "asserted": {
+    "clears": {
+     "CRS_NOT_DECLARED": {
+      "of": 6,
+      "cleared": 1
+     }
+    },
+    "adds": [],
+    "costumes": [
+     "B",
+     "C"
+    ]
+   }
+  },
+  {
+   "id": "ghrsst-mur-cog-analysed_sst.kerchunk",
+   "collection": "ausantarctic",
+   "card": "cards/ausantarctic/ghrsst-mur-cog-analysed_sst.kerchunk.json",
+   "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/ghrsst/ghrsst-mur-cog-analysed_sst/kerchunk",
+   "form": "kerchunk parquet",
+   "metadata_digest": "sha256:fb3200231150d8165a2b546d0a93256813513a3c07cd4fc2c95f67d15ee3e372",
+   "scanned_at": "2026-11-21T07:09:05Z",
+   "variables": [
+    "analysed_sst",
+    "analysed_sst_x16",
+    "analysed_sst_x2",
+    "analysed_sst_x32",
+    "analysed_sst_x4",
+    "analysed_sst_x8"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    },
+    {
+     "role": "chunks",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "CRS_NOT_DECLARED": 6
+   },
+   "shape": [
+    8920,
+    17999,
+    36000
+   ],
+   "dims": [
+    "time",
+    "y",
+    "x"
+   ],
+   "spatial_shape": [
+    17999,
+    36000
+   ],
+   "dtype": "int16",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": []
+   },
+   "assertions": [
+    {
+     "path": "assertions/ausantarctic/ghrsst-mur-cog-analysed_sst/kerchunk-analysed_sst.json",
+     "kind": "grid",
+     "variable": "analysed_sst",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:4326",
+      "spatial:transform": [
+       0.01,
+       0.0,
+       -179.995,
+       0.0,
+       -0.01,
+       89.995
+      ]
+     }
+    }
+   ],
+   "asserted": {
+    "clears": {
+     "CRS_NOT_DECLARED": {
+      "of": 6,
+      "cleared": 1
+     }
+    },
+    "adds": [],
+    "costumes": [
+     "B",
+     "C"
+    ]
+   }
+  },
+  {
+   "id": "oisst-v2.1-daily.icechunk",
+   "collection": "ausantarctic",
+   "card": "cards/ausantarctic/oisst-v2.1-daily.icechunk.json",
+   "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/oisst/oisst-v2.1-daily/icechunk",
+   "form": "icechunk",
+   "metadata_digest": "sha256:1d6c9a8747f1b0c1ee3cf5fcdff4b7b7403e2079d558f286bf64f7a66d9f8a08",
+   "scanned_at": "2026-11-21T07:08:52Z",
+   "variables": [
+    "anom",
+    "err",
+    "ice",
+    "sst"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    },
+    {
+     "role": "chunks",
+     "host": "noaa-cdr-sea-surface-temp-optimum-interpolation-pds.s3.amazonaws.com",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "LON_0_360": 4,
+    "Y_ASCENDING": 4,
+    "CRS_NOT_DECLARED": 4
+   },
+   "shape": [
+    16482,
+    1,
+    720,
+    1440
+   ],
+   "dims": [
+    "time",
+    "zlev",
+    "lat",
+    "lon"
+   ],
+   "spatial_shape": [
+    720,
+    1440
+   ],
+   "dtype": "int16",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": []
+   },
+   "assertions": [
+    {
+     "path": "assertions/ausantarctic/oisst-v2.1-daily/icechunk-anom.json",
+     "kind": "grid",
+     "variable": "anom",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:4326",
+      "spatial:transform": [
+       0.25,
+       0.0,
+       0.0,
+       0.0,
+       0.25,
+       -90.0
+      ]
+     }
+    },
+    {
+     "path": "assertions/ausantarctic/oisst-v2.1-daily/icechunk-err.json",
+     "kind": "grid",
+     "variable": "err",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:4326",
+      "spatial:transform": [
+       0.25,
+       0.0,
+       0.0,
+       0.0,
+       0.25,
+       -90.0
+      ]
+     }
+    },
+    {
+     "path": "assertions/ausantarctic/oisst-v2.1-daily/icechunk-ice.json",
+     "kind": "grid",
+     "variable": "ice",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:4326",
+      "spatial:transform": [
+       0.25,
+       0.0,
+       0.0,
+       0.0,
+       0.25,
+       -90.0
+      ]
+     }
+    },
+    {
+     "path": "assertions/ausantarctic/oisst-v2.1-daily/icechunk-sst.json",
+     "kind": "grid",
+     "variable": "sst",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:4326",
+      "spatial:transform": [
+       0.25,
+       0.0,
+       0.0,
+       0.0,
+       0.25,
+       -90.0
+      ]
+     }
+    }
+   ],
+   "asserted": {
+    "clears": {
+     "CRS_NOT_DECLARED": {
+      "of": 4,
+      "cleared": 4
+     }
+    },
+    "adds": [],
+    "costumes": [
+     "B"
+    ]
+   }
+  },
+  {
+   "id": "oisst-v2.1-daily.kerchunk",
+   "collection": "ausantarctic",
+   "card": "cards/ausantarctic/oisst-v2.1-daily.kerchunk.json",
+   "url": "https://data.source.coop/ausantarctic/ausantarctic-scratch/oisst/oisst-v2.1-daily/kerchunk",
+   "form": "kerchunk parquet",
+   "metadata_digest": "sha256:992a8d17dfaa1f6a763e44440aef2721538292968a3760ead0c4eb6d47764f54",
+   "scanned_at": "2026-11-21T07:08:54Z",
+   "variables": [
+    "anom",
+    "err",
+    "ice",
+    "sst"
+   ],
+   "costumes": [
+    "C"
+   ],
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    },
+    {
+     "role": "chunks",
+     "host": "noaa-cdr-sea-surface-temp-optimum-interpolation-pds.s3.amazonaws.com",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "LON_0_360": 4,
+    "Y_ASCENDING": 4,
+    "CRS_NOT_DECLARED": 4
+   },
+   "shape": [
+    16482,
+    1,
+    720,
+    1440
+   ],
+   "dims": [
+    "time",
+    "zlev",
+    "lat",
+    "lon"
+   ],
+   "spatial_shape": [
+    720,
+    1440
+   ],
+   "dtype": "int16",
+   "grid": {
+    "form": "coords_1d_regular",
+    "declared": [
+     "coords_1d_regular"
+    ]
+   },
+   "crs": {
+    "declared": false,
+    "labels": []
+   },
+   "assertions": [
+    {
+     "path": "assertions/ausantarctic/oisst-v2.1-daily/kerchunk-anom.json",
+     "kind": "grid",
+     "variable": "anom",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:4326",
+      "spatial:transform": [
+       0.25,
+       0.0,
+       0.0,
+       0.0,
+       0.25,
+       -90.0
+      ]
+     }
+    },
+    {
+     "path": "assertions/ausantarctic/oisst-v2.1-daily/kerchunk-err.json",
+     "kind": "grid",
+     "variable": "err",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:4326",
+      "spatial:transform": [
+       0.25,
+       0.0,
+       0.0,
+       0.0,
+       0.25,
+       -90.0
+      ]
+     }
+    },
+    {
+     "path": "assertions/ausantarctic/oisst-v2.1-daily/kerchunk-ice.json",
+     "kind": "grid",
+     "variable": "ice",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:4326",
+      "spatial:transform": [
+       0.25,
+       0.0,
+       0.0,
+       0.0,
+       0.25,
+       -90.0
+      ]
+     }
+    },
+    {
+     "path": "assertions/ausantarctic/oisst-v2.1-daily/kerchunk-sst.json",
+     "kind": "grid",
+     "variable": "sst",
+     "status": "proposed",
+     "by": "storecard ausantarctic tier 1",
+     "current": true,
+     "asserts": {
+      "proj:code": "EPSG:4326",
+      "spatial:transform": [
+       0.25,
+       0.0,
+       0.0,
+       0.0,
+       0.25,
+       -90.0
+      ]
+     }
+    }
+   ],
+   "asserted": {
+    "clears": {
+     "CRS_NOT_DECLARED": {
+      "of": 4,
+      "cleared": 4
+     }
+    },
+    "adds": [],
+    "costumes": [
+     "B"
+    ]
+   }
+  },
+  {
+   "id": "list_dem_25m",
+   "collection": "thelist",
+   "card": "cards/thelist/list_dem_25m.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/",
+   "form": "cog",
+   "n_files": 30,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/break_o_day/list_dem_25m_break_o_day.tif",
+     "spatial_shape": [
+      4361,
+      2592
+     ],
+     "crs": "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      549375.0,
+      0.0,
+      -25.0,
+      5471649.999999801
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/brighton/list_dem_25m_brighton.tif",
+     "spatial_shape": [
+      635,
+      988
+     ],
+     "crs": "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      507500.0,
+      0.0,
+      -25.0,
+      5277424.999999801
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/burnie/list_dem_25m_burnie.tif",
+     "spatial_shape": [
+      1437,
+      1162
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      385875.0,
+      0.0,
+      -25.0,
+      5456699.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/central_coast/list_dem_25m_central_coast.tif",
+     "spatial_shape": [
+      1739,
+      1427
+     ],
+     "crs": "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      403350.0,
+      0.0,
+      -25.0,
+      5452624.999999801
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/central_highlands/list_dem_25m_central_highlands.tif",
+     "spatial_shape": [
+      4408,
+      4234
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      417225.0,
+      0.0,
+      -25.0,
+      5383499.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/circular_head/list_dem_25m_circular_head.tif",
+     "spatial_shape": [
+      6264,
+      4853
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      257725.0,
+      0.0,
+      -25.0,
+      5541424.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/clarence/list_dem_25m_clarence.tif",
+     "spatial_shape": [
+      1764,
+      1087
+     ],
+     "crs": "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      522975.0,
+      0.0,
+      -25.0,
+      5275174.999999801
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/derwent_valley/list_dem_25m_derwent_valley.tif",
+     "spatial_shape": [
+      2794,
+      4574
+     ],
+     "crs": "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      404425.0,
+      0.0,
+      -25.0,
+      5295574.999999801
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/devonport/list_dem_25m_devonport.tif",
+     "spatial_shape": [
+      529,
+      555
+     ],
+     "crs": "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      436375.0,
+      0.0,
+      -25.0,
+      5444049.999999801
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/dorset/list_dem_25m_dorset.tif",
+     "spatial_shape": [
+      2947,
+      3595
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      516725.0,
+      0.0,
+      -25.0,
+      5492449.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/flinders/list_dem_25m_flinders.tif",
+     "spatial_shape": [
+      6258,
+      7169
+     ],
+     "crs": "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      446500.0,
+      0.0,
+      -25.0,
+      5661949.999999801
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/george_town/list_dem_25m_george_town.tif",
+     "spatial_shape": [
+      1414,
+      1559
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      481950.0,
+      0.0,
+      -25.0,
+      5467749.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/glamorgan_spring_bay/list_dem_25m_glamorgan_spring_bay.tif",
+     "spatial_shape": [
+      4126,
+      2610
+     ],
+     "crs": "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      547125.0,
+      0.0,
+      -25.0,
+      5370099.999999801
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/glenorchy/list_dem_25m_glenorchy.tif",
+     "spatial_shape": [
+      747,
+      616
+     ],
+     "crs": "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      511050.0,
+      0.0,
+      -25.0,
+      5267474.999999801
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/hobart/list_dem_25m_hobart.tif",
+     "spatial_shape": [
+      438,
+      543
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      515975.0,
+      0.0,
+      -25.0,
+      5256399.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/huon_valley/list_dem_25m_huon_valley.tif",
+     "spatial_shape": [
+      3844,
+      4389
+     ],
+     "crs": "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      407825.0,
+      0.0,
+      -25.0,
+      5256099.999999801
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/kentish/list_dem_25m_kentish.tif",
+     "spatial_shape": [
+      1979,
+      2170
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      404200.0,
+      0.0,
+      -25.0,
+      5434174.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/king_island/list_dem_25m_king_island.tif",
+     "spatial_shape": [
+      2594,
+      1210
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      227075.0,
+      0.0,
+      -25.0,
+      5614549.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/kingborough/list_dem_25m_kingborough.tif",
+     "spatial_shape": [
+      2832,
+      1112
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      507400.0,
+      0.0,
+      -25.0,
+      5250499.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/latrobe/list_dem_25m_latrobe.tif",
+     "spatial_shape": [
+      1268,
+      1389
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      445350.0,
+      0.0,
+      -25.0,
+      5450999.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/launceston/list_dem_25m_launceston.tif",
+     "spatial_shape": [
+      2093,
+      2244
+     ],
+     "crs": "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      498025.0,
+      0.0,
+      -25.0,
+      5451724.999999801
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/meander_valley/list_dem_25m_meander_valley.tif",
+     "spatial_shape": [
+      2903,
+      3960
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      412700.0,
+      0.0,
+      -25.0,
+      5425174.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/northern_midlands/list_dem_25m_northern_midlands.tif",
+     "spatial_shape": [
+      3570,
+      4577
+     ],
+     "crs": "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      480800.0,
+      0.0,
+      -25.0,
+      5407924.999999801
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/sorell/list_dem_25m_sorell.tif",
+     "spatial_shape": [
+      1089,
+      1588
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      537025.0,
+      0.0,
+      -25.0,
+      5275649.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/southern_midlands/list_dem_25m_southern_midlands.tif",
+     "spatial_shape": [
+      2670,
+      2785
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      500950.0,
+      0.0,
+      -25.0,
+      5337149.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/statewide/list_dem_25m_statewide.tif",
+     "spatial_shape": [
+      20078,
+      15946
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      25.0,
+      0.0,
+      227075.0,
+      0.0,
+      -25.0,
+      5661949.999999801
+     ],
+     "findings": [
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/tasman/list_dem_25m_tasman.tif",
+     "spatial_shape": [
+      1800,
+      1418
+     ],
+     "crs": "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      550375.0,
+      0.0,
+      -25.0,
+      5256324.999999801
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/waratah_wynyard/list_dem_25m_waratah_wynyard.tif",
+     "spatial_shape": [
+      3574,
+      2630
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      338650.0,
+      0.0,
+      -25.0,
+      5471124.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/west_coast/list_dem_25m_west_coast.tif",
+     "spatial_shape": [
+      7730,
+      4108
+     ],
+     "crs": "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      326100.0,
+      0.0,
+      -25.0,
+      5395974.999999801
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/list_dem_25m/west_tamar/list_dem_25m_west_tamar.tif",
+     "spatial_shape": [
+      1788,
+      1567
+     ],
+     "crs": "unnamed, no id (equivalent to EPSG:28355)",
+     "transform": [
+      25.0,
+      0.0,
+      471300.0,
+      0.0,
+      -25.0,
+      5454274.9999998
+     ],
+     "findings": [
+      "CRS_NO_AUTHORITY_ID",
+      "TRANSFORM_NEAR_ROUND"
+     ],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355",
+     "GDA_1994_Transverse_Mercator, no id (equivalent to EPSG:28355)",
+     "unnamed, no id (equivalent to EPSG:28355)"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "TRANSFORM_NEAR_ROUND": 30,
+    "CRS_NO_AUTHORITY_ID": 29
+   },
+   "scanned_at": "2026-11-21T07:09:18Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": {
+    "files": 30,
+    "codes": [
+     "EPSG:28355"
+    ],
+    "clears": [
+     "CRS_NO_AUTHORITY_ID",
+     "TRANSFORM_NEAR_ROUND"
+    ]
+   }
+  },
+  {
+   "id": "nch_es_blueb_nhighbush_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_blueb_nhighbush_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_blueb_nhighbush_v2/nch_es_blueb_nhighbush_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_blueb_nhighbush_v2/nch_es_blueb_nhighbush_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint16"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint16"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:00Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_blueb_shighbush_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_blueb_shighbush_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_blueb_shighbush_v2/nch_es_blueb_shighbush_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_blueb_shighbush_v2/nch_es_blueb_shighbush_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint16"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint16"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:00Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_carrot_seed_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_carrot_seed_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_carrot_seed_v2/nch_es_carrot_seed_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_carrot_seed_v2/nch_es_carrot_seed_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint16"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint16"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:02Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_carrots_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_carrots_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_carrots_v2/nch_es_carrots_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_carrots_v2/nch_es_carrots_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint16"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint16"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:02Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_cherries_v3",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_cherries_v3.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_cherries_v3/nch_es_cherries_v3.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_cherries_v3/nch_es_cherries_v3.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "int32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "int32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:03Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_hazelnuts_v3",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_hazelnuts_v3.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_hazelnuts_v3/nch_es_hazelnuts_v3.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_hazelnuts_v3/nch_es_hazelnuts_v3.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint16"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint16"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:04Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_hillslope_erosivity",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_hillslope_erosivity.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_hillslope_erosivity/statewide/nch_es_hillslope_erosivity.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_hillslope_erosivity/statewide/nch_es_hillslope_erosivity.tif",
+     "spatial_shape": [
+      19320,
+      18731
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      125481.47592082171,
+      0.0,
+      -30.0,
+      5690806.929706017
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:03Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    19320,
+    18731
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     125481.47592082171,
+     0.0,
+     -30.0,
+     5690806.929706017
+    ]
+   }
+  },
+  {
+   "id": "nch_es_indust_hemp_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_indust_hemp_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_indust_hemp_v2/nch_es_indust_hemp_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_indust_hemp_v2/nch_es_indust_hemp_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint16"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint16"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:05Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_linseed_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_linseed_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_linseed_v2/nch_es_linseed_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_linseed_v2/nch_es_linseed_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint16"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint16"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:04Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_lucerne_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_lucerne_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_lucerne_v2/nch_es_lucerne_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_lucerne_v2/nch_es_lucerne_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint16"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint16"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:06Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_olives_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_olives_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_olives_v2/nch_es_olives_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_olives_v2/nch_es_olives_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "int32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "int32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:07Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_onions_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_onions_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_onions_v2/nch_es_onions_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_onions_v2/nch_es_onions_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "int32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "int32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:28Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_poppies_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_poppies_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_poppies_v2/nch_es_poppies_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_poppies_v2/nch_es_poppies_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint16"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint16"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:06Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_potatoes_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_potatoes_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_potatoes_v2/nch_es_potatoes_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_potatoes_v2/nch_es_potatoes_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "int32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "int32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:08Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_pyrethrum_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_pyrethrum_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_pyrethrum_v2/nch_es_pyrethrum_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_pyrethrum_v2/nch_es_pyrethrum_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint16"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint16"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:08Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_raspberries_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_raspberries_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_raspberries_v2/nch_es_raspberries_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_raspberries_v2/nch_es_raspberries_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "int32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "int32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:08Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_rye_grass_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_rye_grass_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_rye_grass_v2/nch_es_rye_grass_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_rye_grass_v2/nch_es_rye_grass_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint16"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint16"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:09Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_salinity_hazard",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_salinity_hazard.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_salinity_hazard/statewide/nch_es_salinity_hazard.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_salinity_hazard/statewide/nch_es_salinity_hazard.tif",
+     "spatial_shape": [
+      19320,
+      18731
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      125481.47592082171,
+      0.0,
+      -30.0,
+      5690806.929706017
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:09Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    19320,
+    18731
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     125481.47592082171,
+     0.0,
+     -30.0,
+     5690806.929706017
+    ]
+   }
+  },
+  {
+   "id": "nch_es_sodicity_hazard",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_sodicity_hazard.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_sodicity_hazard/statewide/nch_es_sodicity_hazard.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_sodicity_hazard/statewide/nch_es_sodicity_hazard.tif",
+     "spatial_shape": [
+      19320,
+      18731
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      125481.47592082171,
+      0.0,
+      -30.0,
+      5690806.929706017
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:09Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    19320,
+    18731
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     125481.47592082171,
+     0.0,
+     -30.0,
+     5690806.929706017
+    ]
+   }
+  },
+  {
+   "id": "nch_es_sparklingwine_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_sparklingwine_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_sparklingwine_v2/nch_es_sparklingwine_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_sparklingwine_v2/nch_es_sparklingwine_v2.tif",
+     "spatial_shape": [
+      17579,
+      14327
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      206854.2197244775,
+      0.0,
+      -30.0,
+      5665369.876535641
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:09Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    17579,
+    14327
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     206854.2197244775,
+     0.0,
+     -30.0,
+     5665369.876535641
+    ]
+   }
+  },
+  {
+   "id": "nch_es_strawberries_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_strawberries_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_strawberries_v2/nch_es_strawberries_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_strawberries_v2/nch_es_strawberries_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "int32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "int32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:11Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_tablewine_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_tablewine_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_tablewine_v2/nch_es_tablewine_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_tablewine_v2/nch_es_tablewine_v2.tif",
+     "spatial_shape": [
+      17579,
+      14327
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.000000000000004,
+      0.0,
+      206854.22023870487,
+      0.0,
+      -30.0,
+      5665369.876907922
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint16"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint16"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:10Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    17579,
+    14327
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.000000000000004,
+     0.0,
+     206854.22023870487,
+     0.0,
+     -30.0,
+     5665369.876907922
+    ]
+   }
+  },
+  {
+   "id": "nch_es_water_logging_hazard",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_water_logging_hazard.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_water_logging_hazard/statewide/nch_es_water_logging_hazard.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_water_logging_hazard/statewide/nch_es_water_logging_hazard.tif",
+     "spatial_shape": [
+      19320,
+      18731
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      125481.47592082206,
+      0.0,
+      -30.0,
+      5690806.929706008
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:10Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    19320,
+    18731
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     125481.47592082206,
+     0.0,
+     -30.0,
+     5690806.929706008
+    ]
+   }
+  },
+  {
+   "id": "nch_es_wheat_v2",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_wheat_v2.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_wheat_v2/nch_es_wheat_v2.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_wheat_v2/nch_es_wheat_v2.tif",
+     "spatial_shape": [
+      15994,
+      14183
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      29.999999999999996,
+      0.0,
+      208769.62982903194,
+      0.0,
+      -30.0,
+      5639399.606977775
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint16"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint16"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:10Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    15994,
+    14183
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     29.999999999999996,
+     0.0,
+     208769.62982903194,
+     0.0,
+     -30.0,
+     5639399.606977775
+    ]
+   }
+  },
+  {
+   "id": "nch_es_wind_erosion_hazard",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_es_wind_erosion_hazard.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_wind_erosion_hazard/statewide/nch_es_wind_erosion_hazard.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_es_wind_erosion_hazard/statewide/nch_es_wind_erosion_hazard.tif",
+     "spatial_shape": [
+      19320,
+      18731
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      125481.47592082171,
+      0.0,
+      -30.0,
+      5690806.929706017
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:11Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    19320,
+    18731
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     125481.47592082171,
+     0.0,
+     -30.0,
+     5690806.929706017
+    ]
+   }
+  },
+  {
+   "id": "nch_landform_classification",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_landform_classification.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_landform_classification/statewide/nch_landform_classification.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_landform_classification/statewide/nch_landform_classification.tif",
+     "spatial_shape": [
+      19320,
+      18731
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      125481.47592082195,
+      0.0,
+      -30.0,
+      5690806.929706012
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "int8"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "int8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:11Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    19320,
+    18731
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     125481.47592082195,
+     0.0,
+     -30.0,
+     5690806.929706012
+    ]
+   }
+  },
+  {
+   "id": "nch_organic_extent_class",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_organic_extent_class.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_organic_extent_class/statewide/organic_extent_class.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_organic_extent_class/statewide/organic_extent_class.tif",
+     "spatial_shape": [
+      18763,
+      17321
+     ],
+     "crs": "EPSG:32755",
+     "transform": [
+      30.0,
+      0.0,
+      153562.6052,
+      0.0,
+      -30.0,
+      5683208.0041
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:32755"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:11Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    18763,
+    17321
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     153562.6052,
+     0.0,
+     -30.0,
+     5683208.0041
+    ]
+   }
+  },
+  {
+   "id": "nch_organic_soil_map",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_organic_soil_map.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_organic_soil_map/statewide/organic_soil_map.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_organic_soil_map/statewide/organic_soil_map.tif",
+     "spatial_shape": [
+      18763,
+      17321
+     ],
+     "crs": "EPSG:32755",
+     "transform": [
+      30.0,
+      0.0,
+      153562.605245917,
+      0.0,
+      -30.0,
+      5683208.00414296
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:32755"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:11Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    18763,
+    17321
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     153562.605245917,
+     0.0,
+     -30.0,
+     5683208.00414296
+    ]
+   }
+  },
+  {
+   "id": "nch_osm_depth",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_osm_depth.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_osm_depth/statewide/osm_depth.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_osm_depth/statewide/osm_depth.tif",
+     "spatial_shape": [
+      18763,
+      17321
+     ],
+     "crs": "EPSG:32755",
+     "transform": [
+      30.0,
+      0.0,
+      153562.605245917,
+      0.0,
+      -30.0,
+      5683208.00414296
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:32755"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:12Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    18763,
+    17321
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     153562.605245917,
+     0.0,
+     -30.0,
+     5683208.00414296
+    ]
+   }
+  },
+  {
+   "id": "nch_osm_drainage",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_osm_drainage.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_osm_drainage/statewide/osm_drainage.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_osm_drainage/statewide/osm_drainage.tif",
+     "spatial_shape": [
+      18763,
+      17321
+     ],
+     "crs": "EPSG:32755",
+     "transform": [
+      30.0,
+      0.0,
+      153562.605245917,
+      0.0,
+      -30.0,
+      5683208.00414296
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:32755"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:12Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    18763,
+    17321
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     153562.605245917,
+     0.0,
+     -30.0,
+     5683208.00414296
+    ]
+   }
+  },
+  {
+   "id": "nch_osm_humification",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_osm_humification.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_osm_humification/statewide/osm_humification.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_osm_humification/statewide/osm_humification.tif",
+     "spatial_shape": [
+      18763,
+      17321
+     ],
+     "crs": "EPSG:32755",
+     "transform": [
+      30.0,
+      0.0,
+      153562.605245917,
+      0.0,
+      -30.0,
+      5683208.00414296
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:32755"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:12Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    18763,
+    17321
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     153562.605245917,
+     0.0,
+     -30.0,
+     5683208.00414296
+    ]
+   }
+  },
+  {
+   "id": "nch_soil_drainage",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_soil_drainage.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_soil_drainage/statewide/nch_soil_drainage.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_soil_drainage/statewide/nch_soil_drainage.tif",
+     "spatial_shape": [
+      18804,
+      18123
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      141419.72613600112,
+      0.0,
+      -30.0,
+      5676636.322859685
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:12Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    18804,
+    18123
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     141419.72613600112,
+     0.0,
+     -30.0,
+     5676636.322859685
+    ]
+   }
+  },
+  {
+   "id": "nch_soil_permeability",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_soil_permeability.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_soil_permeability/statewide/nch_soil_permeability.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_soil_permeability/statewide/nch_soil_permeability.tif",
+     "spatial_shape": [
+      18804,
+      18123
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      141419.72613600112,
+      0.0,
+      -30.0,
+      5676636.322859685
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:13Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    18804,
+    18123
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     141419.72613600112,
+     0.0,
+     -30.0,
+     5676636.322859685
+    ]
+   }
+  },
+  {
+   "id": "nch_soil_ph_to_15cm",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_soil_ph_to_15cm.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_soil_ph_to_15cm/statewide/nch_soil_ph_to_15cm.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_soil_ph_to_15cm/statewide/nch_soil_ph_to_15cm.tif",
+     "spatial_shape": [
+      18804,
+      18123
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      141419.72613600112,
+      0.0,
+      -30.0,
+      5676636.322859685
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float64"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float64"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:13Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    18804,
+    18123
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     141419.72613600112,
+     0.0,
+     -30.0,
+     5676636.322859685
+    ]
+   }
+  },
+  {
+   "id": "nch_soil_rooting_depth",
+   "collection": "thelist",
+   "card": "cards/thelist/nch_soil_rooting_depth.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_soil_rooting_depth/statewide/nch_soil_rooting_depth.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/nch_soil_rooting_depth/statewide/nch_soil_rooting_depth.tif",
+     "spatial_shape": [
+      18804,
+      18123
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      141419.72613600112,
+      0.0,
+      -30.0,
+      5676636.322859685
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float64"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float64"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:13Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    18804,
+    18123
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     141419.72613600112,
+     0.0,
+     -30.0,
+     5676636.322859685
+    ]
+   }
+  },
+  {
+   "id": "tas_landsat_mosaic_2009_2010",
+   "collection": "thelist",
+   "card": "cards/thelist/tas_landsat_mosaic_2009_2010.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tas_landsat_mosaic_2009_2010/statewide/tas_landsat_mosaic_0910_mga55.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tas_landsat_mosaic_2009_2010/statewide/tas_landsat_mosaic_0910_mga55.tif",
+     "spatial_shape": [
+      17468,
+      13532
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      224205.0,
+      0.0,
+      -30.0,
+      5664535.0
+     ],
+     "findings": [
+      "BANDS_UNNAMED"
+     ],
+     "bands": 6,
+     "dtype": "uint8"
+    }
+   ],
+   "variables": [
+    "band_1",
+    "band_2",
+    "band_3",
+    "band_4",
+    "band_5",
+    "band_6"
+   ],
+   "dtype": [
+    "uint8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "BANDS_UNNAMED": 1
+   },
+   "scanned_at": "2026-11-21T07:09:13Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    17468,
+    13532
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     224205.0,
+     0.0,
+     -30.0,
+     5664535.0
+    ]
+   }
+  },
+  {
+   "id": "tas_landsat_mosaic_2013_2014",
+   "collection": "thelist",
+   "card": "cards/thelist/tas_landsat_mosaic_2013_2014.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tas_landsat_mosaic_2013_2014/statewide/tas_landsat_mosaic_1314_mga55.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tas_landsat_mosaic_2013_2014/statewide/tas_landsat_mosaic_1314_mga55.tif",
+     "spatial_shape": [
+      17468,
+      13532
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      224205.0,
+      0.0,
+      -30.0,
+      5664535.0
+     ],
+     "findings": [
+      "BANDS_UNNAMED"
+     ],
+     "bands": 6,
+     "dtype": "uint8"
+    }
+   ],
+   "variables": [
+    "band_1",
+    "band_2",
+    "band_3",
+    "band_4",
+    "band_5",
+    "band_6"
+   ],
+   "dtype": [
+    "uint8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "BANDS_UNNAMED": 1
+   },
+   "scanned_at": "2026-11-21T07:09:13Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    17468,
+    13532
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     224205.0,
+     0.0,
+     -30.0,
+     5664535.0
+    ]
+   }
+  },
+  {
+   "id": "tas_landsat_mosaic_2014_2015",
+   "collection": "thelist",
+   "card": "cards/thelist/tas_landsat_mosaic_2014_2015.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tas_landsat_mosaic_2014_2015/statewide/tas_landsat_mosaic_1415_mga55.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tas_landsat_mosaic_2014_2015/statewide/tas_landsat_mosaic_1415_mga55.tif",
+     "spatial_shape": [
+      17468,
+      13532
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      224205.0,
+      0.0,
+      -30.0,
+      5664535.0
+     ],
+     "findings": [
+      "BANDS_UNNAMED"
+     ],
+     "bands": 6,
+     "dtype": "uint8"
+    }
+   ],
+   "variables": [
+    "band_1",
+    "band_2",
+    "band_3",
+    "band_4",
+    "band_5",
+    "band_6"
+   ],
+   "dtype": [
+    "uint8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {
+    "BANDS_UNNAMED": 1
+   },
+   "scanned_at": "2026-11-21T07:09:13Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    17468,
+    13532
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     224205.0,
+     0.0,
+     -30.0,
+     5664535.0
+    ]
+   }
+  },
+  {
+   "id": "tas_landsat_mosaic_dc_2009_2010",
+   "collection": "thelist",
+   "card": "cards/thelist/tas_landsat_mosaic_dc_2009_2010.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tas_landsat_mosaic_dc_2009_2010/statewide/tas_landsat_mosaic_datecodes_0910_mga55.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tas_landsat_mosaic_dc_2009_2010/statewide/tas_landsat_mosaic_datecodes_0910_mga55.tif",
+     "spatial_shape": [
+      17468,
+      13532
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      224205.0,
+      0.0,
+      -30.0,
+      5664535.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:14Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    17468,
+    13532
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     224205.0,
+     0.0,
+     -30.0,
+     5664535.0
+    ]
+   }
+  },
+  {
+   "id": "tas_landsat_mosaic_dc_2013_2014",
+   "collection": "thelist",
+   "card": "cards/thelist/tas_landsat_mosaic_dc_2013_2014.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tas_landsat_mosaic_dc_2013_2014/statewide/tas_landsat_mosaic_datecodes_1314_mga55.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tas_landsat_mosaic_dc_2013_2014/statewide/tas_landsat_mosaic_datecodes_1314_mga55.tif",
+     "spatial_shape": [
+      17468,
+      13532
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      224205.0,
+      0.0,
+      -30.0,
+      5664535.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:14Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    17468,
+    13532
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     224205.0,
+     0.0,
+     -30.0,
+     5664535.0
+    ]
+   }
+  },
+  {
+   "id": "tas_landsat_mosaic_dc_2014_2015",
+   "collection": "thelist",
+   "card": "cards/thelist/tas_landsat_mosaic_dc_2014_2015.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tas_landsat_mosaic_dc_2014_2015/statewide/tas_landsat_mosaic_datecodes_1415_mga55.tif",
+   "form": "cog",
+   "n_files": 1,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tas_landsat_mosaic_dc_2014_2015/statewide/tas_landsat_mosaic_datecodes_1415_mga55.tif",
+     "spatial_shape": [
+      17468,
+      13532
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      30.0,
+      0.0,
+      224205.0,
+      0.0,
+      -30.0,
+      5664535.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:14Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null,
+   "spatial_shape": [
+    17468,
+    13532
+   ],
+   "grid": {
+    "form": "transform",
+    "declared": [
+     "transform"
+    ],
+    "transform": [
+     30.0,
+     0.0,
+     224205.0,
+     0.0,
+     -30.0,
+     5664535.0
+    ]
+   }
+  },
+  {
+   "id": "tsfm_0_point_5_percent_aep",
+   "collection": "thelist",
+   "card": "cards/thelist/tsfm_0_point_5_percent_aep.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_0_point_5_percent_aep/",
+   "form": "cog",
+   "n_files": 8,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_0_point_5_percent_aep/statewide/dr_peak_flood_depth_0pt5pc_aep_cog.tif",
+     "spatial_shape": [
+      33517,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_0_point_5_percent_aep/statewide/dr_peak_flood_hazard_0pt5pc_aep_cog.tif",
+     "spatial_shape": [
+      33517,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_0_point_5_percent_aep/statewide/dr_peak_flood_level_0pt5pc_aep_cog.tif",
+     "spatial_shape": [
+      33517,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_0_point_5_percent_aep/statewide/dr_peak_flood_velocity_0pt5pc_aep_cog.tif",
+     "spatial_shape": [
+      33517,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_0_point_5_percent_aep/statewide/riv_peak_flood_depth_0pt5pc_aep_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_0_point_5_percent_aep/statewide/riv_peak_flood_hazard_0pt5pc_aep_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_0_point_5_percent_aep/statewide/riv_peak_flood_level_0pt5pc_aep_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_0_point_5_percent_aep/statewide/riv_peak_flood_velocity_0pt5pc_aep_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32",
+    "uint8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:18Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null
+  },
+  {
+   "id": "tsfm_1_percent_aep",
+   "collection": "thelist",
+   "card": "cards/thelist/tsfm_1_percent_aep.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep/",
+   "form": "cog",
+   "n_files": 8,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep/statewide/dr_peak_flood_depth_1pc_aep_cog.tif",
+     "spatial_shape": [
+      33504,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep/statewide/dr_peak_flood_hazard_1pc_aep_cog.tif",
+     "spatial_shape": [
+      33504,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep/statewide/dr_peak_flood_level_1pc_aep_cog.tif",
+     "spatial_shape": [
+      33504,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep/statewide/dr_peak_flood_velocity_1pc_aep_cog.tif",
+     "spatial_shape": [
+      33504,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep/statewide/riv_peak_flood_depth_1pc_aep_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep/statewide/riv_peak_flood_hazard_1pc_aep_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep/statewide/riv_peak_flood_level_1pc_aep_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep/statewide/riv_peak_flood_velocity_1pc_aep_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32",
+    "uint8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:21Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null
+  },
+  {
+   "id": "tsfm_1_percent_aep_climate_change",
+   "collection": "thelist",
+   "card": "cards/thelist/tsfm_1_percent_aep_climate_change.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep_climate_change/",
+   "form": "cog",
+   "n_files": 8,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep_climate_change/statewide/dr_peak_flood_depth_1pc_aep_cc_cog.tif",
+     "spatial_shape": [
+      33517,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep_climate_change/statewide/dr_peak_flood_hazard_1pc_aep_cc_cog.tif",
+     "spatial_shape": [
+      33517,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep_climate_change/statewide/dr_peak_flood_level_1pc_aep_cc_cog.tif",
+     "spatial_shape": [
+      33517,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep_climate_change/statewide/dr_peak_flood_velocity_1pc_aep_cc_cog.tif",
+     "spatial_shape": [
+      33517,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep_climate_change/statewide/riv_peak_flood_depth_1pc_aep_cc_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep_climate_change/statewide/riv_peak_flood_hazard_1pc_aep_cc_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep_climate_change/statewide/riv_peak_flood_level_1pc_aep_cc_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_1_percent_aep_climate_change/statewide/riv_peak_flood_velocity_1pc_aep_cc_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32",
+    "uint8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:19Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null
+  },
+  {
+   "id": "tsfm_2_percent_aep",
+   "collection": "thelist",
+   "card": "cards/thelist/tsfm_2_percent_aep.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_2_percent_aep/",
+   "form": "cog",
+   "n_files": 8,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_2_percent_aep/statewide/dr_peak_flood_depth_2pc_aep_cog.tif",
+     "spatial_shape": [
+      33503,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_2_percent_aep/statewide/dr_peak_flood_hazard_2pc_aep_cog.tif",
+     "spatial_shape": [
+      33503,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_2_percent_aep/statewide/dr_peak_flood_level_2pc_aep_cog.tif",
+     "spatial_shape": [
+      33503,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_2_percent_aep/statewide/dr_peak_flood_velocity_2pc_aep_cog.tif",
+     "spatial_shape": [
+      33503,
+      31448
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      299020.0,
+      0.0,
+      -10.0,
+      5505370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_2_percent_aep/statewide/riv_peak_flood_depth_2pc_aep_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_2_percent_aep/statewide/riv_peak_flood_hazard_2pc_aep_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_2_percent_aep/statewide/riv_peak_flood_level_2pc_aep_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_2_percent_aep/statewide/riv_peak_flood_velocity_2pc_aep_cog.tif",
+     "spatial_shape": [
+      33464,
+      31579
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298320.0,
+      0.0,
+      -10.0,
+      5506460.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32",
+    "uint8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:23Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null
+  },
+  {
+   "id": "tsfm_calibration_data_depth",
+   "collection": "thelist",
+   "card": "cards/thelist/tsfm_calibration_data_depth.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/",
+   "form": "cog",
+   "n_files": 16,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_1969_05_depth_cog.tif",
+     "spatial_shape": [
+      19237,
+      15505
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      457230.0,
+      0.0,
+      -10.0,
+      5459400.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_1970_08_depth_cog.tif",
+     "spatial_shape": [
+      18095,
+      19921
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      396820.0,
+      0.0,
+      -10.0,
+      5447970.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_2000_07_depth_cog.tif",
+     "spatial_shape": [
+      9912,
+      18094
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298400.0,
+      0.0,
+      -10.0,
+      5506450.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_2004_01_depth_cog.tif",
+     "spatial_shape": [
+      5155,
+      3482
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      579050.0,
+      0.0,
+      -10.0,
+      5490060.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_2005_08_depth_cog.tif",
+     "spatial_shape": [
+      4362,
+      3108
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      448260.0,
+      0.0,
+      -10.0,
+      5450950.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_2005_09_depth_cog.tif",
+     "spatial_shape": [
+      9139,
+      5480
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      527590.0,
+      0.0,
+      -10.0,
+      5303150.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_2007_08_depth_cog.tif",
+     "spatial_shape": [
+      31608,
+      28369
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298540.0,
+      0.0,
+      -10.0,
+      5485930.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_2009_09_depth_cog.tif",
+     "spatial_shape": [
+      9140,
+      5481
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      527580.0,
+      0.0,
+      -10.0,
+      5303150.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_2011_01_depth_cog.tif",
+     "spatial_shape": [
+      13352,
+      26551
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      348600.0,
+      0.0,
+      -10.0,
+      5491960.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_2011_03_depth_cog.tif",
+     "spatial_shape": [
+      17481,
+      15689
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      457220.0,
+      0.0,
+      -10.0,
+      5485930.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_2013_08_depth_cog.tif",
+     "spatial_shape": [
+      4252,
+      3776
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      491240.0,
+      0.0,
+      -10.0,
+      5468180.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_2013_09_depth_cog.tif",
+     "spatial_shape": [
+      9053,
+      7642
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      440320.0,
+      0.0,
+      -10.0,
+      5260370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_2016_01_depth_cog.tif",
+     "spatial_shape": [
+      6312,
+      3894
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      573340.0,
+      0.0,
+      -10.0,
+      5373740.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_2016_06_depth_cog.tif",
+     "spatial_shape": [
+      30437,
+      31558
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298530.0,
+      0.0,
+      -10.0,
+      5485930.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_2016_07_depth_cog.tif",
+     "spatial_shape": [
+      24955,
+      10997
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      422560.0,
+      0.0,
+      -10.0,
+      5419390.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_depth/statewide/tsfm_cal_event_2018_05_depth_cog.tif",
+     "spatial_shape": [
+      9140,
+      5481
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      527580.0,
+      0.0,
+      -10.0,
+      5303150.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:29Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null
+  },
+  {
+   "id": "tsfm_calibration_data_hazard",
+   "collection": "thelist",
+   "card": "cards/thelist/tsfm_calibration_data_hazard.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/",
+   "form": "cog",
+   "n_files": 16,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_1969_05_hazard_cog.tif",
+     "spatial_shape": [
+      19237,
+      15505
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      457230.0,
+      0.0,
+      -10.0,
+      5459400.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_1970_08_hazard_cog.tif",
+     "spatial_shape": [
+      18095,
+      19921
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      396820.0,
+      0.0,
+      -10.0,
+      5447970.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_2000_07_hazard_cog.tif",
+     "spatial_shape": [
+      9912,
+      18094
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298400.0,
+      0.0,
+      -10.0,
+      5506450.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_2004_01_hazard_cog.tif",
+     "spatial_shape": [
+      5155,
+      3482
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      579050.0,
+      0.0,
+      -10.0,
+      5490060.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_2005_08_hazard_cog.tif",
+     "spatial_shape": [
+      4362,
+      3108
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      448260.0,
+      0.0,
+      -10.0,
+      5450950.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_2005_09_hazard_cog.tif",
+     "spatial_shape": [
+      9139,
+      5480
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      527590.0,
+      0.0,
+      -10.0,
+      5303150.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_2007_08_hazard_cog.tif",
+     "spatial_shape": [
+      31608,
+      28397
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298540.0,
+      0.0,
+      -10.0,
+      5485930.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_2009_09_hazard_cog.tif",
+     "spatial_shape": [
+      9140,
+      5481
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      527580.0,
+      0.0,
+      -10.0,
+      5303150.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_2011_01_hazard_cog.tif",
+     "spatial_shape": [
+      13352,
+      26551
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      348600.0,
+      0.0,
+      -10.0,
+      5491960.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_2011_03_hazard_cog.tif",
+     "spatial_shape": [
+      17481,
+      15689
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      457220.0,
+      0.0,
+      -10.0,
+      5485930.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_2013_08_hazard_cog.tif",
+     "spatial_shape": [
+      4252,
+      3776
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      491240.0,
+      0.0,
+      -10.0,
+      5468180.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_2013_09_hazard_cog.tif",
+     "spatial_shape": [
+      9053,
+      7642
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      440320.0,
+      0.0,
+      -10.0,
+      5260370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_2016_01_hazard_cog.tif",
+     "spatial_shape": [
+      6312,
+      3894
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      573340.0,
+      0.0,
+      -10.0,
+      5373740.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_2016_06_hazard_cog.tif",
+     "spatial_shape": [
+      30437,
+      31558
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298530.0,
+      0.0,
+      -10.0,
+      5485930.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_2016_07_hazard_cog.tif",
+     "spatial_shape": [
+      24955,
+      10997
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      422560.0,
+      0.0,
+      -10.0,
+      5419390.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_hazard/statewide/tsfm_cal_event_2018_05_hazard_cog.tif",
+     "spatial_shape": [
+      9140,
+      5481
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      527580.0,
+      0.0,
+      -10.0,
+      5303150.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "uint8"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "uint8"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:29Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null
+  },
+  {
+   "id": "tsfm_calibration_data_velocity",
+   "collection": "thelist",
+   "card": "cards/thelist/tsfm_calibration_data_velocity.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/",
+   "form": "cog",
+   "n_files": 16,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_1969_05_velocity_cog.tif",
+     "spatial_shape": [
+      19237,
+      15505
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      457230.0,
+      0.0,
+      -10.0,
+      5459400.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_1970_08_velocity_cog.tif",
+     "spatial_shape": [
+      18095,
+      19921
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      396820.0,
+      0.0,
+      -10.0,
+      5447970.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_2000_07_velocity_cog.tif",
+     "spatial_shape": [
+      9912,
+      18094
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298400.0,
+      0.0,
+      -10.0,
+      5506450.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_2004_01_velocity_cog.tif",
+     "spatial_shape": [
+      5155,
+      3482
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      579050.0,
+      0.0,
+      -10.0,
+      5490060.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_2005_08_velocity_cog.tif",
+     "spatial_shape": [
+      4362,
+      3108
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      448260.0,
+      0.0,
+      -10.0,
+      5450950.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_2005_09_velocity_cog.tif",
+     "spatial_shape": [
+      9139,
+      5480
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      527590.0,
+      0.0,
+      -10.0,
+      5303150.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_2007_08_velocity_cog.tif",
+     "spatial_shape": [
+      31608,
+      28397
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298540.0,
+      0.0,
+      -10.0,
+      5485930.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_2009_09_velocity_cog.tif",
+     "spatial_shape": [
+      9140,
+      5481
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      527580.0,
+      0.0,
+      -10.0,
+      5303150.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_2011_01_velocity_cog.tif",
+     "spatial_shape": [
+      13352,
+      26551
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      348600.0,
+      0.0,
+      -10.0,
+      5491960.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_2011_03_velocity_cog.tif",
+     "spatial_shape": [
+      17481,
+      15689
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      457220.0,
+      0.0,
+      -10.0,
+      5485930.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_2013_08_velocity_cog.tif",
+     "spatial_shape": [
+      4252,
+      3776
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      491240.0,
+      0.0,
+      -10.0,
+      5468180.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_2013_09_velocity_cog.tif",
+     "spatial_shape": [
+      9053,
+      7642
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      440320.0,
+      0.0,
+      -10.0,
+      5260370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_2016_01_velocity_cog.tif",
+     "spatial_shape": [
+      6312,
+      3894
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      573340.0,
+      0.0,
+      -10.0,
+      5373740.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_2016_06_velocity_cog.tif",
+     "spatial_shape": [
+      30437,
+      31558
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298530.0,
+      0.0,
+      -10.0,
+      5485930.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_2016_07_velocity_cog.tif",
+     "spatial_shape": [
+      24955,
+      10997
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      422560.0,
+      0.0,
+      -10.0,
+      5419390.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_velocity/statewide/tsfm_cal_event_2018_05_velocity_cog.tif",
+     "spatial_shape": [
+      9140,
+      5481
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      527580.0,
+      0.0,
+      -10.0,
+      5303150.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:31Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null
+  },
+  {
+   "id": "tsfm_calibration_data_waterlevel",
+   "collection": "thelist",
+   "card": "cards/thelist/tsfm_calibration_data_waterlevel.jsonl",
+   "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/",
+   "form": "cog",
+   "n_files": 16,
+   "files": [
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_1969_05_level_cog.tif",
+     "spatial_shape": [
+      19237,
+      15505
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      457230.0,
+      0.0,
+      -10.0,
+      5459400.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_1970_08_level_cog.tif",
+     "spatial_shape": [
+      18095,
+      19921
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      396820.0,
+      0.0,
+      -10.0,
+      5447970.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_2000_07_level_cog.tif",
+     "spatial_shape": [
+      9912,
+      18094
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298400.0,
+      0.0,
+      -10.0,
+      5506450.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_2004_01_level_cog.tif",
+     "spatial_shape": [
+      5155,
+      3482
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      579050.0,
+      0.0,
+      -10.0,
+      5490060.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_2005_08_level_cog.tif",
+     "spatial_shape": [
+      4362,
+      3108
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      448260.0,
+      0.0,
+      -10.0,
+      5450950.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_2005_09_level_cog.tif",
+     "spatial_shape": [
+      9139,
+      5480
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      527590.0,
+      0.0,
+      -10.0,
+      5303150.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_2007_08_level_cog.tif",
+     "spatial_shape": [
+      31608,
+      28397
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298540.0,
+      0.0,
+      -10.0,
+      5485930.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_2009_09_level_cog.tif",
+     "spatial_shape": [
+      9140,
+      5481
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      527580.0,
+      0.0,
+      -10.0,
+      5303150.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_2011_01_level_cog.tif",
+     "spatial_shape": [
+      13352,
+      26551
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      348600.0,
+      0.0,
+      -10.0,
+      5491960.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_2011_03_level_cog.tif",
+     "spatial_shape": [
+      17481,
+      15689
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      457220.0,
+      0.0,
+      -10.0,
+      5485930.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_2013_08_level_cog.tif",
+     "spatial_shape": [
+      4252,
+      3776
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      491240.0,
+      0.0,
+      -10.0,
+      5468180.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_2013_09_level_cog.tif",
+     "spatial_shape": [
+      9053,
+      7642
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      440320.0,
+      0.0,
+      -10.0,
+      5260370.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_2016_01_level_cog.tif",
+     "spatial_shape": [
+      6312,
+      3894
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      573340.0,
+      0.0,
+      -10.0,
+      5373740.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_2016_06_level_cog.tif",
+     "spatial_shape": [
+      30437,
+      31558
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      298530.0,
+      0.0,
+      -10.0,
+      5485930.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_2016_07_level_cog.tif",
+     "spatial_shape": [
+      24955,
+      10997
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      422560.0,
+      0.0,
+      -10.0,
+      5419390.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    },
+    {
+     "url": "https://data.source.coop/mdsumner/thelist-opendata/cog/tsfm_calibration_data_waterlevel/statewide/tsfm_cal_event_2018_05_level_cog.tif",
+     "spatial_shape": [
+      9140,
+      5481
+     ],
+     "crs": "EPSG:28355",
+     "transform": [
+      10.0,
+      0.0,
+      527580.0,
+      0.0,
+      -10.0,
+      5303150.0
+     ],
+     "findings": [],
+     "bands": 1,
+     "dtype": "float32"
+    }
+   ],
+   "variables": [
+    "band_1"
+   ],
+   "dtype": [
+    "float32"
+   ],
+   "costumes": [
+    "B"
+   ],
+   "crs": {
+    "declared": true,
+    "labels": [
+     "EPSG:28355"
+    ]
+   },
+   "hosts": [
+    {
+     "role": "metadata",
+     "host": "data.source.coop",
+     "cors": "*",
+     "range": true,
+     "probed": true
+    }
+   ],
+   "findings": {},
+   "scanned_at": "2026-11-21T07:09:33Z",
+   "assertions": [],
+   "asserted": null,
+   "tidy": null
+  }
+ ]
+}

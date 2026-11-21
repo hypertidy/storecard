@@ -195,3 +195,126 @@ table th, table td {
   text-align: left !important;
   vertical-align: top;
 }
+
+// Card gallery (index.qmd, drawn by gallery.py from cards/index.json).
+.sc-gallery {
+  font-family: $headings-font-family;
+  font-size: 0.92rem;
+  line-height: 1.4;
+  p, li { max-width: none; }
+  .sc-lede { color: $muted-color; margin-bottom: 0.6rem; }
+  code { font-size: 0.82em; }
+}
+.sc-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.75rem;
+  align-items: center;
+  padding: 0.6rem 0;
+  border-bottom: 1px solid $rule-color;
+  input[type="search"], select {
+    font: inherit;
+    color: $body-color;
+    background: $sheet-color;
+    border: 1px solid $rule-color;
+    border-radius: 3px;
+    padding: 0.3rem 0.5rem;
+    max-width: 100%;
+  }
+  input[type="search"] { flex: 1 1 16rem; min-width: 0; }
+  #sc-count { font-family: $font-family-monospace; font-size: 0.78rem; color: $muted-color; }
+}
+.sc-collection > h2 { margin-top: 1.8rem; }
+.sc-collection > p { color: $muted-color; }
+.sc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 24rem), 1fr));
+  gap: 0.9rem;
+  align-items: start;
+}
+.sc-card {
+  background: $sheet-color;
+  border: 1px solid $rule-color;
+  border-top: 3px solid $primary;
+  padding: 0.75rem 0.9rem 0.7rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  &[hidden] { display: none; }
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.3rem 0.5rem;
+    margin-bottom: 0.45rem;
+  }
+  h3 {
+    font-family: $font-family-monospace;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0 auto 0 0;
+    a { color: $body-color; text-decoration: none; }
+  }
+  dl {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.15rem 0.7rem;
+    margin: 0 0 0.5rem;
+  }
+  dt {
+    font-family: $font-family-monospace;
+    font-size: 0.72rem;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: $muted-color;
+    padding-top: 0.15rem;
+  }
+  dd { margin: 0; min-width: 0; }
+  footer {
+    margin-top: 0.55rem;
+    padding-top: 0.45rem;
+    border-top: 1px solid $rule-color;
+    font-size: 0.85rem;
+  }
+  details { margin-top: 0.5rem; }
+  summary { cursor: pointer; color: $link-color; }
+}
+.sc-form, .sc-costume {
+  font-family: $font-family-monospace;
+  font-size: 0.72rem;
+  padding: 0.05rem 0.4rem;
+  border: 1px solid $rule-color;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.sc-costume { background: $primary; border-color: $primary; color: $body-bg; cursor: help; }
+.sc-findings { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+.sc-chip {
+  font-family: $font-family-monospace;
+  font-size: 0.7rem;
+  padding: 0.08rem 0.4rem;
+  border: 1px solid $mark-color;
+  color: $mark-color;
+  border-radius: 3px;
+  cursor: help;
+  .sc-n { color: $muted-color; }
+}
+.sc-none { color: $muted-color; font-size: 0.85rem; }
+.sc-warn { color: $mark-color; font-weight: 600; }
+.sc-assert {
+  margin-top: 0.55rem;
+  padding: 0.45rem 0.6rem;
+  background: $code-bg;
+  border-left: 3px solid $primary;
+  font-size: 0.88rem;
+  ul { margin: 0.2rem 0 0; padding-left: 1.1rem; }
+  p { margin: 0.3rem 0 0; }
+}
+.sc-tidy { border-left-style: dashed; }
+.sc-files {
+  overflow-x: auto;
+  max-height: 22rem;
+  table { font-size: 0.78rem; margin: 0.4rem 0 0; white-space: nowrap; }
+  td, th { padding: 0.2rem 0.45rem; }
+}
+.sc-unknown { color: $muted-color; font-style: italic; }

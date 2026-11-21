@@ -1,1 +1,5 @@
 /.quarto/
+/_site/
+/_gallery.qmd
+/cards/
+/assertions/
